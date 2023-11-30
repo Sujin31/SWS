@@ -78,7 +78,8 @@ public class BoardDAO extends DBConnPool{
 	
 	public int writeBoard(BoardDTO dto) {
 		int result = 0;
-		String query = "INSERT INTO board(idx,menu_fk,id,title,content) VALUES (seq_board_num.nextval,?,?,?,?)";
+		
+		String query = "INSERT INTO board(idx,menu_fk,id,title,content,isfile) VALUES (seq_board_num.nextval,?,?,?,?,?)";
 		
 		try {
 			psmt = con.prepareStatement(query);
@@ -86,8 +87,19 @@ public class BoardDAO extends DBConnPool{
 			psmt.setString(2, dto.getId());
 			psmt.setString(3, dto.getTitle());
 			psmt.setString(4, dto.getContent());
+			psmt.setString(5, dto.getIsfile());
 			
-			result = psmt.executeUpdate();
+			rs = psmt.executeQuery(); //insert한 칼럼 idx가지고 오기
+//			if(rs.next()) {
+//				result = rs.getInt(1);
+//			}
+			
+			stmt = con.createStatement();
+			rs = stmt.executeQuery("SELECT seq_board_num.CURRVAL FROM DUAL");
+			if(rs.next()) {
+				result = rs.getInt(1);
+			}
+			
 			
 		} catch (Exception e) {
 			System.out.println("게시판게시글 작성 오류");
@@ -131,15 +143,14 @@ public class BoardDAO extends DBConnPool{
 	
 	public int editBoard(BoardDTO dto) {
 		int result = 0;
-		String query = "UPDATE board SET title=?, content=?, isfile=?, isreply=?, editdate=sysdate WHERE idx=? and id =?";
+		String query = "UPDATE board SET title=?, content=?, isfile=?, editdate=sysdate WHERE idx=? and id =?";
 		try {
 			psmt = con.prepareStatement(query);
 			psmt.setString(1, dto.getTitle());
 			psmt.setString(2, dto.getContent());
-			psmt.setString(3, "N");//dto.getIsfile()
-			psmt.setString(4, "N");//dto.getIsreply()
-			psmt.setInt(5, dto.getIdx());
-			psmt.setString(6, dto.getId());
+			psmt.setString(3, dto.getIsfile());
+			psmt.setInt(4, dto.getIdx());
+			psmt.setString(5, dto.getId());
 			
 			result = psmt.executeUpdate();
 			
@@ -166,5 +177,17 @@ public class BoardDAO extends DBConnPool{
 		}
 		
 		return result;
+	}
+	
+	public void viewCountPlus(int idx) {
+		String query = "UPDATE board SET views = views+1 WHERE idx=?";
+		try {
+			psmt = con.prepareStatement(query);
+			psmt.setInt(1, idx);
+			psmt.executeUpdate();
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 	}
 }

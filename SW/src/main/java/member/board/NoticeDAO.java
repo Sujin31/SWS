@@ -104,7 +104,7 @@ public class NoticeDAO extends DBConnPool{
 	
 	public int writeNotice(NoticeDTO dto) {
 		int result = 0;
-		String query = "INSERT INTO notice(idx,menu_fk,id,title,content,must) VALUES (seq_notice_num.nextval,?,?,?,?,?)";
+		String query = "INSERT INTO notice(idx,menu_fk,id,title,content,isfile,must) VALUES (seq_notice_num.nextval,?,?,?,?,?,?)";
 		
 		try {
 			psmt = con.prepareStatement(query);
@@ -112,10 +112,14 @@ public class NoticeDAO extends DBConnPool{
 			psmt.setString(2, dto.getId());
 			psmt.setString(3, dto.getTitle());
 			psmt.setString(4, dto.getContent());
-			psmt.setString(5, dto.getMust());
+			psmt.setString(5, dto.getIsfile());
+			psmt.setString(6, dto.getMust());
 			
-			result = psmt.executeUpdate();
-			
+			result = psmt.executeUpdate(); //insert한 칼럼 idx가지고 오기
+			rs = psmt.executeQuery("SELECT seq_notice_num.CURRVAL FROM DUAL");
+			if(rs.next()) {
+				result = rs.getInt(1);
+			}
 		} catch (Exception e) {
 			System.out.println("공지게시글 작성 오류");
 			e.printStackTrace();
@@ -162,7 +166,7 @@ public class NoticeDAO extends DBConnPool{
 			psmt.setString(1, dto.getTitle());
 			psmt.setString(2, dto.getContent());
 			psmt.setString(3, dto.getMust());
-			psmt.setString(4, "N");//dto.getIsfile()
+			psmt.setString(4, dto.getIsfile());
 			psmt.setInt(5, dto.getIdx());
 			psmt.setString(6, dto.getId());
 			
@@ -191,5 +195,17 @@ public class NoticeDAO extends DBConnPool{
 		}
 		
 		return result;
+	}
+	
+	public void viewCountPlus(int idx) {
+		String query = "UPDATE notice SET views = views+1 WHERE idx=?";
+		try {
+			psmt = con.prepareStatement(query);
+			psmt.setInt(1, idx);
+			psmt.executeUpdate();
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 	}
 }

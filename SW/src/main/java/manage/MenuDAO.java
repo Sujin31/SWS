@@ -61,6 +61,23 @@ public class MenuDAO extends DBConnPool{
 			
 			return arr;
 		}
+		
+		public String SelectBoardTmp(String code) {
+			String boardTmp = "";
+			String query = "SELECT board_tmp FROM menu WHERE code = ?";
+			try {
+				psmt = con.prepareStatement(query);
+				psmt.setString(1, code);
+				rs = psmt.executeQuery();
+				if(rs.next()) {
+					boardTmp = rs.getString(1);
+				}
+			} catch (Exception e) {
+				System.out.println("메뉴 템플릿 불러오기 오류");
+				e.printStackTrace();
+			}
+			return boardTmp;
+		}
 	
 	public JSONArray SelectMenuList(ArrayList<String> toplist) {
 		JSONArray result = new JSONArray();

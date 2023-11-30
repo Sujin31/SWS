@@ -355,3 +355,11 @@ section.notice {
 	background-color: #bbc2c6;
 }
 
+.th-write{
+	width: 150px;
+	text-align: center !important;
+}
+
+.input-file{
+	width: 400px;
+}

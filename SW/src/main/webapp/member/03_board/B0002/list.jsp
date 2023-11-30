@@ -59,24 +59,13 @@
                 			</tr>
                 		</c:when>
                 		<c:otherwise>
-                			<c:forEach items="${mustBoardLists }" var="row" varStatus="loop">
-								<tr class="mustread">
-				                    <td>필독</td>
-				                    <th>
-				                      <a href="./board?cate=${MenuDto.code}&mode=v&idx=${row.idx }">${row.title }</a><c:if test="${row.isfile eq 'Y' }"> file</c:if>
-				                    </th>
-				                    <td>관리자</td>
-				                    <td>${row.regidate }</td>
-				                    <td>${row.views }</td>
-								</tr>
-			            	</c:forEach>
 		                	<c:forEach items="${boardLists }" var="row" varStatus="loop">
 								<tr>
 				                    <td>${loop.count }</td>
 				                    <th>
 				                      <a href="./board?cate=${MenuDto.code}&mode=v&idx=${row.idx }">${row.title }</a> <c:if test="${row.isfile eq 'Y' }"> file</c:if>
 				                    </th>
-				                    <td>관리자</td>
+				                    <td>${row.id }</td>
 				                    <td>${row.regidate }</td>
 				                    <td>${row.views }</td>
 								</tr>
@@ -86,7 +75,7 @@
                 </tbody>
             </table>
             <div class="divdtn">
-	            <!-- 공지게시판/관리자만 -->
+	            <!-- 게시판/회원만 -->
 	            <c:if test="${id eq 'admin'}"><button class="btn btn-dark" type="button" onclick="location.href='./board?cate=${MenuDto.code}&mode=w'">작성</button></c:if>
             </div>
         </div>

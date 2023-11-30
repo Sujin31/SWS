@@ -47,4 +47,9 @@
   	<session-timeout>60</session-timeout>
   </session-config>
   
+  <!-- file -->
+  <context-param>
+  	<param-name>maxPostSize</param-name>
+  	<param-value>1024000</param-value>
+  </context-param>
 </web-app>

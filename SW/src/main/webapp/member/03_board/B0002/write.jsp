@@ -56,12 +56,6 @@ function validateForm(form){
 		                    <th scope="col" class="th-write">제목</th>
 							<td><input type="text" class="input" name="title" ></td>
 		                </tr>
-	                 	<tr>
-	                 		<th scope="col" class="th-write">필독 공지 여부</th>
-		                 	<td>
-								<input type="radio" name="notice" value="Y">&nbsp;Y&nbsp;&nbsp;&nbsp;<input type="radio" name="notice" value="N" checked>&nbsp; N  
-							</td>
-	                 	</tr>
 		                <tr>
 		                    <th scope="col" class="th-write">내용</th>
 							<td><textarea class="txtarea" name="content"></textarea></td>
