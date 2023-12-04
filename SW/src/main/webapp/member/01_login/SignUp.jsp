@@ -5,6 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>회원가입</title>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
 <script type="text/javascript">
 function validateForm(form){
@@ -92,79 +93,88 @@ function pwCheck(){
 }
 </script>
 <style>
-        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap');
+       @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap');
 
-	* {
-            font-family: 'Noto Sans KR', sans-serif;
-        }
-	
-	body{
-		background-color: #808080;
-	}
+* {
+           font-family: 'Noto Sans KR', sans-serif;
+       }
 
-    div {
-            margin: 0 auto;
-            margin-top : 200px;
-            width: 400px;
-            background-color: #EEEFF1;
-            border-radius: 5px;
-            text-align: center;
-            padding: 20px;
-	}
+body{
+	background-color: #808080;
+}
 
-	input {
-            margin-left: 10px;
-	}
+   div {
+           margin: 0 auto;
+           margin-top : 200px;
+           width: 400px;
+           background-color: #EEEFF1;
+           border-radius: 5px;
+           text-align: center;
+           padding: 20px;
+}
 
-	.in {
+input {
+           margin-left: 10px;
+}
+
+.in {
 			width: 100%;
-            padding: 10px;
-            box-sizing: border-box;
-            border-radius: 5px;
-            border: none;
-	}
+           padding: 10px;
+           box-sizing: border-box;
+           border-radius: 5px;
+           border: none;
+}
 
-	#btn {
-            background-color: #808080;
-            color: white;
-            width: 80px;
-            padding: 10px;
-            box-sizing: border-box;
-            border-radius: 5px;
-            border: none;
-	}
+#btn {
+           background-color: #808080;
+           color: white;
+           width: 80px;
+           padding: 10px;
+           box-sizing: border-box;
+           border-radius: 5px;
+           border: none;
+}
 
-	a {
-            text-decoration: none;
-            color: #9B9B9B;
-	        font-size: 12px;
-	}
-	
-	tr {
-		height: 60px;
-	}
-	
-	#errorMsg{
-		color : red;
-		margin-bottom: 30px;
-		font-size: 14px;
-	}
-	
-	.leftgap{
-		margin-left: 10px;
-	}
-	.leftgap5{
-		margin-left: 50px;
-	}
-	
-	#check{
-		 background-color: #808080;
-            color: white;
-            padding: 10px;
-            box-sizing: border-box;
-            border-radius: 5px;
-            border: none;
-	}
+a {
+           text-decoration: none;
+           color: #9B9B9B;
+        font-size: 12px;
+}
+
+tr {
+	height: 60px;
+}
+
+#errorMsg{
+	color : red;
+	margin-bottom: 30px;
+	font-size: 14px;
+}
+
+.leftgap{
+	margin-left: 10px;
+}
+.leftgap5{
+	margin-left: 50px;
+}
+
+#check{
+	 background-color: #808080;
+     color: white;
+     padding: 10px;
+     box-sizing: border-box;
+     border-radius: 5px;
+     border: none;
+}
+#selbox{
+	 	width: 100%;
+        padding: 10px;
+        box-sizing: border-box;
+        border-radius: 5px;
+        border: none;
+        margin-left: 10px;
+        text-align: center;
+}
 </style>
 </head>
 <body>
@@ -196,6 +206,16 @@ function pwCheck(){
 		        <tr>
 		        	<td>비밀번호 확인: </td>
 		        	<td><input type="password" placeholder="비밀번호 확인" class="in" name="pwcheck"></td><td></td>
+		        </tr>
+		        <tr>
+		        	<td>학급</td>
+		        	<td>
+		        		<select name="level" id="selbox">
+		        			<c:forEach items="${level }" var="row" varStatus="loop">
+		        				<option value="${row.idx }">${row.name }</option>
+		        			</c:forEach>
+		        		</select>
+		        	</td>
 		        </tr>
 		        <tr>
 		        	<td>생년월일 : </td>

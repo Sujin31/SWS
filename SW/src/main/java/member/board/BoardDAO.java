@@ -19,7 +19,7 @@ public class BoardDAO extends DBConnPool{
 			query += " " + map.get("searchField") + " "
 					+ " LIKE '%" + map.get("searchWord") + "%'";
 		}
-		query += "menu_fk="+map.get("code");
+		query += " menu_fk='"+map.get("code")+"'";
 		try {
 			stmt = con.createStatement();
 			rs = stmt.executeQuery(query);

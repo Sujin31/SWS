@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.List;
+import java.util.Vector;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -17,6 +19,11 @@ import common.JSFunction;
 public class SignUpController extends HttpServlet{
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		AuthDAO dao = new AuthDAO();
+		List<AuthLevelDTO> list = dao.getAuthLevelsOfMember();
+		
+		req.setAttribute("level", list);
+		
 		req.getRequestDispatcher("/member/01_login/SignUp.jsp").forward(req, resp);
 	}
 	
@@ -40,6 +47,7 @@ public class SignUpController extends HttpServlet{
 			String name = req.getParameter("name");
 			String id = req.getParameter("id");
 			String pw = req.getParameter("pw");
+			String level = req.getParameter("level");
 			String birth = req.getParameter("birth");
 			String gender = req.getParameter("gender");
 			String phone = req.getParameter("phone");
@@ -48,6 +56,7 @@ public class SignUpController extends HttpServlet{
 			dto.setId(id);
 			dto.setName(name);
 			dto.setPassword(pw);
+			dto.setAuth_level_fk(level);
 			dto.setBirth(birth);
 			dto.setGender(gender);
 			dto.setPhone(phone);

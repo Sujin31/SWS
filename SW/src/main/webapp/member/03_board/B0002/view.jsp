@@ -29,38 +29,34 @@
         <div class="container">
             <table class="board-table">
 				<tr>
-					<td id="title">${dto.title }</td>
+					<td colspan="2" id="title">${dto.title }</td>
 				</tr>
 				<tr>
 					<td id="info">
-						<c:choose>
-                    		<c:when test="${MenuDto.code eq 'menu001'}">관리자</c:when>
-                    		<c:otherwise>${dto.id}</c:otherwise>
-                    	</c:choose>	
-                    	 | ${dto.regidate }
+						${dto.id} | ${dto.regidate }
+                    </td>
+                    <td style="text-align: right;">
+                    	<c:if test="${not empty file.oname }">
+							<a href="./download?oname=${file.oname }&sname=${file.sname}&idx=${file.idx}">${file.oname }</a>
+						</c:if>
                     </td>
 				</tr>
 				<tr>
-					<td id="content" style="text-align: left;">${dto.content }</td>
-				</tr>
-				<tr>
-					<td>
-						<c:if test="${not empty file.oname }">
-							${file.oname }
-							<a href="./download?oname=${file.oname }&sname=${file.sname}&idx=${file.idx}">[다운로드]</a>
-						</c:if>
-					</td>
+					<td colspan="2" id="content" style="text-align: left;">${dto.content }</td>
 				</tr>
             </table>
             <div class="divdtn">
             	<button type="button" class="btn btn-dark" onclick="location.href='./board?cate=${MenuDto.code}&mode=l'">목록</button>
 	            <!-- 작성자만 -->
-	            <c:if test="${dto.id eq id}">
+	            <c:if test="${UserId eq dto.id}">
 	            	<button class="btn btn-dark" onclick="location.href='./board?cate=${MenuDto.code}&mode=e&idx=${dto.idx }'">수정</button>
 	            	<button class="btn btn-dark" onclick="location.href='./board?cate=${MenuDto.code}&mode=d&idx=${dto.idx }'">삭제</button>
             	</c:if>
             </div>
         </div>
     </div>
+    <jsp:include page="./reply.jsp"/>
+    
+    
 </body>
 </html>

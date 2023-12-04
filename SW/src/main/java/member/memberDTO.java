@@ -4,12 +4,12 @@ import java.sql.Date;
 
 public class memberDTO {
 	private String id;
+	private String auth_level_fk;
 	private String name;
 	private String birth;
 	private String gender;
-	private String password;
 	private Date regidate;
-	private String m_level;
+	private String password;
 	private String phone;
 	
 	public String getId() {
@@ -17,6 +17,12 @@ public class memberDTO {
 	}
 	public void setId(String id) {
 		this.id = id;
+	}
+	public String getAuth_level_fk() {
+		return auth_level_fk;
+	}
+	public void setAuth_level_fk(String auth_level_fk) {
+		this.auth_level_fk = auth_level_fk;
 	}
 	public String getName() {
 		return name;
@@ -36,23 +42,17 @@ public class memberDTO {
 	public void setGender(String gender) {
 		this.gender = gender;
 	}
-	public String getPassword() {
-		return password;
-	}
-	public void setPassword(String password) {
-		this.password = password;
-	}
 	public Date getRegidate() {
 		return regidate;
 	}
 	public void setRegidate(Date regidate) {
 		this.regidate = regidate;
 	}
-	public String getM_level() {
-		return m_level;
+	public String getPassword() {
+		return password;
 	}
-	public void setM_level(String m_level) {
-		this.m_level = m_level;
+	public void setPassword(String password) {
+		this.password = password;
 	}
 	public String getPhone() {
 		return phone;
@@ -60,5 +60,4 @@ public class memberDTO {
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
-	
 }

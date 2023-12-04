@@ -27,10 +27,13 @@
     <div id="board-search">
         <div class="container">
             <div class="search-window">
-                <form action="">
+                <form method="get">
                     <div class="search-wrap">
-                        <label for="search" class="blind">내용 검색</label>
-                        <input id="search" type="search" name="" placeholder="검색어를 입력해주세요." value="">
+                    	<select name="searchField">
+                    		<option value="title">제목</option>
+                    		<option value="content">내용</option>
+                    	</select>
+                        <input id="search" type="text" name="searchWord" placeholder="검색어를 입력해주세요." >
                         <button type="submit" class="btn btn-dark">검색</button>
                     </div>
                 </form>
@@ -74,9 +77,10 @@
 	            	</c:choose>
                 </tbody>
             </table>
+            <div class="divdtn">${map.pagingImg }</div>
             <div class="divdtn">
 	            <!-- 게시판/회원만 -->
-	            <c:if test="${id eq 'admin'}"><button class="btn btn-dark" type="button" onclick="location.href='./board?cate=${MenuDto.code}&mode=w'">작성</button></c:if>
+	            <c:if test="${UserId ne null}"><button class="btn btn-dark" type="button" onclick="location.href='./board?cate=${MenuDto.code}&mode=w'">작성</button></c:if>
             </div>
         </div>
     </div>

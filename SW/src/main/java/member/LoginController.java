@@ -20,18 +20,14 @@ public class LoginController extends HttpServlet{
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String id = req.getParameter("id");
 		String pw = req.getParameter("pw");
-		
 		memberDAO dao = new memberDAO();
 		memberDTO dto = dao.memberLogin(id, pw);
 		dao.close();
 		
 		if( dto.getId() != null) {
-			System.out.println(id+"님 로그인");
-			
 			HttpSession session = req.getSession();
 			session.setAttribute("UserId", id);
-			resp.sendRedirect("../member/02_main/Main.jsp");
-			//resp.sendRedirect("../member/main.do");
+			resp.sendRedirect("../member/main.do");
 		}else {
 			System.out.println("정보없음");
 			req.setAttribute("errorMsg", "아이디 또는 비밀번호를 잘못 입력했습니다.");

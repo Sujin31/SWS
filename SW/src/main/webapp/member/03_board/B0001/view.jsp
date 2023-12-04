@@ -33,11 +33,7 @@
 				</tr>
 				<tr>
 					<td id="info">
-						<c:choose>
-                    		<c:when test="${MenuDto.code eq 'menu001'}">관리자</c:when>
-                    		<c:otherwise>${dto.id}</c:otherwise>
-                    	</c:choose>	
-                    	 | ${dto.regidate }
+                    	관리자 | ${dto.regidate }
                     </td>
 				</tr>
 				<tr>

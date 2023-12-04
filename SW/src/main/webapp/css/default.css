@@ -70,7 +70,20 @@ footer {
 
 }
 
+div #logout{
+	text-align: right;
+	margin-bottom: 10px;
+	margin-right: 30px;
+}
 
+div #logout button{
+	background-color: rgb(149, 163, 170);
+    color: white;
+    padding: 10px;
+    box-sizing: border-box;
+    border-radius: 5px;
+    border: none;
+}
 
 
 /*nav*/
@@ -139,3 +152,4 @@ a{
 	background: #d8d1c0;
 	color: #fff;
 }
+

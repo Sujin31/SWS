@@ -41,8 +41,6 @@ section {
 
 	width: 75%;
 
-	height : 75%;
-
 	float: right;
 
 	margin-right : 10px;
@@ -52,9 +50,9 @@ section {
 }
 
 footer {
-
-	height : 10%;
-
+	
+	height : 300px;
+	padding-top: 100px;
 	clear : both; 
 
 }
@@ -186,7 +184,7 @@ section.notice {
 }
 #board-search .search-window .search-wrap input {
   height: 40px;
-  width: 100%;
+  width: 65%;
   font-size: 14px;
   padding: 7px 14px;
   border: 1px solid #ccc;
@@ -204,6 +202,12 @@ section.notice {
   width: 108px;
   padding: 0;
   font-size: 16px;
+}
+
+#board-search .search-window .search-wrap select{
+	width: 100px;
+    height: 40px;
+    text-align: center;
 }
 
 .board-table {
@@ -362,4 +366,8 @@ section.notice {
 
 .input-file{
 	width: 400px;
+}
+
+.gap200{
+	margin-top: 100px;
 }

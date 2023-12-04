@@ -11,13 +11,15 @@
 
 	<div id="page">
 	
-	<header>header</header>
-	
+	<header><jsp:include page="../0_common/Header.jsp"/></header>
+	<div id="logout">
+		<button onclick="location.href='./logout'">로그아웃</button>
+	</div>
 	<nav class="clearfix"><jsp:include page="../0_common/Nav.jsp"/></nav>
 	
 	<section class="info_main"><jsp:include page="../0_common/TodayPlan.jsp"/></section>
 	<section>sect1wfsdfion</section>
-	<footer>footer</footer>
+	<footer><jsp:include page="../0_common/Footer.jsp"/></footer>
 	
 	</div>
 

@@ -18,7 +18,6 @@ public class memberDAO extends DBConnPool{
 			psmt.setString(2, pw);
 
 			rs = psmt.executeQuery();
-			System.out.println("로그인오류");
 			if(rs.next()) {
 				dto.setId(rs.getString(1));
 				dto.setName(rs.getString(2));
@@ -55,7 +54,7 @@ public class memberDAO extends DBConnPool{
 	}
 	public boolean checkPhoneNum(String num) {
 		boolean flag = false;
-		String query = "SELECT COUNT(*) FROM user_info WHERE num = ?";
+		String query = "SELECT COUNT(*) FROM user_info WHERE phone = ?";
 		try {
 			psmt = con.prepareStatement(query);
 			psmt.setString(1,num);
@@ -77,7 +76,7 @@ public class memberDAO extends DBConnPool{
 	
 	public int signUp(memberDTO dto) {
 		int result = 0;
-		String query = "INSERT INTO user_info (id,name,birth,gender,password,m_level,phone) VALUES (?,?,?,?,?,1,?)";
+		String query = "INSERT INTO user_info (id,name,birth,gender,password,auth_level_fk,phone) VALUES (?,?,?,?,?,?,?)";
 		
 		try {
 			psmt = con.prepareStatement(query);
@@ -86,7 +85,8 @@ public class memberDAO extends DBConnPool{
 			psmt.setString(3, dto.getBirth());
 			psmt.setString(4, dto.getGender());
 			psmt.setString(5, dto.getPassword());
-			psmt.setString(6, dto.getPhone());
+			psmt.setString(6, dto.getAuth_level_fk());
+			psmt.setString(7, dto.getPhone());
 			
 			result = psmt.executeUpdate();
 			
