@@ -31,6 +31,27 @@ public class AuthDAO extends DBConnPool{
 		return arr;
 	}
 	
+	public List<AuthLevelDTO> getAuthLevelsOfManager() {
+		List<AuthLevelDTO> arr = new Vector<AuthLevelDTO>();
+		String query="SELECT idx, name FROM auth_level WHERE ismng='Y'";
+		try {
+			stmt = con.createStatement();
+			rs = stmt.executeQuery(query);
+			while(rs.next()) {
+				AuthLevelDTO dto = new AuthLevelDTO();
+				dto.setIdx(rs.getString(1));
+				dto.setName(rs.getString(2));
+				arr.add(dto);
+			}
+			
+		} catch (Exception e) {
+			System.out.println("관리자 등급 불러오기 오류");
+			e.printStackTrace();
+		}
+		
+		return arr;
+	}
+	
 	public List<AuthLevelDTO> getAuthLevelsAll() {
 		List<AuthLevelDTO> arr = new Vector<AuthLevelDTO>();
 		String query="SELECT * FROM auth_level";

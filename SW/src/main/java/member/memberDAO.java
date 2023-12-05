@@ -155,4 +155,18 @@ public class memberDAO extends DBConnPool{
 		}
 		return result;
 	}
+	
+	public int delMember(String id) {
+		int result = 0;
+		String query = "DELETE FROM user_info WHERE id=?";
+		try {
+			psmt = con.prepareStatement(query);
+			psmt.setString(1, id);
+			result = psmt.executeUpdate();
+		} catch (Exception e) {
+			System.out.println("회원 삭제 오류");
+			e.printStackTrace();
+		}
+		return result;
+	}
 }
