@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Vector;
 
+import org.apache.jasper.tagplugins.jstl.core.ForEach;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -160,5 +161,47 @@ public class MenuDAO extends DBConnPool{
 			System.out.println("메뉴 정보 불러오기 오류");
 		}
 		return dto;
+	}
+	
+	public JSONArray getMenuListforLast(ArrayList<String> toplist){
+		JSONArray arr = new JSONArray();
+		String query = "SELECT t1.name AS dept1,t1.code AS dept1_code ,t2.name AS dept2 ,t2.code AS dept2_code,t3.name AS dept3 ,t3.code AS dept3_code, "
+						+ "		CASE WHEN t3.DEPTS IS NOT NULL THEN t3.CODE "
+						+ "			WHEN t2.DEPTS IS NOT NULL THEN t2.CODE "
+						+ "			ELSE t1.CODE  END AS lcode, "
+						+ "		CASE WHEN t3.DEPTS IS NOT NULL THEN t3.NAME "
+						+ "			WHEN t2.DEPTS IS NOT NULL THEN t2.NAME "
+						+ "			ELSE t1.NAME  END AS lname "
+						+ "FROM menu t1 "
+						+ "LEFT JOIN menu t2 ON t2.pmenu_code = t1.code "
+						+ "LEFT JOIN menu t3 ON t3.pmenu_code = t2.code "
+						+ "WHERE t1.name =? "
+						+ "ORDER BY t2.LIST_ORDER ,t3.LIST_ORDER";
+		
+		try {
+			psmt = con.prepareStatement(query);
+			for(String s :toplist) {
+				psmt.setString(1, s);
+				rs = psmt.executeQuery();
+				while(rs.next()) {
+					HashMap<String, Object> tmp = new HashMap<String, Object>();
+					
+					tmp.put("name1",rs.getString(1));
+					tmp.put("code1",rs.getString(2));
+					tmp.put("name2",rs.getString(3));
+					tmp.put("code2",rs.getString(4));
+					tmp.put("name3",rs.getString(5));
+					tmp.put("code3",rs.getString(6));
+					tmp.put("lcode",rs.getString(7));
+					tmp.put("lname",rs.getString(8));
+					arr.add(tmp);
+				}
+			}
+		} catch (Exception e) {
+			System.out.println("메뉴 불러오기 오류");
+			e.printStackTrace();
+		}
+		
+		return arr;
 	}
 }

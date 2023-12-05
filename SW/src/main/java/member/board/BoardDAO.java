@@ -14,10 +14,10 @@ public class BoardDAO extends DBConnPool{
 	
 	public int getBoardCount(Map<String,Object> map) {
 		int totalCount = 0;
-		String query = "SELECT COUNT(*) FROM board WHERE";
+		String query = "SELECT COUNT(*) FROM board WHERE ";
 		if(map.get("searchWord") != null) {
 			query += " " + map.get("searchField") + " "
-					+ " LIKE '%" + map.get("searchWord") + "%'";
+					+ " LIKE '%" + map.get("searchWord") + "%' and";
 		}
 		query += " menu_fk='"+map.get("code")+"'";
 		try {

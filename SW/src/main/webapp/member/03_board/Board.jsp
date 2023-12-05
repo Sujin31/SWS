@@ -14,6 +14,10 @@
 		<jsp:include page="../0_common/Header.jsp"/>
 	</header>
 	
+	<div id="logout">
+		<button onclick="location.href='./logout'">로그아웃</button>
+	</div>
+	
 	<nav>
 		<jsp:include page="../0_common/Nav.jsp"/>
 	</nav>

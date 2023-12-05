@@ -72,15 +72,13 @@ function validateForm(form){
 </head>
 <body>
 	<div>
-		<p>로그인</p>
-	    <form method="post" action="../member/login" onsubmit="return validateForm(this);">
+		<p>관리자 로그인</p>
+	    <form method="post" action="../manage/login" onsubmit="return validateForm(this);">
 	        <input type="text" placeholder="아이디" class="in" name="id">
 	        <input type="password" placeholder="비밀번호" class="in" name="pw">
 	        <input type="submit" id="btn" value="로그인" ><br>
 	        <p id="errorMsg">${ errorMsg }</p>
 	    </form>
-	    <a href="./signUp.do" style="margin-right: 20px;">회원가입</a>
-	    <a href="./findInfo.do?mode=id">ID/PW 찾기</a>
 	</div>
 </body>
 </html>

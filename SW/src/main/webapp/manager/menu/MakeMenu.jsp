@@ -5,64 +5,14 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>관리자 메뉴 추가</title>
-<style type="text/css">
-body {
-  color: #666;
-  font: 14px/24px "Open Sans", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", Sans-Serif;
-}
-h2{
-  text-align: center;
-}
-table {
-  text-align:center;
-  border-collapse: separate;
-  border-spacing: 0;
-  width: 70%;
-  margin: 0 auto;
-  margin-top: 50px;
-}
-th,
-td {
-  padding: 6px 15px;
-}
-th {
-  background: #42444e;
-  color: #fff;
-  text-align: left;
-}
-tr:first-child th:first-child {
-  border-top-left-radius: 6px;
-}
-tr:first-child th:last-child {
-  border-top-right-radius: 6px;
-}
-td {
-  border-right: 1px solid #c6c9cc;
-  border-bottom: 1px solid #c6c9cc;
-}
-td:first-child {
-  border-left: 1px solid #c6c9cc;
-}
-tr:nth-child(even) td {
-  background: #eaeaed;
-}
-tr:last-child td:first-child {
-  border-bottom-left-radius: 6px;
-}
-tr:last-child td:last-child {
-  border-bottom-right-radius: 6px;
-}
-
-.writetb{
-  margin-top: 100px;
-}
-</style>
+<title>메뉴 추가</title>
+<link  rel="stylesheet" href="/SW/css/manager.css" type="text/css">
 </head>
 <body>
 
-	<h2>메뉴</h2>
-	<form method="post" action="./makemenu.do" onsubmit="">
+	<h2>메뉴추가하기</h2>
+	<div><button onclick="location.href='./main'">메인</button></div>
+	<form method="post" action="./makemenu" onsubmit="">
 		<table class="writetb">
 			<tr>
 				<th>메뉴명</th> <th>메뉴코드</th> <th>상위메뉴</th> <th>depts</th> <th>링크</th> <th>템플릿</th> <th>order</th>

@@ -30,4 +30,58 @@ public class AuthDAO extends DBConnPool{
 		
 		return arr;
 	}
+	
+	public List<AuthLevelDTO> getAuthLevelsAll() {
+		List<AuthLevelDTO> arr = new Vector<AuthLevelDTO>();
+		String query="SELECT * FROM auth_level";
+		try {
+			stmt = con.createStatement();
+			rs = stmt.executeQuery(query);
+			while(rs.next()) {
+				AuthLevelDTO dto = new AuthLevelDTO();
+				dto.setIdx(rs.getString("idx"));
+				dto.setIsmng(rs.getString("ismng"));
+				dto.setName(rs.getString("name"));
+				arr.add(dto);
+			}
+			
+		} catch (Exception e) {
+			System.out.println("등급 불러오기 오류");
+			e.printStackTrace();
+		}
+		
+		return arr;
+	}
+	
+	public int setAuthLevel(AuthLevelDTO dto) {
+		int result = 0;
+		String query = "INSERT INTO auth_level VALUES(?,?,?)";
+		try {
+			psmt = con.prepareStatement(query);
+			psmt.setString(1, dto.getIdx());
+			psmt.setString(2, dto.getIsmng());
+			psmt.setString(3, dto.getName());
+			
+			result = psmt.executeUpdate();
+		}catch (Exception e) {
+			System.out.println("권한 추가 오류");
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	public int deleteAuthLevel(String idx) {
+		int result = 0;
+		String query = "DELETE FROM auth_level WHERE idx=?";
+		try {
+			psmt = con.prepareStatement(query);
+			psmt.setString(1, idx);
+			result = psmt.executeUpdate();
+			
+		} catch (Exception e) {
+			System.out.println("권한 삭제 오류");
+			e.printStackTrace();
+		}
+		return result;
+	}
 }

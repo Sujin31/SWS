@@ -13,9 +13,9 @@ public class NoticeDAO extends DBConnPool{
 	
 	public int getNoticeCount(Map<String,Object> map) {
 		int totalCount = 0;
-		String query = "SELECT COUNT(*) FROM notice";
+		String query = "SELECT COUNT(*) FROM notice ";
 		if(map.get("searchWord") != null) {
-			query += " WHERE" + map.get("searchField") + " "
+			query += " WHERE " + map.get("searchField") + " "
 					+ " LIKE '%" + map.get("searchWord") + "%' AND must = 'N'";
 		}
 		try {

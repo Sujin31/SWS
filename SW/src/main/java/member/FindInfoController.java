@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import common.JSFunction;
 
-@WebServlet("/member/findInfo.do")
+@WebServlet("/member/findInfo")
 public class FindInfoController extends HttpServlet{
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

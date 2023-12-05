@@ -7,6 +7,11 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<a href="./makemenu.do">메뉴추가하기</a>
+	<ul>
+		<li><a href="./manager">관리자 추가하기</a></li>
+		<li><a href="./makemenu">메뉴추가하기</a></li>
+		<li><a href="./makeauth">권한 추가하기</a></li>
+		<li><a href="./menuauth">메뉴 권한 추가하기</a></li>
+	</ul>
 </body>
 </html>

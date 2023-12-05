@@ -10,7 +10,7 @@ public class memberDAO extends DBConnPool{
 	
 	public memberDTO memberLogin(String id, String pw) {
 		memberDTO dto = new memberDTO();
-		String query = "SELECT id,name FROM user_info WHERE id = ? and password = ?";
+		String query = "SELECT id,name,auth_level_fk FROM user_info WHERE id = ? and password = ?";
 		try {
 			
 			psmt = con.prepareStatement(query);
@@ -21,6 +21,7 @@ public class memberDAO extends DBConnPool{
 			if(rs.next()) {
 				dto.setId(rs.getString(1));
 				dto.setName(rs.getString(2));
+				dto.setAuth_level_fk(rs.getString(3));
 			}
 			
 		} catch (Exception e) {

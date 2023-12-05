@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import common.JSFunction;
 
-@WebServlet("/member/signUp.do")
+@WebServlet("/member/signUp")
 public class SignUpController extends HttpServlet{
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

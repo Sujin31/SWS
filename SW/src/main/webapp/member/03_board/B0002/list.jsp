@@ -28,6 +28,8 @@
         <div class="container">
             <div class="search-window">
                 <form method="get">
+                	<input type="hidden" name="cate" value="${MenuDto.code}">
+                	<input type="hidden" name="mode" value="l">
                     <div class="search-wrap">
                     	<select name="searchField">
                     		<option value="title">제목</option>

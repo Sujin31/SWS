@@ -15,4 +15,16 @@ public class MemberCheck {
 		}
 		return result;
 	}
+	
+	public static boolean checkManager(HttpServletRequest req) {
+		boolean result = false;
+		
+		HttpSession session = req.getSession();
+		String sessionId = (String) session.getAttribute("ManagerId");
+
+		if(sessionId != null) {
+			result = true;
+		}
+		return result;
+	}
 }

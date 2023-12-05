@@ -14,21 +14,27 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import common.JSFunction;
+import common.MemberCheck;
 import member.memberDAO;
 
-@WebServlet("/manage/makemenu.do")
+@WebServlet("/manage/makemenu")
 public class MakeMenuController extends HttpServlet{
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
-		MenuDAO dao = new MenuDAO();
-		ArrayList<String> toplist = new ArrayList<>();
-		toplist = dao.SelectTopMenu();
-		JSONArray menulist = dao.SelectMenuList(toplist);
-		dao.close();
-		
-		req.setAttribute("menulist", menulist);
-		req.getRequestDispatcher("/manager/MakeMenu.jsp").forward(req, resp);
+		if(!MemberCheck.checkManager(req)) {
+			resp.sendRedirect("../manage/login");
+		}else {
+			
+			MenuDAO dao = new MenuDAO();
+			ArrayList<String> toplist = new ArrayList<>();
+			toplist = dao.SelectTopMenu();
+			JSONArray menulist = dao.SelectMenuList(toplist);
+			dao.close();
+			
+			req.setAttribute("menulist", menulist);
+			req.getRequestDispatcher("/manager/menu/MakeMenu.jsp").forward(req, resp);
+		}
 	}
 	
 	@Override
@@ -56,9 +62,9 @@ public class MakeMenuController extends HttpServlet{
 		
 		
 		if(result == 1) {
-			JSFunction.alertLocation(resp, "추가완료", "./makemenu.do");
+			JSFunction.alertLocation(resp, "추가완료", "./makemenu");
 		}else {
-			JSFunction.alertLocation(resp, "오류", "./makemenu.do");
+			JSFunction.alertLocation(resp, "오류", "./makemenu");
 		}
 	}
 }
