@@ -55,7 +55,7 @@
             </div>
         </div>
     </div>
-    <jsp:include page="./reply.jsp"/>
+    <jsp:include page="./comment.jsp"/>
     
     
 </body>

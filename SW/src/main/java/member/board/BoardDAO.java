@@ -88,7 +88,6 @@ public class BoardDAO extends DBConnPool{
 			psmt.setString(3, dto.getTitle());
 			psmt.setString(4, dto.getContent());
 			psmt.setString(5, dto.getIsfile());
-			
 			rs = psmt.executeQuery(); //insert한 칼럼 idx가지고 오기
 //			if(rs.next()) {
 //				result = rs.getInt(1);

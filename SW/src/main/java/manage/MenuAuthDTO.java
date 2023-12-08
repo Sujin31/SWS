@@ -6,7 +6,7 @@ public class MenuAuthDTO {
 	private String mread;
 	private String mwrite;
 	private String mcomment;
-	private String reply;
+	private String answer;
 	
 	//db join
 	private String name;
@@ -42,11 +42,11 @@ public class MenuAuthDTO {
 	public void setMcomment(String mcomment) {
 		this.mcomment = mcomment;
 	}
-	public String getReply() {
-		return reply;
+	public String getAnswer() {
+		return answer;
 	}
-	public void setReply(String reply) {
-		this.reply = reply;
+	public void setAnswer(String answer) {
+		this.answer = answer;
 	}
 	
 	

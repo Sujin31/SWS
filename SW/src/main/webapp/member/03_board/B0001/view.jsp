@@ -51,7 +51,7 @@
             <div class="divdtn">
             	<button type="button" class="btn btn-dark" onclick="location.href='./board?cate=${MenuDto.code}&mode=l'">목록</button>
 	            <!-- 작성자만 -->
-	            <c:if test="${dto.id eq id}">
+	            <c:if test="${dto.id eq UserId}">
 	            	<button class="btn btn-dark" onclick="location.href='./board?cate=${MenuDto.code}&mode=e&idx=${dto.idx }'">수정</button>
 	            	<button class="btn btn-dark" onclick="location.href='./board?cate=${MenuDto.code}&mode=d&idx=${dto.idx }'">삭제</button>
             	</c:if>

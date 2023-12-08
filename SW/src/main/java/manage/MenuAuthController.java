@@ -12,19 +12,20 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.json.simple.JSONArray;
 
-import common.MemberCheck;
+import common.AuthCheck;
 
 @WebServlet("/manage/menuauth")
 public class MenuAuthController extends HttpServlet{
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		if(!MemberCheck.checkManager(req)) {
+		if(!AuthCheck.checkManager(req)) {
 			resp.sendRedirect("../manage/login");
 		}else {
 			
 			MenuDAO dao = new MenuDAO();
 			ArrayList<String> toplist = dao.SelectTopMenu();
 			JSONArray arr = dao.getMenuListforLast(toplist);
+			dao.close();
 			req.setAttribute("dto", arr);
 			req.getRequestDispatcher("/manager/menu/MakeMenuAuth.jsp").forward(req, resp);
 			

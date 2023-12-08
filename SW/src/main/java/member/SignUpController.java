@@ -21,7 +21,7 @@ public class SignUpController extends HttpServlet{
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		AuthDAO dao = new AuthDAO();
 		List<AuthLevelDTO> list = dao.getAuthLevelsOfMember();
-		
+		dao.close();
 		req.setAttribute("level", list);
 		
 		req.getRequestDispatcher("/member/01_login/SignUp.jsp").forward(req, resp);
@@ -63,18 +63,18 @@ public class SignUpController extends HttpServlet{
 			
 			memberDAO dao = new memberDAO();
 			if(!dao.checkPhoneNum(phone)) {
-				JSFunction.alertLocation(resp, "중복된 연락처가 있습니다.", "./signUp.do");
+				JSFunction.alertLocation(resp, "중복된 연락처가 있습니다.", "./signUp");
 			}else {
 				int result = dao.signUp(dto);
 				dao.close();
 				
 				if(result == 1) {
-					JSFunction.alertLocation(resp, "회원가입이 완료되었습니다.", "./login.do");
+					JSFunction.alertLocation(resp, "회원가입이 완료되었습니다.", "./login");
 				}else {
-					JSFunction.alertLocation(resp, "회원가입 실패", "./login.do");
+					JSFunction.alertLocation(resp, "회원가입 실패", "./login");
 				}
 			}
-			
+			dao.close();
 		}
 		
 		

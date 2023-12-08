@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import common.JSFunction;
-import common.MemberCheck;
+import common.AuthCheck;
 import member.AuthDAO;
 import member.AuthLevelDTO;
 import member.memberDAO;
@@ -20,7 +20,7 @@ import member.memberDTO;
 public class MakeManagerController extends HttpServlet{
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		if(!MemberCheck.checkManager(req)) {
+		if(!AuthCheck.checkManager(req)) {
 			resp.sendRedirect("../manage/login");
 		}else {
 			if(req.getParameter("del") != null && req.getParameter("id") != "admin") {
@@ -30,7 +30,7 @@ public class MakeManagerController extends HttpServlet{
 				dao.close();
 				memberDAO dao2= new memberDAO();
 				int result2 = dao2.delMember(id);
-				dao.close();
+				dao2.close();
 				
 				if(result == 1 && result2 == 1) {
 					resp.sendRedirect("../manage/makemanager");
@@ -73,6 +73,7 @@ public class MakeManagerController extends HttpServlet{
 		dto.setPassword(pw);
 		dto.setPhone(phone);
 		int result = dao.setManager(dto);
+		dao.close();
 		
 		memberDAO dao2 = new memberDAO();
 		memberDTO dto2 = new memberDTO();
@@ -84,6 +85,7 @@ public class MakeManagerController extends HttpServlet{
 		dto2.setPassword(pw);
 		dto2.setPhone(phone);
 		int result2 = dao2.signUp(dto2);
+		dao2.close();
 		
 		if(result == 1 && result2 == 1) {
 			resp.sendRedirect("../manage/makemanager");

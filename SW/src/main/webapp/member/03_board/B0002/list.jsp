@@ -82,7 +82,8 @@
             <div class="divdtn">${map.pagingImg }</div>
             <div class="divdtn">
 	            <!-- 게시판/회원만 -->
-	            <c:if test="${UserId ne null}"><button class="btn btn-dark" type="button" onclick="location.href='./board?cate=${MenuDto.code}&mode=w'">작성</button></c:if>
+	            
+	            <c:if test="${authdto.mwrite eq 'Y' }"><button class="btn btn-dark" type="button" onclick="location.href='./board?cate=${MenuDto.code}&mode=w'">작성</button></c:if>
             </div>
         </div>
     </div>

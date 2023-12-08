@@ -105,7 +105,7 @@ function pwCheck(){
 <body>
 	<div>
 		<p>비밀번호 재설정</p>
-	    <form name="frm" method="post" action="./findInfo.do" onsubmit="return validateForm(this);">
+	    <form name="frm" method="post" action="./findInfo" onsubmit="return validateForm(this);">
 	    <input type="hidden" name="mode" value="resetPw">
 	    <input type="hidden" name="id" value="${ id }">
 	    	<table>
@@ -124,9 +124,9 @@ function pwCheck(){
 	        	<tr><td colspan="2"><p id="errorMsg">${ errorMsg }</p></td></tr>
 	        </table>
 	        <button type="submit" id="btn">변경</button>
-	        <button type="button" id="btn" onclick="location.href='./login.do'" class="leftgap5">취소</button>
+	        <button type="button" id="btn" onclick="location.href='./login'" class="leftgap5">취소</button>
 	    </form>
 	</div>
-	<p style="text-align: center;"><a href="./findInfo.do?mode=id">아이디 찾기</a></p>
+	<p style="text-align: center;"><a href="./findInfo?mode=id">아이디 찾기</a></p>
 </body>
 </html>

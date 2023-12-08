@@ -79,8 +79,8 @@ function validateForm(form){
 	        <input type="submit" id="btn" value="로그인" ><br>
 	        <p id="errorMsg">${ errorMsg }</p>
 	    </form>
-	    <a href="./signUp.do" style="margin-right: 20px;">회원가입</a>
-	    <a href="./findInfo.do?mode=id">ID/PW 찾기</a>
+	    <a href="./signUp" style="margin-right: 20px;">회원가입</a>
+	    <a href="./findInfo?mode=id">ID/PW 찾기</a>
 	</div>
 </body>
 </html>

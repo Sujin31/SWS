@@ -104,7 +104,7 @@ function validateForm(form){
 <body>
 	<div>
 		<p>아이디 찾기</p>
-	    <form name="frm" method="post" action="./findInfo.do" onsubmit="return validateForm(this);">
+	    <form name="frm" method="post" action="./findInfo" onsubmit="return validateForm(this);">
 	    	<input type="hidden" name="mode" value="id" >
 	    	<table>
 	    		<colgroup>
@@ -122,9 +122,9 @@ function validateForm(form){
 	        	<tr><td colspan="2"><p id="errorMsg">${ errorMsg }</p></td></tr>
 	        </table>
 	        <button type="submit" id="btn">찾기</button>
-	        <button type="button" id="btn" onclick="location.href='./login.do'" class="leftgap5">취소</button>
+	        <button type="button" id="btn" onclick="location.href='./login'" class="leftgap5">취소</button>
 	    </form>
 	</div>
-	<p style="text-align: center;"><a href="./findInfo.do?mode=pw">비밀번호 찾기</a></p>
+	<p style="text-align: center;"><a href="./findInfo?mode=pw">비밀번호 찾기</a></p>
 </body>
 </html>

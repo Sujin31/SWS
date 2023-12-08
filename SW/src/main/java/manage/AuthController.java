@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import common.JSFunction;
-import common.MemberCheck;
+import common.AuthCheck;
 import member.AuthDAO;
 import member.AuthLevelDTO;
 
@@ -18,7 +18,7 @@ import member.AuthLevelDTO;
 public class AuthController extends HttpServlet{
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		if(!MemberCheck.checkManager(req)) {
+		if(!AuthCheck.checkManager(req)) {
 			resp.sendRedirect("../manage/login");
 		}else {
 			
@@ -35,6 +35,7 @@ public class AuthController extends HttpServlet{
 				
 			}else {
 				List<AuthLevelDTO> list = dao.getAuthLevelsAll();
+				dao.close();
 				req.setAttribute("dto", list);
 				
 				req.getRequestDispatcher("/manager/menu/MakeAuth.jsp").forward(req, resp);
@@ -52,6 +53,7 @@ public class AuthController extends HttpServlet{
 		
 		AuthDAO dao = new AuthDAO();
 		int result = dao.setAuthLevel(dto);
+		dao.close();
 		if(result == 1) {
 			resp.sendRedirect("./makeauth");
 		}else {

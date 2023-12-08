@@ -53,9 +53,9 @@ public class FindInfoController extends HttpServlet{
 			String pw = req.getParameter("pw");
 			int confirm = dao.resetPw(id, pw);
 			if( confirm == 1) {
-				JSFunction.alertLocation(resp, "비밀번호 재설정이 완료되었습니다.", "./login.do");
+				JSFunction.alertLocation(resp, "비밀번호 재설정이 완료되었습니다.", "./login");
 			}
 		}
-			
+		dao.close();
 	}
 }

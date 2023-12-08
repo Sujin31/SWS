@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import common.JSFunction;
-import common.MemberCheck;
+import common.AuthCheck;
 import member.AuthDAO;
 import member.AuthLevelDTO;
 
@@ -21,7 +21,7 @@ import member.AuthLevelDTO;
 public class EditMenuAuthController extends HttpServlet{
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		if(!MemberCheck.checkManager(req)) {
+		if(!AuthCheck.checkManager(req)) {
 			resp.sendRedirect("../manage/login");
 		}else {
 			
@@ -58,12 +58,13 @@ public class EditMenuAuthController extends HttpServlet{
 			dto.setMread(req.getParameter("read"+i));
 			dto.setMwrite(req.getParameter("write"+i));
 			dto.setMcomment(req.getParameter("comment"+i));
-			dto.setReply(req.getParameter("reply"+i));
+			dto.setAnswer(req.getParameter("answer"+i));
 			
 			list.add(dto);
 		}
 		MenuAuthDAO dao = new MenuAuthDAO();
 		int result = dao.setMenuAuthList(list,menu);
+		dao.close();
 		if(result == 1) {
 			//resp.sendRedirect("./editMenuAuth");
 			JSFunction.alertBack(resp, "ok");

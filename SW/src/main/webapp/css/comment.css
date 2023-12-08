@@ -1,0 +1,71 @@
+@charset "UTF-8";
+
+hr{
+	border-color: #e7e7e7;
+}
+.indiv{
+	margin-bottom: 20px;
+	text-align: center;
+}
+
+.cmtbtn{
+	height: 40px;
+	margin-bottom: 40px;
+}
+.in{
+	width: 70%;
+	height: 70px;
+}
+
+.comment{
+	border-bottom: 1px solid #e7e7e7;
+}
+.info{
+	font-size: 14px;
+}
+.info .date{
+	font-size: 12px;
+	color: rgb(192, 192, 192);
+}
+.content{
+	padding: 10px;
+	height: 50px;
+	font-size: 16px;
+}
+.main{
+	padding: 5px;
+	border-bottom: 1px solid #a7b2b8;
+}
+.subL{
+	float: left;
+}
+.sub{
+	margin-left: 40px;
+	border-bottom: 1px solid #a7b2b8;
+}
+.add_comment{
+	display: none;
+	margin-left: 30px;
+}
+.addBnt{
+	font-size: 14px;	
+	border: 0;
+  	background-color: transparent;
+}
+.right{
+	float: right;
+}
+.right button{
+	font-size: 14px;	
+	border: 0;
+  	background-color: transparent;
+  	text-decoration:underline;
+}
+
+.edit_comment{
+	display: none;
+}
+.eidtDiv{
+	margin-top: 40px;
+	margin-bottom: 30px;
+}

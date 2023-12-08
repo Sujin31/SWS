@@ -55,8 +55,8 @@ public class BoardTmpController extends HttpServlet{
 			
 			Map<String, Object> map = new HashMap<String, Object>();
 			if(searchWord != null) {
-				map.put("searchField", req.getParameter("searchField"));
-				map.put("searchWord", req.getParameter("searchWord"));
+				map.put("searchField", searchField);
+				map.put("searchWord", searchWord);
 			}
 			
 			//페이징
@@ -129,6 +129,10 @@ public class BoardTmpController extends HttpServlet{
 		}else if(mode.equals("v")) {
 			
 			int idx = Integer.parseInt(req.getParameter("idx"));
+			CommentDAO cdao = new CommentDAO();
+			List<CommentDTO> list = cdao.selectComment(idx);
+			cdao.close();
+			req.setAttribute("coments", list);
 			if(code.equals("menu001")) { 
 				isnotice = "Y";
 				NoticeDAO dao = new NoticeDAO();

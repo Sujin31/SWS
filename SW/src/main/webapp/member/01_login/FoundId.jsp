@@ -45,8 +45,8 @@
 	<div>
 		<p>아이디 찾기</p>
 		<p>회원님의 아이디는<br><strong>${id }</strong>입니다.</p>
-		<button type="button" id="btn" onclick="location.href='./login.do'">로그인</button>
-		<button type="button" id="btn" onclick="location.href='./findInfo.do?mode=pw'" class="leftgap5">비밀번호 찾기</button>
+		<button type="button" id="btn" onclick="location.href='./login'">로그인</button>
+		<button type="button" id="btn" onclick="location.href='./findInfo?mode=pw'" class="leftgap5">비밀번호 찾기</button>
 	</div>
 </body>
 </html>

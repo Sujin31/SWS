@@ -14,7 +14,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import common.JSFunction;
-import common.MemberCheck;
+import common.AuthCheck;
 import member.memberDAO;
 
 @WebServlet("/manage/makemenu")
@@ -22,7 +22,7 @@ public class MakeMenuController extends HttpServlet{
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
-		if(!MemberCheck.checkManager(req)) {
+		if(!AuthCheck.checkManager(req)) {
 			resp.sendRedirect("../manage/login");
 		}else {
 			

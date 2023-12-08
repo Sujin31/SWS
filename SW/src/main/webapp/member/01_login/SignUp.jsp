@@ -60,7 +60,7 @@ function idCheck(i){
 	var flag = false;
 
 	$.ajax({
-		url : "./signUp.do",
+		url : "./signUp",
 		type : "post",
 		async: false, 
 		data : {"mode" : 1, "check_id" : form.id.value},
@@ -180,7 +180,7 @@ tr {
 <body>
 	<div>
 		<p>회원가입</p>
-	    <form name="frm" method="post" action="./signUp.do" onsubmit="return validateForm(this);">
+	    <form name="frm" method="post" action="./signUp" onsubmit="return validateForm(this);">
 	    <input type="hidden" name="mode" value="2">
 	    	<table>
 	    		<colgroup>
@@ -233,10 +233,8 @@ tr {
 	        <br>
 	        <!-- <input type="submit" id="btn" value="가입" ><br> -->
 	        <button type="submit" id="btn">가입</button>
-	        <button type="button" id="btn" onclick="location.href='./login.do'" class="leftgap5">취소</button>
+	        <button type="button" id="btn" onclick="location.href='./login'" class="leftgap5">취소</button>
 	    </form>
-	    <!-- <a href="#" style="margin-right: 20px;">가입</a>
-	    <a href="./login.do">취소</a> -->
 	</div>
 </body>
 </html>

@@ -7,6 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<a href="<%=request.getContextPath()%>/member/login.do">바로가기</a>
+	<a href="<%=request.getContextPath()%>/member/login">바로가기</a>
 </body>
 </html>

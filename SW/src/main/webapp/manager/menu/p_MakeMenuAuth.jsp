@@ -23,7 +23,7 @@
 			<col style="width:*">
 		</colgroup>
 		<tr>
-			<th>등급명</th><th>읽기</th><th>쓰기</th><th>답글</th><th>댓글</th>
+			<th>등급명</th><th>읽기</th><th>쓰기</th><th>댓글</th><th>답글</th>
 		</tr>
 		<c:choose>
 			<c:when test="${empty list }">
@@ -52,15 +52,15 @@
 							<input type="radio" name="comment${loop.count }" value="N" <c:if test="${row.mcomment eq 'N' or row.mcomment eq null}">checked</c:if>>N 
 						</td>
 						<td>
-							<input type="radio" name="reply${loop.count }" value="Y" <c:if test="${row.reply eq 'Y'}">checked</c:if>>Y 
-							<input type="radio" name="reply${loop.count }" value="N" <c:if test="${row.reply eq 'N' or row.reply eq null}">checked</c:if>>N 
+							<input type="radio" name="answer${loop.count }" value="Y" <c:if test="${row.answer eq 'Y'}">checked</c:if>>Y 
+							<input type="radio" name="answer${loop.count }" value="N" <c:if test="${row.answer eq 'N' or row.answer eq null}">checked</c:if>>N 
 						</td>
 					</tr>
 				</c:forEach>
 			</c:otherwise>
 		</c:choose>
 	</table>
-	<div><button type="submit">dd</button></div>
+	<div><button type="submit">저장</button></div>
 </form>
 </body>
 </html>
