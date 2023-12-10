@@ -68,7 +68,7 @@
 								<tr>
 				                    <td>${map.totalCount - (((map.pageNum - 1) * map.pageSize) + loop.index)}</td>
 				                    <th>
-				                      <a href="./board?cate=${MenuDto.code}&mode=v&idx=${row.idx }">${row.title }</a> <c:if test="${row.isfile eq 'Y' }"> file</c:if>
+				                      <a href="./board?cate=${MenuDto.code}&mode=v&idx=${row.idx }">${row.title }&nbsp;[${row.answers }]</a>
 				                    </th>
 				                    <td>${row.id }</td>
 				                    <td>${row.regidate }</td>

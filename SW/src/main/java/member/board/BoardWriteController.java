@@ -18,6 +18,10 @@ import common.JSFunction;
 import file.FIleUtil;
 import file.FileDAO;
 import file.FileDTO;
+import member.data.BoardDAO;
+import member.data.BoardDTO;
+import member.data.NoticeDAO;
+import member.data.NoticeDTO;
 
 @WebServlet("/member/boardwrite")
 public class BoardWriteController extends HttpServlet{

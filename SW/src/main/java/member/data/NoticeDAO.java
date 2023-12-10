@@ -1,4 +1,4 @@
-package member.board;
+package member.data;
 
 import java.util.List;
 import java.util.Map;

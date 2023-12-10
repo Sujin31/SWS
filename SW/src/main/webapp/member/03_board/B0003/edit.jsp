@@ -16,9 +16,6 @@ function validateForm(form){
 		form.content.focus();
 		return false;
 	}
-	if(form.file.value){
-		form.isfile.value = "Y";
-	}
 }
 </script>
 </head>
@@ -69,7 +66,7 @@ function validateForm(form){
 		                    <th scope="col" class="th-num">내용</th>
 							<td><textarea class="txtarea" name="content">${dto.content }</textarea></td>
 		                </tr>
-		                <tr>
+		                <tr style="display:none;">
 		                    <th scope="col" class="th-num">첨부파일</th>
 							<td style="text-align: left; padding-left: 30px">
 								현재 파일 : ${file.oname } &nbsp;&nbsp;&nbsp;

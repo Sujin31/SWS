@@ -1,4 +1,4 @@
-package member.board;
+package member.data;
 
 import java.util.List;
 import java.util.Map;
@@ -65,6 +65,51 @@ public class BoardDAO extends DBConnPool{
 				dto.setEditdate(rs.getDate("editdate"));
 				
 				
+				list.add(dto);
+			}
+			
+		} catch (Exception e) {
+			System.out.println("게시판 불러오기 오류");
+			e.printStackTrace();
+		}
+		
+		return list;
+	}
+	
+	public List<BoardDTO> getBoardPageAndAnswer(Map<String, Object> map) {
+		List<BoardDTO> list = new Vector<BoardDTO>();
+		String query = "SELECT * \r\n"
+					+ "FROM (SELECT tb.*, ROWNUM rNum "
+					+ "	FROM ( SELECT b.IDX, b.TITLE, b.id, b.REGIDATE,b.VIEWS ,COUNT(ANSWER) AS answers"
+					+ " FROM BOARD b "
+					+ " LEFT JOIN ANSWER a ON a.BOARD_FK =b.IDX WHERE";
+						
+		
+		if(map.get("searchWord") != null) {
+			query += " b." + map.get("searchField") + " "
+					+ " LIKE '%" + map.get("searchWord") + "%' AND";
+		}
+		
+		query +=" b.menu_fk=? "
+				+ "GROUP BY b.IDX ,b.TITLE,b.id,b.REGIDATE,b.VIEWS "
+				+ "ORDER BY idx DESC)tb )WHERE rNum BETWEEN ? and ?";
+		
+		try {
+			
+			psmt = con.prepareStatement(query);
+			psmt.setString(1, map.get("code").toString());
+			psmt.setString(2, map.get("start").toString());
+			psmt.setString(3, map.get("end").toString());
+			rs = psmt.executeQuery();
+			
+			while(rs.next()) {
+				BoardDTO dto = new BoardDTO();
+				dto.setIdx(rs.getInt("idx"));
+				dto.setId(rs.getString("id"));
+				dto.setTitle(rs.getString("title"));
+				dto.setViews(rs.getString("views"));
+				dto.setRegidate(rs.getDate("regidate"));
+				dto.setAnswers(rs.getInt("answers"));
 				list.add(dto);
 			}
 			

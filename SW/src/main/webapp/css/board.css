@@ -384,3 +384,12 @@ section.notice {
 .gap200{
 	margin-top: 100px;
 }
+
+.rightBtn{
+	float: right;
+}
+.rightBtn button{
+	padding: 0 10px;
+	height: 30px;
+	text-align: center;
+}

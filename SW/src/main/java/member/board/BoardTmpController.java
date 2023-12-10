@@ -3,10 +3,12 @@ package member.board;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Vector;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -24,6 +26,14 @@ import file.FileDAO;
 import file.FileDTO;
 import manage.MenuDAO;
 import manage.MenuDTO;
+import member.data.AnswerDAO;
+import member.data.AnswerDTO;
+import member.data.BoardDAO;
+import member.data.BoardDTO;
+import member.data.CommentDAO;
+import member.data.CommentDTO;
+import member.data.NoticeDAO;
+import member.data.NoticeDTO;
 
 @WebServlet("/member/boardTmp")
 public class BoardTmpController extends HttpServlet{
@@ -104,7 +114,14 @@ public class BoardTmpController extends HttpServlet{
 				
 				totalCount = dao.getBoardCount(map);
 				map.put("totalCount", totalCount);
-				List<BoardDTO> boardLists =  dao.getBoardPage(map);
+				List<BoardDTO> boardLists =  new Vector<BoardDTO>();
+				
+				if(MenuDto.getBoard_tmp().equals("B0003")) { //QnA게시판 LIST
+					//답변 갯수 가져오기
+					boardLists = dao.getBoardPageAndAnswer(map);
+				}else {
+					boardLists = dao.getBoardPage(map);
+				}
 				
 				dao.close();
 				
@@ -114,6 +131,8 @@ public class BoardTmpController extends HttpServlet{
 				
 				req.setAttribute("boardLists", boardLists);
 				req.setAttribute("map", map);
+				
+				
 			}
 			
 			req.getRequestDispatcher("/member/03_board/"+MenuDto.getBoard_tmp()+"/list.jsp").forward(req, resp);
@@ -129,19 +148,24 @@ public class BoardTmpController extends HttpServlet{
 		}else if(mode.equals("v")) {
 			
 			int idx = Integer.parseInt(req.getParameter("idx"));
-			CommentDAO cdao = new CommentDAO();
-			List<CommentDTO> list = cdao.selectComment(idx);
-			cdao.close();
-			req.setAttribute("coments", list);
-			if(code.equals("menu001")) { 
+			
+			if(code.equals("menu001")) {	//공지
+				//공지불러오기
 				isnotice = "Y";
 				NoticeDAO dao = new NoticeDAO();
 				NoticeDTO dto = dao.selectNotice(idx);
 				dao.viewCountPlus(idx);
 				dao.close();
 				
+				//공지글 엔터처리
 				dto.setContent(dto.getContent().replaceAll("\r\n", "<br/>"));
 				req.setAttribute("dto", dto);
+				
+				//댓글 불러오기
+				CommentDAO cdao = new CommentDAO();
+				List<CommentDTO> list = cdao.selectComment(idx);
+				cdao.close();
+				req.setAttribute("comments", list);
 				
 			}else {
 				BoardDAO dao = new BoardDAO();
@@ -151,6 +175,31 @@ public class BoardTmpController extends HttpServlet{
 				
 				dto.setContent(dto.getContent().replaceAll("\r\n", "<br/>"));
 				req.setAttribute("dto", dto);
+				
+				if(MenuDto.getBoard_tmp().equals("B0003")) {	
+					//QnA 답변게시글 & 답변-댓글 불러오기
+					
+					AnswerDAO Adao = new AnswerDAO();
+					List<AnswerDTO> answerList = Adao.selectAnswerList(idx);
+					Adao.close();
+					req.setAttribute("answerList", answerList);
+					
+					//답변게시글 idx 배열에 저장 후 댓글 불러오기
+					ArrayList<Integer> answerIdx = new ArrayList<Integer>();
+					for(AnswerDTO tmp : answerList) {
+						answerIdx.add(tmp.getIdx());
+					}
+					CommentDAO cdao = new CommentDAO();
+					List<CommentDTO> list = cdao.selectCommentOfAnswer(answerIdx);
+					req.setAttribute("comments", list);
+					
+				}else {
+					//일반 댓글 불러오기
+					CommentDAO cdao = new CommentDAO();
+					List<CommentDTO> list = cdao.selectComment(idx);
+					cdao.close();
+					req.setAttribute("comments", list);
+				}
 			}
 			//파일 
 			FileDAO fdao = new FileDAO();
@@ -214,6 +263,30 @@ public class BoardTmpController extends HttpServlet{
 			}else {
 				JSFunction.alertLocation(resp, "삭제오류", "./board?cate="+code+"&mode=l");
 			}
+		}else if(mode.equals("answer")) {
+			int idx = Integer.parseInt(req.getParameter("idx"));
+			BoardDAO dao = new BoardDAO();
+			BoardDTO dto = dao.selectBoard(idx,code);
+			dao.close();
+			req.setAttribute("dto", dto);
+			
+			req.getRequestDispatcher("/member/03_board/"+MenuDto.getBoard_tmp()+"/answer.jsp").forward(req, resp);
+			
+		}else if(mode.equals("answeredit")) {
+			int boardidx = Integer.parseInt(req.getParameter("boardidx"));
+			BoardDAO bdao = new BoardDAO();
+			BoardDTO bdto = bdao.selectBoard(boardidx,code);
+			bdao.close();
+			req.setAttribute("boardDto", bdto);
+
+			int idx = Integer.parseInt(req.getParameter("idx"));
+			AnswerDAO dao = new AnswerDAO();
+			AnswerDTO dto = dao.selectAnswer(idx);
+			dao.close();
+			req.setAttribute("dto", dto);
+			
+			
+			req.getRequestDispatcher("/member/03_board/"+MenuDto.getBoard_tmp()+"/answer_edit.jsp").forward(req, resp);
 		}
 		
 	}

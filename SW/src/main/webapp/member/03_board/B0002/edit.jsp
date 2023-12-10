@@ -46,7 +46,7 @@ function validateForm(form){
     		<input type="hidden" name="idx" value="${dto.idx }">
     		<input type="hidden" name="boardTmp" value="${MenuDto.board_tmp }">
        		<input type="hidden" name="menucode" value="${MenuDto.code }">
-       		<input type="hidden" name="id" value="${id }">
+       		<input type="hidden" name="id" value="${UserId }">
        		<input type="hidden" name="isfile" value="${dto.isfile }">
         	<div class="container">
 	            <table class="board-table">

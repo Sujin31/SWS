@@ -22,7 +22,7 @@ public class DBConnPool {
 			DataSource source = (DataSource)ctx.lookup("dbcp_myoracle");
 			
 			con = source.getConnection();
-			System.out.println("DB connection pool 연결");
+			//System.out.println("DB connection pool 연결");
 			
 		}catch (Exception e) {
 			System.out.println("DB connection pool 연결오류");
@@ -36,7 +36,7 @@ public class DBConnPool {
 			if(psmt != null) psmt.close();
 			if(con != null) con.close();
 			
-			System.out.println("DB connection pool 연결종료");
+			//System.out.println("DB connection pool 연결종료");
 		}
 		catch (Exception e) {
 			e.printStackTrace();

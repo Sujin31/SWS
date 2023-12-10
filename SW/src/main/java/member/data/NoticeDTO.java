@@ -1,18 +1,20 @@
-package member.board;
+package member.data;
 
 import java.sql.Date;
 
-public class BoardDTO {
+public class NoticeDTO {
 	private int idx;
 	private String menu_fk;
 	private String id;
 	private String title;
 	private String content;
 	private String isfile;
-	private String isreply;
 	private String views;
 	private Date regidate;
 	private Date editdate;
+	private String must;
+	
+	
 	public int getIdx() {
 		return idx;
 	}
@@ -49,12 +51,6 @@ public class BoardDTO {
 	public void setIsfile(String isfile) {
 		this.isfile = isfile;
 	}
-	public String getIsreply() {
-		return isreply;
-	}
-	public void setIsreply(String isreply) {
-		this.isreply = isreply;
-	}
 	public String getViews() {
 		return views;
 	}
@@ -73,7 +69,12 @@ public class BoardDTO {
 	public void setEditdate(Date editdate) {
 		this.editdate = editdate;
 	}
-	
+	public String getMust() {
+		return must;
+	}
+	public void setMust(String must) {
+		this.must = must;
+	}
 	
 	
 }

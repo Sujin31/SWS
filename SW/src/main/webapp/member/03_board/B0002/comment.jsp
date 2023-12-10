@@ -39,7 +39,7 @@ function authCheck(){
 	        <hr>
 	        <div class="comment">
 	        	<c:choose>
-	        		<c:when test="${empty coments }">
+	        		<c:when test="${empty comments }">
 	        			<div>댓글이 없습니다.</div>
 	        		</c:when>
 	        		<c:otherwise>
@@ -47,7 +47,7 @@ function authCheck(){
 	        			<c:set var="bf" value="0"/>
 	        			<c:set var="count" value="1"/>
 	        			<c:set var="edcount" value="1"/>
-	        			<c:forEach items="${coments }" var="row" varStatus="loop">
+	        			<c:forEach items="${comments }" var="row" varStatus="loop">
 	        				<c:if test="${loop.count ne 1 and row.idx ne bf }">
 	        					<c:set var="i" value="1"/>
 	        					<c:set var="bf" value="${row.idx }"/>
