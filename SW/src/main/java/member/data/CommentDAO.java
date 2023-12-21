@@ -153,4 +153,20 @@ public class CommentDAO extends DBConnPool{
 		}
 		return list;
 	}
+	
+	public int deleteComment(int idx) {
+		int result = 0;
+		String query = "DELETE FROM comments WHERE idx=?";
+		
+		try {
+			psmt = con.prepareStatement(query);
+			psmt.setInt(1, idx);
+			result = psmt.executeUpdate();
+		} catch (Exception e) {
+			System.out.println("댓글 삭제 오류");
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
 }

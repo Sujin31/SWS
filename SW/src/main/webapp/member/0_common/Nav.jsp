@@ -55,6 +55,7 @@
 				</li>
 			</ul>
 		</li>
+		<li><a href="./board?cate=menu027&mode=l">1:1 과외</a></li>
 		<li><a href="#">내정보</a></li>
 	</ul>
 </div>

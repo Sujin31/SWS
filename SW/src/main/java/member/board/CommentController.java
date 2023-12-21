@@ -17,7 +17,20 @@ public class CommentController extends HttpServlet{
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
-		String idx = req.getParameter("idx");
+		int idx = Integer.parseInt(req.getParameter("idx"));
+		String mode = req.getParameter("mode");
+		String menu = req.getParameter("cate");
+		int boardIdx = Integer.parseInt(req.getParameter("bidx")) ;
+		int result =0 ;
+		if(mode.equals("delete")) {
+			CommentDAO dao = new CommentDAO();
+			result = dao.deleteComment(idx);
+			if(result == 1) {
+				JSFunction.alertLocation(resp, "삭제 완료", "../member/board?cate="+menu+"&mode=v&idx="+boardIdx);
+			}else {
+				JSFunction.alertBack(resp, "댓글 삭제 오류");
+			}
+		}
 		
 	}
 	

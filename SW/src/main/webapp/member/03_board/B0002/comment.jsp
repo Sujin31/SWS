@@ -63,7 +63,7 @@ function authCheck(){
 							        		<c:if test="${UserId eq row.id }">
 							        			<span class="right">
 							        				<button type="button" class="addBnt" onclick="editComment_atag(${edcount});">수정</button> 
-							        				<button>삭제</button>
+							        				<button type="button" onclick="location.href='./comment?cate=${dto.menu_fk }&mode=delete&idx=${row.idx }&bidx=${dto.idx }'">삭제</button>
 							        			</span>
 							        		</c:if>
 							        	</div>
@@ -86,7 +86,7 @@ function authCheck(){
 								        </form>
 								        <c:set var="edcount" value="${edcount+1 }"/>
 							        </div>
-						        	<div class="add_comment" id="add_comment${count }">
+						        	<div class="add_comment" id="add_comment${count }" onsubmit="return authCheck();">
 						        		<form action="./comment" method="post" name="addfrm">
 						        			<input type="hidden" name="mode" value="add">
 						        			<input type="hidden" name="id" value="${UserId }">
@@ -114,7 +114,7 @@ function authCheck(){
 							        		<c:if test="${UserId eq row.id2 }">
 							        			<span class="right">
 							        				<button type="button" class="addBnt" onclick="editComment_atag(${edcount});">수정</button> 
-							        				<button>삭제</button>
+							        				<button type="button" onclick="location.href='./comment?cate=${dto.menu_fk }&mode=delete&idx=${row.idx2 }&bidx=${dto.idx }'">삭제</button>
 							        			</span>
 							        		</c:if>
 							        	</div>

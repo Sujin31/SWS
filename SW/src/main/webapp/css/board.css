@@ -106,7 +106,7 @@ a{
 }
 .dept1>li {
 	float: left;
-	width: 25%;
+	width: 20%;
 	line-height: 50px;
 	text-align: center;
 	position: relative;
@@ -197,7 +197,7 @@ section.notice {
 }
 #board-search .search-window .search-wrap input {
   height: 40px;
-  width: 65%;
+  width: 60%;
   font-size: 14px;
   padding: 7px 14px;
   border: 1px solid #ccc;

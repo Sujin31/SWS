@@ -15,7 +15,7 @@
 	</header>
 	
 	<div id="logout">
-		<button onclick="location.href='./logout'">로그아웃</button>
+		${UserId } 님 <button onclick="location.href='./logout'">로그아웃</button>
 	</div>
 	
 	<nav>

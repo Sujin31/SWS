@@ -30,6 +30,7 @@ public class BoardWriteController extends HttpServlet{
 		
 		//파일업로드 처리
 		String saveDir = req.getServletContext().getRealPath("/member/Uploads");
+		System.out.println(saveDir);
 		ServletContext application = getServletContext();
 		int maxPostSize = Integer.parseInt(application.getInitParameter("maxPostSize"));
 		
