@@ -40,30 +40,31 @@ function validateForm(form){
    
   <!-- board list area -->
 	<div id="board-list">
-		<form action="" name="writeform" method="post" onsubmit="return validateForm(this);">
+		<form action="/member/chat" name="writeform" method="post" onsubmit="return validateForm(this);">
 			<div class="container">
 			
 				<input type="hidden" name="boardTmp" value="${MenuDto.board_tmp }">
 	     		<input type="hidden" name="menucode" value="${MenuDto.code }">
-	     		<input type="hidden" name="id" value="${id }">
+	     		<input type="hidden" name="id" value="${UserId }">
+	     		<input type="hidden" name="mode" value="create">
 	           <table class="board-table">
 	               <tbody>
 	               		<tr>
 		                    <th scope="col" class="th-write">카테고리</th>
 							<td>
 								<select name="searchStudent">
-		                    		<option value="el">초등</option>
-		                    		<option value="md">중등</option>
-		                    		<option value="hg">고등</option>
-		                    		<option value="ad">성인</option>
+		                    		<option value="초등">초등</option>
+		                    		<option value="중등">중등</option>
+		                    		<option value="고등">고등</option>
+		                    		<option value="성인">성인</option>
 		                    	</select>
 		                    	<select name="searchSubject">
-		                    		<option value="kor">국어</option>
-		                    		<option value="math">수학</option>
-		                    		<option value="eng">영어</option>
-		                    		<option value="sc">과학</option>
-		                    		<option value="so">사회</option>
-		                    		<option value="etc">기타</option>
+		                    		<option value="국어">국어</option>
+		                    		<option value="수학">수학</option>
+		                    		<option value="영어">영어</option>
+		                    		<option value="과학">과학</option>
+		                    		<option value="사회">사회</option>
+		                    		<option value="기타">기타</option>
 		                    	</select>
 							</td>
 		                </tr>

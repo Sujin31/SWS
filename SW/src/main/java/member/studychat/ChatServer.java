@@ -20,7 +20,7 @@ import org.json.simple.JSONObject;
 
 import boardGame.RandomCard;
 
-@ServerEndpoint("/ChatingServer")
+@ServerEndpoint("/ChatingServer2")
 public class ChatServer extends HttpServlet{
     private static Set<Session> clients
             = Collections.synchronizedSet(new HashSet<Session>());

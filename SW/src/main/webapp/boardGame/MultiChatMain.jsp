@@ -13,7 +13,7 @@
         }
         sessionStorage.setItem("chatId",id.value);
         //window.open("ChatWindow_game.jsp?chatId=" + id.value , "", "width=320,height=400");
-        window.open("/SW/boardGame?chatId=" + id.value , "", "width=320,height=400");
+        window.open("/boardGame?chatId=" + id.value , "", "width=320,height=400");
         id.value = "";
     }
     </script>

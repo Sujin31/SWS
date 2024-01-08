@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,6 +35,8 @@ import member.data.CommentDAO;
 import member.data.CommentDTO;
 import member.data.NoticeDAO;
 import member.data.NoticeDTO;
+import member.studychat.data.ChatRoomDAO;
+import member.studychat.data.ChatRoomDTO;
 
 @WebServlet("/member/boardTmp")
 public class BoardTmpController extends HttpServlet{
@@ -107,7 +110,40 @@ public class BoardTmpController extends HttpServlet{
 				req.setAttribute("mustBoardLists", mustBoardLists);
 				req.setAttribute("boardLists", boardLists);
 				req.setAttribute("map", map);
+				
+				
+			}else if(MenuDto.getBoard_tmp().equals("B0004")){
+				
+				/*
+				 * 채팅방
+				 * */
+				
+				//검색어 설정
+				String searchStudent = req.getParameter("searchStudent");
+				String searchSubject = req.getParameter("searchSubject");
+				
+				if(searchStudent!="" && searchSubject!="") {
+					map.put("fcate",searchStudent);
+					map.put("scate",searchSubject);
+				}
+				
+				ChatRoomDAO dao = new ChatRoomDAO();
+				totalCount = dao.getTotalRoomCount(map);
+				map.put("totalCount", totalCount);
+				
+				List<ChatRoomDTO> chatList = dao.getChatPage(map);
+				dao.close();
+				
+				String reqUrl = "./board?cate="+code+"&mode=l";
+				String pagingImg = BoardPage.pagingStr(totalCount, pageSize, blockPage, pageNum, reqUrl);
+				map.put("pagingImg", pagingImg);
+				
+				req.setAttribute("chatList", chatList);
+				req.setAttribute("map", map);
+				
+				
 			}else {
+				
 				map.put("code", code);
 				
 				BoardDAO dao = new BoardDAO();
@@ -144,7 +180,6 @@ public class BoardTmpController extends HttpServlet{
 			req.getRequestDispatcher("/member/03_board/"+MenuDto.getBoard_tmp()+"/write.jsp").forward(req, resp);
 			
 			
-			
 		}else if(mode.equals("v")) {
 			
 			int idx = Integer.parseInt(req.getParameter("idx"));
@@ -166,6 +201,16 @@ public class BoardTmpController extends HttpServlet{
 				List<CommentDTO> list = cdao.selectComment(idx);
 				cdao.close();
 				req.setAttribute("comments", list);
+				
+			}else if(code.equals("menu027")){
+				//채팅방 입장
+				String roomIdx = req.getParameter("idx");
+				req.getSession().setAttribute("roomIdx", roomIdx);
+				ChatRoomDAO dao =new ChatRoomDAO();
+				ChatRoomDTO dto = dao.getChatRoomInfo(idx);
+				dao.close();
+				
+				req.setAttribute("dto", dto);
 				
 			}else {
 				BoardDAO dao = new BoardDAO();

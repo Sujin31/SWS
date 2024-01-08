@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>SWS</title>
-<link  rel="stylesheet" href="/SW/css/board.css" type="text/css">
+<link  rel="stylesheet" href="/css/board.css" type="text/css">
 </head>
 <body>
 <div id="page">
