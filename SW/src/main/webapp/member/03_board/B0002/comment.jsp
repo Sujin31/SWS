@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link  rel="stylesheet" href="/SW/css/comment.css" type="text/css">
+<link  rel="stylesheet" href="/css/comment.css" type="text/css">
 <script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
 <script type="text/javascript">
 function addComment_atag(i){

@@ -134,7 +134,6 @@ public class BoardDAO extends DBConnPool{
 			psmt.setString(4, dto.getContent());
 			psmt.setString(5, dto.getIsfile());
 			rs = psmt.executeQuery(); //insert한 칼럼 idx가지고 오기
-			System.out.println("rs = "+rs);
 //			if(rs.next()) {
 //				result = rs.getInt(1);
 //			}
@@ -235,4 +234,71 @@ public class BoardDAO extends DBConnPool{
 			// TODO: handle exception
 		}
 	}
+	
+	public List<BoardDTO> topFiveBoard() {
+		List<BoardDTO> list = new Vector<BoardDTO>();
+		String query = "SELECT * "
+				+ "FROM (SELECT * "
+				+ "		FROM BOARD "
+				+ "		WHERE REGIDATE >= ADD_MONTHS(TRUNC(sysdate), -1) AND MENU_FK IN ('menu003','menu004','menu005','menu006') )  "
+				+ "JOIN MENU m ON m.CODE = MENU_FK  "
+				+ "WHERE ROWNUM <=5 "
+				+ "ORDER BY VIEWS DESC, idx DESC";
+		try {
+			stmt = con.createStatement();
+			rs = stmt.executeQuery(query);
+			while(rs.next()) {
+				BoardDTO tmp = new BoardDTO();
+				tmp.setIdx(rs.getInt("idx"));
+				tmp.setId(rs.getString("id"));
+				tmp.setTitle(rs.getString("title"));
+				tmp.setMenu_fk(rs.getString("menu_fk"));
+				tmp.setMenu(rs.getString("name"));
+				list.add(tmp);
+			}
+		} catch (Exception e) {
+			System.out.println("메인 자유게시판 인기글 불러오기 오류");
+			e.printStackTrace();
+		}
+		
+		return list;
+	}
+	
+	public List<BoardDTO> getmyQnA(String id) {
+		List<BoardDTO> list = new Vector<BoardDTO>();
+		String query = "SELECT * "
+				+ "FROM (SELECT b.IDX ,b.MENU_FK ,b.TITLE, b.REGIDATE  ,count(a.IDX ) AS answers, m2.NAME AS dept1 ,m.NAME AS dept2 "
+				+ "		FROM BOARD b  "
+				+ "		FULL OUTER JOIN ANSWER a ON a.BOARD_FK = b.IDX  "
+				+ "		JOIN MENU m ON m.CODE = b.MENU_FK  "
+				+ "		JOIN MENU m2 ON m2.CODE = m.PMENU_CODE  "
+				+ "		WHERE b.id = ? AND m.BOARD_TMP = 'B0003' "
+				+ "		GROUP BY b.idx ,b.MENU_FK ,b.TITLE, b.REGIDATE,m2.NAME,m.NAME) "
+				+ "WHERE rownum <=5 "
+				+ "ORDER BY REGIDATE DESC ";
+		try {
+			
+			psmt = con.prepareStatement(query);
+			psmt.setString(1, id);
+			rs = psmt.executeQuery();
+			
+			while(rs.next()) {
+				BoardDTO tmp = new BoardDTO();
+				tmp.setIdx(rs.getInt("idx"));
+				tmp.setTitle(rs.getString("title"));
+				tmp.setMenu_fk(rs.getString("menu_fk"));
+				tmp.setAnswers(rs.getInt("answers"));
+				tmp.setMenu(rs.getString("dept1"));
+				tmp.setMenu2(rs.getString("dept2"));
+				list.add(tmp);
+			}
+		} catch (Exception e) {
+			System.out.println("메인 내 QnA 불러오기 오류");
+			e.printStackTrace();
+		}
+		
+		return list;
+	}
+	
+	
 }

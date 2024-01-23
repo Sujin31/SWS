@@ -15,7 +15,9 @@ html, body {
 
 }
 
-
+del{
+	    text-decoration: line-through;
+}
 
 div#page {
 
@@ -233,6 +235,7 @@ section.notice {
 .board-table #title{
 	text-align: left;
 	font-size: 25px;
+	color: #9ca9ad;
 }
 .board-table #content{
 	height: 300px;
@@ -397,4 +400,63 @@ section.notice {
 	padding: 0 10px;
 	height: 30px;
 	text-align: center;
+}
+
+
+/* 내정보 */
+.myinfo{
+	text-align: center;
+	margin : auto;
+	margin-top : 100px;
+}
+
+.table900{
+	width: 900px;
+	margin : 0 auto;
+}
+
+
+/* 오늘목표 */
+.tododiv{
+	text-align: center;
+	margin : auto;
+	margin-top : 100px;
+}
+
+.table1200{
+	width: 1200px;
+	margin : 0 auto;
+}
+
+.btn-blue {
+  background: #a7b2b8;
+  color: #fff;
+}
+/*#e7e3d8 #a7b2b8*/
+
+.btn-blue:hover, .btn-blue:focus {
+  background: rgb(158, 171, 177);
+  border-color: rgb(158, 171, 177);
+  color: #fff;
+}
+
+.btn-puple {
+  background: rgb(165, 171, 186);
+  color: #fff;
+}
+/*#e7e3d8 #a7b2b8*/
+
+.btn-puple:hover, .btn-blue:focus {
+  background: rgb(150, 157, 175);
+  border-color: rgb(150, 157, 175);
+  color: #fff;
+}
+
+.todobox{
+	margin-top: 50px;
+	margin-bottom: 80px;
+}
+
+.editer{
+	display: none;
 }

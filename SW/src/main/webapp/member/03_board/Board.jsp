@@ -33,7 +33,7 @@
 		<jsp:include page="../0_common/Footer.jsp"/>
 	</footer>
 	
-	</div>
+</div>
 
 </body>
 </html>

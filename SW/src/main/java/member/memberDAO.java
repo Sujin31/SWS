@@ -169,4 +169,47 @@ public class memberDAO extends DBConnPool{
 		}
 		return result;
 	}
+	
+	public memberDTO selectMemberById(String id) {
+		memberDTO member = new memberDTO();
+		String query = "SELECT * FROM USER_INFO WHERE id=?";
+		
+		try {
+			psmt = con.prepareStatement(query);
+			psmt.setString(1, id);
+			rs = psmt.executeQuery();
+			if(rs.next()) {
+				member.setId(rs.getString("id"));
+				member.setName(rs.getString("name"));
+				member.setAuth_level_fk(rs.getString("auth_level_fk"));
+				member.setPhone(rs.getString("phone"));
+				member.setGender(rs.getString("gender"));
+				member.setBirth(rs.getString("birth"));
+			}
+			
+		} catch (Exception e) {
+			System.out.println("회원 정보 불러오기 오류");
+			e.printStackTrace();
+		}
+		
+		return member;
+	}
+	
+	public int updateMyInfo(memberDTO dto) {
+		int result = 0;
+		String query = "UPDATE user_info SET password = ?, phone = ?, auth_level_fk = ? WHERE id=?";
+		try {
+			psmt = con.prepareStatement(query);
+			psmt.setString(1, dto.getPassword());
+			psmt.setString(2, dto.getPhone());
+			psmt.setString(3, dto.getAuth_level_fk());
+			psmt.setString(4, dto.getId());
+			result = psmt.executeUpdate();
+			
+		} catch (Exception e) {
+			System.out.println("내 정보 수정 오류");
+			e.printStackTrace();
+		}
+		return result;
+	}
 }

@@ -208,4 +208,58 @@ public class NoticeDAO extends DBConnPool{
 			// TODO: handle exception
 		}
 	}
+	
+	public List<NoticeDTO> topFiveNoticeMust(){
+		List<NoticeDTO> list = new Vector<NoticeDTO>();
+		
+		String query = "SELECT * "
+				+ "FROM (SELECT * FROM NOTICE WHERE must='Y' ORDER BY idx DESC) "
+				+ "WHERE ROWNUM <= 5";
+		
+		try {
+			stmt = con.createStatement();
+			rs = stmt.executeQuery(query);
+			while(rs.next()) {
+				NoticeDTO tmp = new NoticeDTO();
+				tmp.setIdx(rs.getInt("idx"));
+				tmp.setTitle(rs.getString("title"));
+				tmp.setMenu_fk(rs.getString("menu_fk"));
+				tmp.setMust(rs.getString("must"));
+				list.add(tmp);
+			}
+		} catch (Exception e) {
+			System.out.println("메인 공지 게시글 불러오기 오류");
+			e.printStackTrace();
+		}
+		
+		return list;
+	}
+	
+	public List<NoticeDTO> topFiveNotice(int size){
+		List<NoticeDTO> list = new Vector<NoticeDTO>();
+		
+		String query = "SELECT * "
+				+ "FROM (SELECT * FROM NOTICE WHERE must='N' ORDER BY idx DESC) "
+				+ "WHERE ROWNUM <= ?";
+		
+		try {
+			psmt = con.prepareStatement(query);
+			psmt.setInt(1, 5-size);
+			rs = psmt.executeQuery();
+			
+			while(rs.next()) {
+				NoticeDTO tmp = new NoticeDTO();
+				tmp.setIdx(rs.getInt("idx"));
+				tmp.setTitle(rs.getString("title"));
+				tmp.setMenu_fk(rs.getString("menu_fk"));
+				tmp.setMust(rs.getString("must"));
+				list.add(tmp);
+			}
+		} catch (Exception e) {
+			System.out.println("메인 공지 게시글 불러오기 오류");
+			e.printStackTrace();
+		}
+		
+		return list;
+	}
 }

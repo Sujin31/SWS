@@ -56,7 +56,12 @@
 			</ul>
 		</li>
 		<li><a href="./board?cate=menu027&mode=l">1:1 과외</a></li>
-		<li><a href="#">내정보</a></li>
+		<li><a href="./myinfo">내정보</a>
+			<ul class="dept2">
+				<li><a href="./myinfo">내정보</a></li>
+				<li><a href="./todo">오늘의 목표</a></li>
+			</ul>
+		</li>
 	</ul>
 </div>
 </body>

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,7 +19,9 @@
 }
 
 .today_tb{
-	margin-left: 50px;
+	/*margin-left: 50px;*/
+	margin : 0 auto;
+	width : 80%;
 }
 
 .today_p{
@@ -34,11 +37,30 @@
 			<colgroup>
 				<col width="10%;">
 				<col width="*">
+				<col width="10%;">
 			</colgroup>
-			<tr>
-				<td>O</td>
-				<td>열심히 공부</td>
-			</tr>
+			<c:choose>
+				<c:when test="${empty todoList }">
+					<tr>
+						<td colspan="3">오늘 목표가 없어요.</td>
+					</tr>
+				</c:when>
+				<c:otherwise>
+					<c:forEach items="${todoList }" var="row" varStatus="loop">
+						<tr>
+							<td>${loop.count }</td>
+							<td>
+								<c:if test="${row.isdone eq 'Y' }"> <del>${row.content }</del></c:if>
+								<c:if test="${row.isdone eq 'N' }">${row.content }</c:if>
+							</td>
+							<td>
+								<c:if test="${row.isdone eq 'Y' }"><img src="/resources/done.png" width="20" style="margin-left: 10px;"></c:if>
+							</td>
+						</tr>
+					</c:forEach>
+				</c:otherwise>
+			</c:choose>
+			
 		</table>
 		
 	</div>

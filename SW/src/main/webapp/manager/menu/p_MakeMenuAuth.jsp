@@ -5,7 +5,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link  rel="stylesheet" href="/SW/css/manager.css" type="text/css">
+<link  rel="stylesheet" href="/css/manager.css" type="text/css">
 <script type="text/javascript">
 </script>
 </head>

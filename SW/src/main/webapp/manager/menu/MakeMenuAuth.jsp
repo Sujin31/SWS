@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>메뉴 권한 추가</title>
-<link  rel="stylesheet" href="/SW/css/manager.css" type="text/css">
+<link  rel="stylesheet" href="/css/manager.css" type="text/css">
 <script type="text/javascript">
 	function edit(code, name){
 		var url = "./editMenuAuth?code="+code+"&name="+name;

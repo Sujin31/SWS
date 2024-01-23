@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>관리자 추가</title>
-<link  rel="stylesheet" href="/SW/css/manager.css" type="text/css"/>
+<link  rel="stylesheet" href="/css/manager.css" type="text/css"/>
 <script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
 <script type="text/javascript">
 function validateForm(form){

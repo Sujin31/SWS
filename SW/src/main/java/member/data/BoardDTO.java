@@ -14,6 +14,10 @@ public class BoardDTO {
 	private Date regidate;
 	private Date editdate;
 	private int answers;
+	
+	private String menu;
+	private String menu2;
+	
 	public int getIdx() {
 		return idx;
 	}
@@ -81,5 +85,18 @@ public class BoardDTO {
 	public void setAnswers(int answers) {
 		this.answers = answers;
 	}
+	public String getMenu() {
+		return menu;
+	}
+	public void setMenu(String menu) {
+		this.menu = menu;
+	}
+	public String getMenu2() {
+		return menu2;
+	}
+	public void setMenu2(String menu2) {
+		this.menu2 = menu2;
+	}
+	
 	
 }

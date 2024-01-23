@@ -18,7 +18,9 @@
 	<nav class="clearfix"><jsp:include page="../0_common/Nav.jsp"/></nav>
 	
 	<section class="info_main"><jsp:include page="../0_common/TodayPlan.jsp"/></section>
-	<section>sect1wfsdfion</section>
+	
+	<section><jsp:include page="./Main_sec.jsp"/></section>
+	
 	<footer><jsp:include page="../0_common/Footer.jsp"/></footer>
 	
 	</div>
