@@ -34,7 +34,7 @@
 						</c:forEach>
 						<c:forEach items="${noticeList }" var="row" varStatus="loop">
 							<tr>
-								<td><c:if test="${row.must eq 'N' }"> ${row.idx } </c:if></td>
+								<td><c:if test="${row.must eq 'N' }"> ${count - loop.count +1} </c:if></td>
 								<td><a href="/member/board?cate=menu001&mode=v&idx=${row.idx }">${row.title }</a></td>
 							</tr>
 						</c:forEach>

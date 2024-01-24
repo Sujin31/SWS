@@ -13,11 +13,31 @@ public class NoticeDAO extends DBConnPool{
 	
 	public int getNoticeCount(Map<String,Object> map) {
 		int totalCount = 0;
-		String query = "SELECT COUNT(*) FROM notice ";
+		String query = "SELECT COUNT(*) FROM notice WHERE ";
 		if(map.get("searchWord") != null) {
-			query += " WHERE " + map.get("searchField") + " "
-					+ " LIKE '%" + map.get("searchWord") + "%' AND must = 'N'";
+			query += map.get("searchField") + " "
+					+ " LIKE '%" + map.get("searchWord") + "%' AND ";
 		}
+		query += " must = 'N'";
+		try {
+			stmt = con.createStatement();
+			rs = stmt.executeQuery(query);
+			rs.next();
+			totalCount = rs.getInt(1);
+			
+		} catch (Exception e) {
+			System.out.println("공지 count오류");
+			e.printStackTrace();
+		}
+		
+		return totalCount;
+	}
+	
+	//overloading
+	public int getNoticeCount() {
+		int totalCount = 0;
+		String query = "SELECT COUNT(*) FROM notice WHERE must = 'N'";
+		
 		try {
 			stmt = con.createStatement();
 			rs = stmt.executeQuery(query);
@@ -171,8 +191,6 @@ public class NoticeDAO extends DBConnPool{
 			psmt.setString(6, dto.getId());
 			
 			result = psmt.executeUpdate();
-			System.out.println(dto.getIdx());
-			System.out.println(dto.getId());
 		}catch (Exception e) {
 			System.out.println("공지게시글 수정 오류");
 			e.printStackTrace();

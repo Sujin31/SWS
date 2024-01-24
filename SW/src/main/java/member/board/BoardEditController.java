@@ -47,7 +47,6 @@ public class BoardEditController extends HttpServlet{
 		String isfile = mr.getParameter("isfile");
 		String isnotice = "N";
 		int result = 0;
-		System.out.println("수정");
 		if(boardTmp.equals("B0001")) {
 			/*   공지   */
 			String notice = mr.getParameter("notice"); //필독 여부 Y or N

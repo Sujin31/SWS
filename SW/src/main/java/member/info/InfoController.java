@@ -9,23 +9,29 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import common.AuthCheck;
 import common.JSFunction;
 import member.memberDAO;
 import member.memberDTO;
 
 @WebServlet("/member/myinfo")
 public class InfoController extends HttpServlet{
+	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		if(!AuthCheck.checkMember(req)) {
+			resp.sendRedirect("../member/login");
+		}else {
 
-		String sessionId = (String) req.getSession().getAttribute("UserId");
-		
-		memberDAO dao = new memberDAO();
-		memberDTO member = dao.selectMemberById(sessionId);
-		req.setAttribute("member", member);
-		dao.close();
-		
-		req.getRequestDispatcher("/member/04_info/myinfo.jsp").forward(req, resp);
+			String sessionId = (String) req.getSession().getAttribute("UserId");
+			
+			memberDAO dao = new memberDAO();
+			memberDTO member = dao.selectMemberById(sessionId);
+			req.setAttribute("member", member);
+			dao.close();
+			
+			req.getRequestDispatcher("/member/04_info/myinfo.jsp").forward(req, resp);
+		}
 	}
 	
 	@Override

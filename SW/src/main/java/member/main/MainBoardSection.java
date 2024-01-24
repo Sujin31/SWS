@@ -17,6 +17,15 @@ public class MainBoardSection {
 		
 		return mNotices;
 	}
+	
+	public int getNoticeCount() {
+		NoticeDAO ndao = new NoticeDAO();
+		int count = ndao.getNoticeCount();
+		ndao.close();
+		
+		return count;
+	}
+	
 	public List<NoticeDTO> getMainNotices(int size){
 		NoticeDAO ndao = new NoticeDAO();
 		List<NoticeDTO> notices = ndao.topFiveNotice(size);
@@ -32,6 +41,7 @@ public class MainBoardSection {
 		
 		return list;
 	}
+	
 	
 	public List<BoardDTO> getMyQnA(String id){
 		BoardDAO dao = new BoardDAO();

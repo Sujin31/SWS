@@ -29,8 +29,10 @@ public class MainController extends HttpServlet{
 			MainBoardSection mbs = new MainBoardSection();
 			List<NoticeDTO> mNoticeList = mbs.getMainMustNotices();
 			List<NoticeDTO> noticeList = mbs.getMainNotices(mNoticeList.size());
+			int count = mbs.getNoticeCount();
 			req.setAttribute("mNoticeList", mNoticeList);
 			req.setAttribute("noticeList", noticeList);
+			req.setAttribute("count", count);
 			
 			//2. 인기글(자유게시판)
 			List<BoardDTO> topList = mbs.getTopFiveBoard();
