@@ -76,6 +76,88 @@ public class BoardDAO extends DBConnPool{
 		return list;
 	}
 	
+	
+	public int getBoardCountByHash(Map<String,Object> map) {
+		int totalCount = 0;
+		String query = "SELECT COUNT(*) "
+				+ "	FROM ( "
+				+ "		SELECT b.IDX, LISTAGG(h.TAGNAME,',') within group (order by h.TAGNAME) tag "
+				+ "		FROM BOARD b "
+				+ "		FULL OUTER JOIN HASH_MAPPING hm ON hm.BOARD_IDX_FK = b.IDX "
+				+ "		FULL OUTER JOIN HASHTAG h ON h.IDX = hm.HASH_IDX_FK "
+				+ "		WHERE b.MENU_FK = '"+map.get("code")+"' "
+				+ "		GROUP BY b.IDX "
+				+ "	)tb";
+		
+		if(map.get("searchWord") != null) {
+			query += " WHERE " + map.get("searchField") + " "
+					+ " LIKE '%" + map.get("searchWord") + "%'";
+		}
+		
+		try {
+			stmt = con.createStatement();
+			rs = stmt.executeQuery(query);
+			rs.next();
+			totalCount = rs.getInt(1);
+			
+		} catch (Exception e) {
+			System.out.println("게시판 count오류");
+			e.printStackTrace();
+		}
+		
+		return totalCount;
+	}
+	
+	public List<BoardDTO> getBoardPageByHash(Map<String, Object> map) {
+		List<BoardDTO> list = new Vector<BoardDTO>();
+		String query = "SELECT * FROM ("
+						+ "	SELECT tb.*, ROWNUM rNum FROM ( "
+						+ "		SELECT b.IDX ,b.ID ,b.TITLE,b.CONTENT ,b.ISFILE ,b.VIEWS ,b.REGIDATE, LISTAGG(h.TAGNAME,',') within group (order by h.TAGNAME) tag "
+						+ "		FROM BOARD b "
+						+ "		FULL OUTER JOIN HASH_MAPPING hm ON hm.BOARD_IDX_FK = b.IDX "
+						+ "		FULL OUTER JOIN HASHTAG h ON h.IDX = hm.HASH_IDX_FK "
+						+ "		WHERE b.MENU_FK = ? "
+						+ "		GROUP BY b.IDX ,b.ID ,b.TITLE ,b.CONTENT ,b.ISFILE ,b.VIEWS ,b.REGIDATE "
+						+ "		ORDER BY b.IDX DESC "
+						+ "	)tb ";
+				
+		if(map.get("searchWord") != null) {
+			query += " WHERE " + map.get("searchField") + " "
+					+ " LIKE '%" + map.get("searchWord") + "%' ";
+		}
+		
+		query += " )WHERE rNum BETWEEN ? and ?";
+		
+		try {
+			
+			psmt = con.prepareStatement(query);
+			psmt.setString(1, map.get("code").toString());
+			psmt.setString(2, map.get("start").toString());
+			psmt.setString(3, map.get("end").toString());
+			rs = psmt.executeQuery();
+			
+			while(rs.next()) {
+				BoardDTO dto = new BoardDTO();
+				dto.setIdx(rs.getInt("idx"));
+				dto.setId(rs.getString("id"));
+				dto.setTitle(rs.getString("title"));
+				dto.setIsfile(rs.getString("isfile"));
+				dto.setViews(rs.getString("views"));
+				dto.setRegidate(rs.getDate("regidate"));
+				//dto.setEditdate(rs.getDate("editdate"));
+				
+				
+				list.add(dto);
+			}
+			
+		} catch (Exception e) {
+			System.out.println("게시판 불러오기 오류");
+			e.printStackTrace();
+		}
+		
+		return list;
+	}
+	
 	public List<BoardDTO> getBoardPageAndAnswer(Map<String, Object> map) {
 		List<BoardDTO> list = new Vector<BoardDTO>();
 		String query = "SELECT * \r\n"

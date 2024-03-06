@@ -3,7 +3,9 @@ package member.board;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -20,6 +22,7 @@ import file.FileDAO;
 import file.FileDTO;
 import member.data.BoardDAO;
 import member.data.BoardDTO;
+import member.data.HashTagDAO;
 import member.data.NoticeDAO;
 import member.data.NoticeDTO;
 
@@ -65,6 +68,25 @@ public class BoardEditController extends HttpServlet{
 			
 			
 		}else {
+			
+			/*
+			 * 해시태그 전부 지우고 새로 넣기
+			 * */
+			if(boardTmp.equals("B0005")) {
+				HashTagDAO hdao = new HashTagDAO();
+				hdao.deleteHashTag(idx);
+				String[] tag = mr.getParameterValues("tag");
+				List<String> tags = Arrays.asList(tag);
+				
+				HashTagDAO hasgDao = new HashTagDAO();
+				
+				List<String> dupTags = hasgDao.selectDupHashTag(tags);
+				
+				//hash 넣기
+				hasgDao.insertHashTag(idx, tags, dupTags);
+				hdao.close();
+			}
+			
 			BoardDAO dao = new BoardDAO();
 			BoardDTO dto = new BoardDTO();
 			dto.setIdx(idx);

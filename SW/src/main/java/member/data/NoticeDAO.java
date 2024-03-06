@@ -230,9 +230,7 @@ public class NoticeDAO extends DBConnPool{
 	public List<NoticeDTO> topFiveNoticeMust(){
 		List<NoticeDTO> list = new Vector<NoticeDTO>();
 		
-		String query = "SELECT * "
-				+ "FROM (SELECT * FROM NOTICE WHERE must='Y' ORDER BY idx DESC) "
-				+ "WHERE ROWNUM <= 5";
+		String query = "SELECT * FROM NOTICE WHERE must='Y' ORDER BY idx desc limit 5";
 		
 		try {
 			stmt = con.createStatement();
@@ -256,9 +254,7 @@ public class NoticeDAO extends DBConnPool{
 	public List<NoticeDTO> topFiveNotice(int size){
 		List<NoticeDTO> list = new Vector<NoticeDTO>();
 		
-		String query = "SELECT * "
-				+ "FROM (SELECT * FROM NOTICE WHERE must='N' ORDER BY idx DESC) "
-				+ "WHERE ROWNUM <= ?";
+		String query = "SELECT * FROM NOTICE WHERE must='Y' ORDER BY idx desc limit ?";
 		
 		try {
 			psmt = con.prepareStatement(query);

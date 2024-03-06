@@ -33,6 +33,7 @@ import member.data.BoardDAO;
 import member.data.BoardDTO;
 import member.data.CommentDAO;
 import member.data.CommentDTO;
+import member.data.HashTagDAO;
 import member.data.NoticeDAO;
 import member.data.NoticeDTO;
 import member.studychat.data.ChatRoomDAO;
@@ -142,6 +143,24 @@ public class BoardTmpController extends HttpServlet{
 				req.setAttribute("map", map);
 				
 				
+			}else if(MenuDto.getBoard_tmp().equals("B0005")){
+				
+				map.put("code", code);
+				
+				BoardDAO dao = new BoardDAO();
+				
+				totalCount = dao.getBoardCountByHash(map);
+				map.put("totalCount", totalCount);
+				List<BoardDTO> boardLists =  dao.getBoardPageByHash(map);
+				dao.close();
+				
+				String reqUrl = "./board?cate="+code+"&mode=l";
+				String pagingImg = BoardPage.pagingStr(totalCount, pageSize, blockPage, pageNum, reqUrl);
+				map.put("pagingImg", pagingImg);
+				
+				req.setAttribute("boardLists", boardLists);
+				req.setAttribute("map", map);
+				
 			}else {
 				
 				map.put("code", code);
@@ -238,6 +257,15 @@ public class BoardTmpController extends HttpServlet{
 					List<CommentDTO> list = cdao.selectCommentOfAnswer(answerIdx);
 					req.setAttribute("comments", list);
 					
+				}else if(MenuDto.getBoard_tmp().equals("B0005")){
+					/*
+					 * 해시태그 가져오기
+					 * */
+					HashTagDAO hdao = new HashTagDAO();
+					List<String> tags = hdao.selectHashTagByBoardIdx(idx);
+					hdao.close();
+					req.setAttribute("tags", tags);
+					
 				}else {
 					//일반 댓글 불러오기
 					CommentDAO cdao = new CommentDAO();
@@ -268,6 +296,14 @@ public class BoardTmpController extends HttpServlet{
 				req.setAttribute("dto", dto);
 				
 			}else {
+				
+				if(MenuDto.getBoard_tmp().equals("B0005")) {
+					HashTagDAO hdao = new HashTagDAO();
+					List<String> tags = hdao.selectHashTagByBoardIdx(idx);
+					hdao.close();
+					req.setAttribute("tags", tags);
+				}
+				
 				BoardDAO dao = new BoardDAO();
 				BoardDTO dto = dao.selectBoard(idx,code);
 				dao.close();
@@ -292,6 +328,13 @@ public class BoardTmpController extends HttpServlet{
 				result = dao.deleteNotice(id, idx);
 				dao.close();
 			}else {
+				
+				if(MenuDto.getBoard_tmp().equals("B0005")) {
+					HashTagDAO hdao = new HashTagDAO();
+					hdao.deleteHashTag(idx);
+					hdao.close();
+				}
+				
 				BoardDAO dao = new BoardDAO();
 				result = dao.deleteBoard(id, idx);
 				dao.close();

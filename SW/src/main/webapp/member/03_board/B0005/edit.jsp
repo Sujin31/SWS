@@ -4,7 +4,13 @@
 <!DOCTYPE html>
 <html>
 <head>
+<script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
 <script type="text/javascript">
+
+function save(){
+	document.getElementById('editform').submit();
+}
+
 function validateForm(form){
 	if(!form.title.value){
 		alert("제목을 입력해주세요.");
@@ -21,6 +27,21 @@ function validateForm(form){
 	}
 }
 
+function enterKey(e){
+
+	if(e.code == 'Enter'){
+		var tag = $('#inputTag').val();
+		$('.tagInput').append("<input type='hidden' name='tag' value='"+tag+"' >");
+		$('.tags').append("<span class='tag'>"+tag+"<button type='button' class='tagbutton' onclick='delTag(this)'>x</button> </span>");
+		$('#inputTag').val('');
+	}
+}
+
+function delTag(o){
+	var i = $(o).parent().index();
+	$('.tagInput input').eq(i).remove();
+	$('.tag').eq(i).remove();
+}
 </script>
 </head>
 <body>
@@ -42,8 +63,10 @@ function validateForm(form){
     </div>
    
   <!-- board list area -->
+
+  
     <div id="board-list">
-    	<form action="./boardedit" name="frm" method="post" enctype="multipart/form-data" onsubmit="return validateForm(this);">
+    	<form action="./boardedit" id="editform" name="editform" method="post" enctype="multipart/form-data" onsubmit="return validateForm(this);">
     		<input type="hidden" name="idx" value="${dto.idx }">
     		<input type="hidden" name="boardTmp" value="${MenuDto.board_tmp }">
        		<input type="hidden" name="menucode" value="${MenuDto.code }">
@@ -71,6 +94,26 @@ function validateForm(form){
 							<td><textarea class="txtarea" name="content">${dto.content }</textarea></td>
 		                </tr>
 		                <tr>
+		                    <th scope="col" class="th-write">해시태그</th>
+							<td>
+								<div class="tagInput">
+									<c:if test="${!empty tags }">
+										<c:forEach items="${tags }" var="tag" varStatus="loop">
+											<input type="hidden" name="tag" value="${tag }" >
+										</c:forEach>
+									</c:if>
+								</div>
+								<div class="tags">
+									<c:if test="${!empty tags }">
+										<c:forEach items="${tags }" var="tag" varStatus="loop">
+											<span class="tag">${tag }<button type="button" class="tagbutton" onclick="delTag(this)">x</button> </span>
+										</c:forEach>
+									</c:if>
+								</div>
+								<input type="text" class="input" id="inputTag" onKeyPress="enterKey(event);" style="margin-top: 10px;">
+							</td>
+		                </tr>
+		                <tr>
 		                    <th scope="col" class="th-num">첨부파일</th>
 							<td style="text-align: left; padding-left: 30px">
 								현재 파일 : ${file.oname } &nbsp;&nbsp;&nbsp;
@@ -81,7 +124,7 @@ function validateForm(form){
 	            </table>
 			</div>
 			<div class="divdtn">
-		    	<button class="btn btn-dark" type="submit">저장</button>
+		    	<button class="btn btn-dark" type="button" onclick="save();">저장</button>
 		   		<button type="button" class="btn btn-dark" onclick="location.href='./board?cate=${MenuDto.code}&mode=l'">목록</button>
 			</div>
  		</form>

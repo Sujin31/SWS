@@ -19,10 +19,10 @@ public class DBConnPool {
 		try {
 			Context initCtx = new InitialContext();
 			Context ctx = (Context)initCtx.lookup("java:comp/env");
-			DataSource source = (DataSource)ctx.lookup("dbcp_myoracle");
+			DataSource source = (DataSource)ctx.lookup("dbcp_mysql");
 			
 			con = source.getConnection();
-			//System.out.println("DB connection pool 연결");
+			System.out.println("DB connection pool 연결");
 			
 		}catch (Exception e) {
 			System.out.println("DB connection pool 연결오류");

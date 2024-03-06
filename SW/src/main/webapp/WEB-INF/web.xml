@@ -10,7 +10,7 @@
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
   
-  <!-- DB -->
+  <!-- DB 
   <context-param>
   	<param-name>OracleDriver</param-name>
   	<param-value>oracle.jdbc.OracleDriver</param-value>
@@ -27,6 +27,26 @@
   	<param-name>OraclePw</param-name>
   	<param-value>1234</param-value>
   </context-param>
+  -->
+  
+  <!-- 24.02.21 DB 변경 -->
+   <context-param>
+  	<param-name>MysqlDriver</param-name>
+  	<param-value>com.mysql.jdbc.Driver</param-value>
+  </context-param>
+  <context-param>
+  	<param-name>MysqlUrl</param-name>
+  	<param-value>jdbc:mysql://localhost:3306/sws</param-value>
+  </context-param>
+  <context-param>
+  	<param-name>MysqlId</param-name>
+  	<param-value>root</param-value>
+  </context-param>
+  <context-param>
+  	<param-name>MysqlPw</param-name>
+  	<param-value>970301</param-value>
+  </context-param>
+
   
   <!-- 한글깨짐 방지 -->
   <filter>

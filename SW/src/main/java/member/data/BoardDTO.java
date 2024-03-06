@@ -1,6 +1,7 @@
 package member.data;
 
 import java.sql.Date;
+import java.util.List;
 
 public class BoardDTO {
 	private int idx;
@@ -14,6 +15,7 @@ public class BoardDTO {
 	private Date regidate;
 	private Date editdate;
 	private int answers;
+	private List<String> tags;
 	
 	private String menu;
 	private String menu2;
@@ -96,6 +98,12 @@ public class BoardDTO {
 	}
 	public void setMenu2(String menu2) {
 		this.menu2 = menu2;
+	}
+	public List<String> getTags() {
+		return tags;
+	}
+	public void setTags(List<String> tags) {
+		this.tags = tags;
 	}
 	
 	

@@ -56,6 +56,14 @@
 			</ul>
 		</li>
 		<li><a href="./board?cate=menu027&mode=l">1:1 과외</a></li>
+		<li><a href="#">스터디게시판</a>
+			<ul class="dept2">
+				<li><a href="./board?cate=menu029&mode=l">웹&네트워크</a></li>
+				<li><a href="./board?cate=menu030&mode=l">자바&스프링</a></li>
+				<li><a href="./board?cate=menu031&mode=l">서버</a></li>
+				<li><a href="./board?cate=menu032&mode=l">오류</a></li>
+			</ul>
+		</li>
 		<li><a href="./myinfo">내정보</a>
 			<ul class="dept2">
 				<li><a href="./myinfo">내정보</a></li>

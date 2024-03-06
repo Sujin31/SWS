@@ -3,7 +3,10 @@ package member.board;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -20,6 +23,7 @@ import file.FileDAO;
 import file.FileDTO;
 import member.data.BoardDAO;
 import member.data.BoardDTO;
+import member.data.HashTagDAO;
 import member.data.NoticeDAO;
 import member.data.NoticeDTO;
 
@@ -30,7 +34,7 @@ public class BoardWriteController extends HttpServlet{
 		
 		//파일업로드 처리
 		String saveDir = req.getServletContext().getRealPath("/member/Uploads");
-		System.out.println(saveDir);
+		//System.out.println(saveDir);
 		ServletContext application = getServletContext();
 		int maxPostSize = Integer.parseInt(application.getInitParameter("maxPostSize"));
 		
@@ -47,6 +51,8 @@ public class BoardWriteController extends HttpServlet{
 		String content = mr.getParameter("content");
 		String isfile = mr.getParameter("isfile");
 		String isnotice = "N";
+		
+		System.out.println(content);
 		
 		int row = 0;
 		if(boardTmp.equals("B0001")) {
@@ -80,6 +86,30 @@ public class BoardWriteController extends HttpServlet{
 			
 			row = dao.writeBoard(dto);
 			dao.close();
+			
+			/*
+			 * hash 추가
+			 * */
+			
+			if(boardTmp.equals("B0005")) {
+				
+				String[] tag = mr.getParameterValues("tag");
+				//List<String> tags = new ArrayList<String>(Arrays.asList(tag)); //UnsupportedOperationException (new 초기화 안하면 남)
+				List<String> tags = Arrays.asList(tag);
+				
+				HashTagDAO hasgDao = new HashTagDAO();
+				
+				//중복 제거
+				List<String> dupTags = hasgDao.selectDupHashTag(tags);
+//				for (String tagTmp : dupTags) {
+//					tags.remove(tagTmp);
+//				}
+				
+				//hash 넣기
+				hasgDao.insertHashTag(row, tags, dupTags);
+				
+				hasgDao.close();
+			}
 			
 		}
 		
