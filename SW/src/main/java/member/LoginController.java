@@ -14,8 +14,6 @@ import javax.servlet.http.HttpSession;
 public class LoginController extends HttpServlet{
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		InetAddress ipAddress = InetAddress.getLocalHost();
-		System.out.println("현재 아이피 : " + ipAddress.getHostAddress());
 		req.getRequestDispatcher("/member/01_login/Login.jsp").forward(req, resp);
 	}
 	

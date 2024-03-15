@@ -83,7 +83,7 @@ public class NoticeDAO extends DBConnPool{
 	
 	public List<NoticeDTO> getNoticePage(Map<String, Object> map) {
 		List<NoticeDTO> list = new Vector<NoticeDTO>();
-		String query = "SELECT * FROM (SELECT tb.*, ROWNUM rNum FROM ( SELECT * FROM notice WHERE";
+		String query = "SELECT * FROM notice where";
 						
 		
 		if(map.get("searchWord") != null) {
@@ -91,13 +91,12 @@ public class NoticeDAO extends DBConnPool{
 					+ " LIKE '%" + map.get("searchWord") + "%' AND";
 		}
 		
-		query +=" must = 'N' ORDER BY idx DESC)tb )WHERE rNum BETWEEN ? and ?";
-		
+		query +=" must = 'N' ORDER BY idx DESC limit 10 offset ? ";
 		try {
 			
 			psmt = con.prepareStatement(query);
-			psmt.setString(1, map.get("start").toString());
-			psmt.setString(2, map.get("end").toString());
+			psmt.setInt(1, (int) map.get("start"));
+			//psmt.setString(2, map.get("end").toString());
 			rs = psmt.executeQuery();
 			
 			while(rs.next()) {
@@ -180,7 +179,7 @@ public class NoticeDAO extends DBConnPool{
 	
 	public int editNotice(NoticeDTO dto) {
 		int result = 0;
-		String query = "UPDATE notice SET title=?, content=?, must=?, isfile=?, editdate=sysdate WHERE idx=? and id =?";
+		String query = "UPDATE notice SET title=?, content=?, must=?, isfile=?, editdate=CURRENT_DATE WHERE idx=? and id =?";
 		try {
 			psmt = con.prepareStatement(query);
 			psmt.setString(1, dto.getTitle());
@@ -254,7 +253,7 @@ public class NoticeDAO extends DBConnPool{
 	public List<NoticeDTO> topFiveNotice(int size){
 		List<NoticeDTO> list = new Vector<NoticeDTO>();
 		
-		String query = "SELECT * FROM NOTICE WHERE must='Y' ORDER BY idx desc limit ?";
+		String query = "SELECT * FROM NOTICE WHERE must='N' ORDER BY idx desc limit ?";
 		
 		try {
 			psmt = con.prepareStatement(query);

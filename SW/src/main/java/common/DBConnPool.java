@@ -22,10 +22,10 @@ public class DBConnPool {
 			DataSource source = (DataSource)ctx.lookup("dbcp_mysql");
 			
 			con = source.getConnection();
-			System.out.println("DB connection pool 연결");
+			//System.out.println("DB connection pool 연결");
 			
 		}catch (Exception e) {
-			System.out.println("DB connection pool 연결오류");
+			//System.out.println("DB connection pool 연결오류");
 		}
 	}
 	

@@ -87,7 +87,7 @@ public class ChatRoomDAO extends DBConnPool{
 	//채팅방 만들기
 	public int insertRoom(ChatRoomDTO dto) {
 		int result = 0;
-		String sql = "INSERT INTO chatroom VALUES(seq_chat_num.nextval,?,?,?,?,?,?,sysdate)";
+		String sql = "INSERT INTO chatroom VALUES(seq_chat_num.nextval,?,?,?,?,?,?,CURRENT_DATE)";
 		
 		try {
 			psmt = con.prepareStatement(sql);
@@ -154,7 +154,7 @@ public class ChatRoomDAO extends DBConnPool{
 	
 	//유저 채팅로그 저장
 	public void insertUserChat(int idx, String id, String chat) {
-		String sql = "INSERT INTO chat_log VALUES (seq_chatcomment_num.nextval,?,?,?,sysdate)";
+		String sql = "INSERT INTO chat_log VALUES (seq_chatcomment_num.nextval,?,?,?,CURRENT_DATE)";
 		try {
 			psmt = con.prepareStatement(sql);
 			psmt.setString(1, id);

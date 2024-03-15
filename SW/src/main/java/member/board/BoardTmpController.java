@@ -84,7 +84,9 @@ public class BoardTmpController extends HttpServlet{
 				pageNum = Integer.parseInt(pageTmp);
 			}
 			
-			int start = ( pageNum - 1 ) * pageSize + 1;
+			//int start = ( pageNum - 1 ) * pageSize + 1;
+			//24.03.15 페이징쿼리변경
+			int start = ( pageNum - 1 ) * pageSize;
 			int end =  pageNum * pageSize ;
 			map.put("start", start);
 			map.put("end", end);

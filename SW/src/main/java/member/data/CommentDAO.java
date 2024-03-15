@@ -57,7 +57,7 @@ public class CommentDAO extends DBConnPool{
 	
 	public int insertComment(CommentDTO dto) {
 		int result=0;
-		String query = "INSERT INTO comments (idx, board_fk, id, comments, regidate, isanswer) VALUES(seq_comments_num.nextval, ?, ?, ?, sysdate,?)";
+		String query = "INSERT INTO comments ( board_fk, id, comments, regidate, isanswer) VALUES( ?, ?, ?, CURRENT_DATE,?)";
 		try {
 			psmt = con.prepareStatement(query);
 			psmt.setInt(1, dto.getBoard_fk());
@@ -74,7 +74,7 @@ public class CommentDAO extends DBConnPool{
 	
 	public int insertAddComment(CommentDTO dto) {
 		int result=0;
-		String query = "INSERT INTO comments (idx, board_fk, id, comments, regidate, isanswer, iscomment) VALUES(seq_comments_num.nextval, ?, ?, ?, sysdate,?,?)";
+		String query = "INSERT INTO comments ( board_fk, id, comments, regidate, isanswer, iscomment) VALUES(?, ?, ?, CURRENT_DATE,?,?)";
 
 		try {
 			psmt = con.prepareStatement(query);
@@ -93,7 +93,7 @@ public class CommentDAO extends DBConnPool{
 	
 	public int editComment(CommentDTO dto) {
 		int result=0;
-		String query = "UPDATE comments SET comments=? , editdate=sysdate WHERE idx=? and id=?";
+		String query = "UPDATE comments SET comments=? , editdate=CURRENT_DATE WHERE idx=? and id=?";
 		try {
 			psmt = con.prepareStatement(query);
 			psmt.setString(1, dto.getComments());
@@ -156,7 +156,7 @@ public class CommentDAO extends DBConnPool{
 	
 	public int deleteComment(int idx) {
 		int result = 0;
-		String query = "DELETE FROM comments WHERE idx=?";
+		String query = "DELETE FROM comments WHERE idx=? or ISCOMMENT = ?";
 		
 		try {
 			psmt = con.prepareStatement(query);

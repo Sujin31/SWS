@@ -67,7 +67,7 @@ public class AnswerDAO extends DBConnPool{
 	
 	public int insertAnswer(AnswerDTO dto) {
 		int result = 0;
-		String query = "INSERT INTO answer (idx, board_fk, id, answer,regidate) VALUES(seq_answer_num.nextval,?,?,?,sysdate)";
+		String query = "INSERT INTO answer ( board_fk, id, answer,regidate) VALUES(?,?,?,CURRENT_DATE)";
 		
 		try {
 			psmt = con.prepareStatement(query);
@@ -86,7 +86,7 @@ public class AnswerDAO extends DBConnPool{
 	
 	public int editAnswer(AnswerDTO dto) {
 		int result = 0;
-		String query = "UPDATE answer SET answer=? ,editdate=sysdate where idx=?";
+		String query = "UPDATE answer SET answer=? ,editdate=CURRENT_DATE where idx=?";
 		try {
 			psmt = con.prepareStatement(query);
 			psmt.setString(1, dto.getAnswer());

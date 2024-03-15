@@ -35,7 +35,7 @@ public class TodoDAO extends DBConnPool{
 	
 	public int insertTodo(TodoDTO dto) {
 		int result = 0;
-		String query = "INSERT INTO TODO VALUES (seq_todo_num.nextval,?,?,?,'N',sysdate)";
+		String query = "INSERT INTO TODO VALUES (seq_todo_num.nextval,?,?,?,'N',CURRENT_DATE)";
 		try {
 			psmt = con.prepareStatement(query);
 			psmt.setString(1, dto.getId());

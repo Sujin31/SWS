@@ -52,7 +52,6 @@ public class BoardWriteController extends HttpServlet{
 		String isfile = mr.getParameter("isfile");
 		String isnotice = "N";
 		
-		System.out.println(content);
 		
 		int row = 0;
 		if(boardTmp.equals("B0001")) {

@@ -1,5 +1,6 @@
 package member.data;
 
+import java.sql.PreparedStatement;
 import java.util.List;
 import java.util.Map;
 import java.util.Vector;
@@ -36,7 +37,7 @@ public class BoardDAO extends DBConnPool{
 	
 	public List<BoardDTO> getBoardPage(Map<String, Object> map) {
 		List<BoardDTO> list = new Vector<BoardDTO>();
-		String query = "SELECT * FROM (SELECT tb.*, ROWNUM rNum FROM ( SELECT * FROM board WHERE";
+		String query = "SELECT * FROM board where";
 						
 		
 		if(map.get("searchWord") != null) {
@@ -44,14 +45,14 @@ public class BoardDAO extends DBConnPool{
 					+ " LIKE '%" + map.get("searchWord") + "%' AND";
 		}
 		
-		query +=" menu_fk=? ORDER BY idx DESC)tb )WHERE rNum BETWEEN ? and ?";
+		query +=" menu_fk=? ORDER BY idx DESC limit 10 offset ?";
 		
 		try {
 			
 			psmt = con.prepareStatement(query);
 			psmt.setString(1, map.get("code").toString());
-			psmt.setString(2, map.get("start").toString());
-			psmt.setString(3, map.get("end").toString());
+			psmt.setInt(2, (int) map.get("start"));
+			//psmt.setString(3, map.get("end").toString());
 			rs = psmt.executeQuery();
 			
 			while(rs.next()) {
@@ -160,9 +161,7 @@ public class BoardDAO extends DBConnPool{
 	
 	public List<BoardDTO> getBoardPageAndAnswer(Map<String, Object> map) {
 		List<BoardDTO> list = new Vector<BoardDTO>();
-		String query = "SELECT * \r\n"
-					+ "FROM (SELECT tb.*, ROWNUM rNum "
-					+ "	FROM ( SELECT b.IDX, b.TITLE, b.id, b.REGIDATE,b.VIEWS ,COUNT(ANSWER) AS answers"
+		String query = "SELECT b.IDX, b.TITLE, b.id, b.REGIDATE,b.VIEWS ,COUNT(ANSWER) AS answers"
 					+ " FROM BOARD b "
 					+ " LEFT JOIN ANSWER a ON a.BOARD_FK =b.IDX WHERE";
 						
@@ -174,14 +173,14 @@ public class BoardDAO extends DBConnPool{
 		
 		query +=" b.menu_fk=? "
 				+ "GROUP BY b.IDX ,b.TITLE,b.id,b.REGIDATE,b.VIEWS "
-				+ "ORDER BY idx DESC)tb )WHERE rNum BETWEEN ? and ?";
+				+ "ORDER BY idx DESC limit 10 offset ?";
 		
 		try {
 			
 			psmt = con.prepareStatement(query);
 			psmt.setString(1, map.get("code").toString());
-			psmt.setString(2, map.get("start").toString());
-			psmt.setString(3, map.get("end").toString());
+			psmt.setInt(2, (int) map.get("start"));
+			//psmt.setString(3, map.get("end").toString());
 			rs = psmt.executeQuery();
 			
 			while(rs.next()) {
@@ -206,22 +205,18 @@ public class BoardDAO extends DBConnPool{
 	public int writeBoard(BoardDTO dto) {
 		int result = 0;
 		
-		String query = "INSERT INTO board(idx,menu_fk,id,title,content,isfile) VALUES (seq_board_num.nextval,?,?,?,?,?)";
+		String query = "INSERT INTO board(menu_fk,id,title,content,isfile,regidate) VALUES (?,?,?,?,?,CURRENT_DATE)";
 		
 		try {
-			psmt = con.prepareStatement(query);
+			psmt = con.prepareStatement(query,PreparedStatement.RETURN_GENERATED_KEYS);
 			psmt.setString(1, dto.getMenu_fk());
 			psmt.setString(2, dto.getId());
 			psmt.setString(3, dto.getTitle());
 			psmt.setString(4, dto.getContent());
 			psmt.setString(5, dto.getIsfile());
-			rs = psmt.executeQuery(); //insert한 칼럼 idx가지고 오기
-//			if(rs.next()) {
-//				result = rs.getInt(1);
-//			}
+			psmt.executeUpdate();
 			
-			stmt = con.createStatement();
-			rs = stmt.executeQuery("SELECT seq_board_num.CURRVAL FROM DUAL");
+			rs = psmt.getGeneratedKeys();
 			if(rs.next()) {
 				result = rs.getInt(1);
 			}
@@ -269,7 +264,7 @@ public class BoardDAO extends DBConnPool{
 	
 	public int editBoard(BoardDTO dto) {
 		int result = 0;
-		String query = "UPDATE board SET title=?, content=?, isfile=?, editdate=sysdate WHERE idx=? and id =?";
+		String query = "UPDATE board SET title=?, content=?, isfile=?, editdate=CURRENT_DATE WHERE idx=? and id =?";
 		try {
 			psmt = con.prepareStatement(query);
 			psmt.setString(1, dto.getTitle());
@@ -317,15 +312,18 @@ public class BoardDAO extends DBConnPool{
 		}
 	}
 	
+	/*
+	 * 메인페이지 내 자유게시판 인기글 가져오기
+	 * 
+	 * */
 	public List<BoardDTO> topFiveBoard() {
 		List<BoardDTO> list = new Vector<BoardDTO>();
-		String query = "SELECT * "
-				+ "FROM (SELECT * "
-				+ "		FROM BOARD "
-				+ "		WHERE REGIDATE >= ADD_MONTHS(TRUNC(sysdate), -1) AND MENU_FK IN ('menu003','menu004','menu005','menu006') )  "
-				+ "JOIN MENU m ON m.CODE = MENU_FK  "
-				+ "WHERE ROWNUM <=5 "
-				+ "ORDER BY VIEWS DESC, idx DESC";
+		String query = "SELECT b.*, m.name "
+				+ "FROM BOARD b "
+				+ "JOIN menu m on m.CODE = b.MENU_FK "
+				+ "WHERE REGIDATE BETWEEN DATE_ADD(NOW(),INTERVAL -1 MONTH ) AND NOW() and MENU_FK IN ('menu003','menu004','menu005','menu006') "
+				+ "ORDER BY VIEWS DESC, idx desc "
+				+ "limit 5";
 		try {
 			stmt = con.createStatement();
 			rs = stmt.executeQuery(query);
@@ -346,17 +344,20 @@ public class BoardDAO extends DBConnPool{
 		return list;
 	}
 	
+	
+	/*
+	 * 메인페이지 내 QnA 가져오기(최대 5개)
+	 * table board/menu(상위-하위 메뉴명)/answer(답변개수)
+	 * */
 	public List<BoardDTO> getmyQnA(String id) {
 		List<BoardDTO> list = new Vector<BoardDTO>();
-		String query = "SELECT * "
-				+ "FROM (SELECT b.IDX ,b.MENU_FK ,b.TITLE, b.REGIDATE  ,count(a.IDX ) AS answers, m2.NAME AS dept1 ,m.NAME AS dept2 "
-				+ "		FROM BOARD b  "
-				+ "		FULL OUTER JOIN ANSWER a ON a.BOARD_FK = b.IDX  "
-				+ "		JOIN MENU m ON m.CODE = b.MENU_FK  "
-				+ "		JOIN MENU m2 ON m2.CODE = m.PMENU_CODE  "
-				+ "		WHERE b.id = ? AND m.BOARD_TMP = 'B0003' "
-				+ "		GROUP BY b.idx ,b.MENU_FK ,b.TITLE, b.REGIDATE,m2.NAME,m.NAME) "
-				+ "WHERE rownum <=5 "
+		String query = "SELECT b.IDX ,b.MENU_FK ,b.TITLE, b.REGIDATE  ,count(a.IDX ) AS answers, m2.NAME AS dept1 ,m.NAME AS dept2 "
+				+ "FROM BOARD b  "
+				+ "left JOIN ANSWER a ON a.BOARD_FK = b.IDX  "
+				+ "JOIN MENU m ON m.CODE = b.MENU_FK  "
+				+ "JOIN MENU m2 ON m2.CODE = m.PMENU_CODE  "
+				+ "WHERE b.id = ? AND m.BOARD_TMP = 'B0003' "
+				+ "GROUP BY b.idx ,b.MENU_FK ,b.TITLE, b.REGIDATE,m2.NAME,m.NAME "
 				+ "ORDER BY REGIDATE DESC ";
 		try {
 			
