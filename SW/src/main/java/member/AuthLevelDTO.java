@@ -4,6 +4,7 @@ public class AuthLevelDTO {
 	private String idx;
 	private String ismng;
 	private String name;
+	private int level;
 	
 	public String getIdx() {
 		return idx;
@@ -23,5 +24,12 @@ public class AuthLevelDTO {
 	public void setName(String name) {
 		this.name = name;
 	}
+	public int getLevel() {
+		return level;
+	}
+	public void setLevel(int level) {
+		this.level = level;
+	}
+	
 	
 }

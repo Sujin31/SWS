@@ -47,6 +47,8 @@ public class MakeMenuController extends HttpServlet{
 		String tmp = req.getParameter("tmp");
 		String order = req.getParameter("order");
 		
+		if(pmenu_code == "") pmenu_code = null;
+		
 		MenuDTO dto = new MenuDTO();
 		dto.setName(name);
 		dto.setCode(code);

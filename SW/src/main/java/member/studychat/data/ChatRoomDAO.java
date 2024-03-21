@@ -1,5 +1,6 @@
 package member.studychat.data;
 
+import java.sql.PreparedStatement;
 import java.util.List;
 import java.util.Map;
 import java.util.Vector;
@@ -18,7 +19,12 @@ public class ChatRoomDAO extends DBConnPool{
 		if(map.get("fcate") != null && map.get("scate") != null) {
 			sql += "WHERE firstcate = '" + map.get("fcate") + "' and "
 					+ " secondcate = '" + map.get("scate") + "' ";
+			
+			if(map.get("title") != null) {
+				sql += " and name like '%"+map.get("title")+"%'";
+			}
 		}
+		
 		try {
 			stmt = con.createStatement();
 			rs = stmt.executeQuery(sql);
@@ -35,21 +41,24 @@ public class ChatRoomDAO extends DBConnPool{
 	//채팅방 페이징
 	public List<ChatRoomDTO> getChatPage(Map<String,Object> map){
 		List<ChatRoomDTO> list = new Vector<ChatRoomDTO>();
-		String sql = "SELECT * FROM (SELECT tb.*, ROWNUM rNum FROM ( SELECT * FROM chatroom ";
+		String sql = "SELECT * FROM chatroom ";
 						
 		if(map.get("fcate") != null && map.get("scate") != null) {
 			sql += " WHERE firstcate = '" + map.get("fcate") + "' and "
 					+ " secondcate = '" + map.get("scate") + "' ";
+			
+			if(map.get("title") != null) {
+				sql += " and name like '%"+map.get("title")+"%'";
+			}
 		}
-		sql +=" ORDER BY id DESC)tb )WHERE rNum BETWEEN ? and ?";
+		sql +=" ORDER BY id desc limit 10 offset ?";
 		try {
 			psmt = con.prepareStatement(sql);
-			psmt.setString(1, map.get("start").toString());
-			psmt.setString(2, map.get("end").toString());
+			psmt.setInt(1, (int) map.get("start"));
 			rs = psmt.executeQuery();
 			while(rs.next()) {
 				ChatRoomDTO tmp = new ChatRoomDTO(rs.getInt("id"),rs.getString("name"),rs.getString("pass"),
-													rs.getString("firstcate"),rs.getString("secondcate"),rs.getInt("player"),rs.getString("owner"));
+													rs.getString("firstcate"),rs.getString("secondcate"),rs.getInt("participant"),rs.getString("owner"));
 				list.add(tmp);
 			}
 		} catch (Exception e) {
@@ -74,7 +83,7 @@ public class ChatRoomDAO extends DBConnPool{
 				dto.setFcate(rs.getString("firstcate"));
 				dto.setScate(rs.getString("secondcate"));
 				dto.setOwner(rs.getString("owner"));
-				dto.setPlayer(rs.getInt("player"));
+				dto.setParticipant(rs.getInt("participant"));
 			}
 		}catch (Exception e) {
 			System.out.println("방 정보 조회 오류");
@@ -87,26 +96,25 @@ public class ChatRoomDAO extends DBConnPool{
 	//채팅방 만들기
 	public int insertRoom(ChatRoomDTO dto) {
 		int result = 0;
-		String sql = "INSERT INTO chatroom VALUES(seq_chat_num.nextval,?,?,?,?,?,?,CURRENT_DATE)";
+		String sql = "INSERT INTO chatroom (name,pass,firstcate,secondcate,participant,owner) VALUES(?,?,?,?,?,?)";
 		
 		try {
-			psmt = con.prepareStatement(sql);
+			psmt = con.prepareStatement(sql,PreparedStatement.RETURN_GENERATED_KEYS);
 			psmt.setString(1, dto.getName());
 			psmt.setString(2, dto.getPass());
 			psmt.setString(3, dto.getFcate());
 			psmt.setString(4, dto.getScate());
-			psmt.setInt(5, dto.getPlayer());
+			psmt.setInt(5, dto.getParticipant());
 			psmt.setString(6, dto.getOwner());
 			
-			psmt.executeQuery();
+			psmt.executeUpdate();
 			
-			stmt = con.createStatement();
-			rs = stmt.executeQuery("SELECT seq_chat_num.CURRVAL FROM DUAL");
+			rs = psmt.getGeneratedKeys();
 			if(rs.next()) {
 				result = rs.getInt(1);
-				String sql_log = "INSERT INTO CHATROOM_LOG cl SELECT * FROM CHATROOM c WHERE c.ID ="+result;
+				String sql_log = "insert into chatroom_log select * from chatroom where id="+result ;
 				stmt = con.createStatement();
-				stmt.executeQuery(sql_log);
+				stmt.executeUpdate(sql_log);
 			}
 			
 		} catch (Exception e) {
@@ -118,10 +126,10 @@ public class ChatRoomDAO extends DBConnPool{
 	
 	//채팅방 참여자수 증가(입장)
 	public void PlayerCountUp(int idx) {
-		String sql = "UPDATE chatroom SET player = player+1 WHERE id = "+idx;
+		String sql = "UPDATE chatroom SET participant = participant+1 WHERE id = "+idx;
 		try {
 			stmt = con.createStatement();
-			stmt.executeQuery(sql);
+			stmt.executeUpdate(sql);
 		}catch (Exception e) {
 			System.out.println("참가자수 증가 오류");
 			e.printStackTrace();
@@ -130,10 +138,10 @@ public class ChatRoomDAO extends DBConnPool{
 	
 	//채팅방 참여자수 감소(퇴장)
 	public void PlayerCountDown(int idx) {
-		String sql = "UPDATE chatroom SET player = player-1 WHERE id = "+idx;
+		String sql = "UPDATE chatroom SET participant = participant-1 WHERE id = "+idx;
 		try {
 			stmt = con.createStatement();
-			stmt.executeQuery(sql);
+			stmt.executeUpdate(sql);
 		}catch (Exception e) {
 			System.out.println("참가자수 감소 오류");
 			e.printStackTrace();
@@ -142,10 +150,10 @@ public class ChatRoomDAO extends DBConnPool{
 	
 	//참여자수 없는 채팅방 폐쇄
 	public void DeleteZeroPlayer(int idx) {
-		String sql = "DELETE chatroom WHERE player<=0 and id ="+idx;
+		String sql = "DELETE FROM chatroom WHERE participant<=0 and id ="+idx;
 		try {
 			stmt = con.createStatement();
-			stmt.executeQuery(sql);
+			stmt.executeUpdate(sql);
 		} catch (Exception e) {
 			System.out.println("0명방 폐쇄");
 			e.printStackTrace();
@@ -153,14 +161,14 @@ public class ChatRoomDAO extends DBConnPool{
 	}
 	
 	//유저 채팅로그 저장
-	public void insertUserChat(int idx, String id, String chat) {
-		String sql = "INSERT INTO chat_log VALUES (seq_chatcomment_num.nextval,?,?,?,CURRENT_DATE)";
+	public void insertUserChat(int roomNum, String id, String chat) {
+		String sql = "INSERT INTO chat_log (id,roomnum,comments) VALUES (?,?,?)";
 		try {
 			psmt = con.prepareStatement(sql);
 			psmt.setString(1, id);
-			psmt.setInt(2, idx);
+			psmt.setInt(2, roomNum);
 			psmt.setString(3,chat);
-			psmt.executeQuery();
+			psmt.executeUpdate();
 			
 		} catch (Exception e) {
 			System.out.println("채팅저장 오류");
@@ -188,7 +196,7 @@ public class ChatRoomDAO extends DBConnPool{
 	//채팅방 인원 수 가져오기
 	public int getPlayers(int idx) {
 		int total=0;
-		String sql = "SELECT player FROM chatroom WHERE id="+idx;
+		String sql = "SELECT participant FROM chatroom WHERE id="+idx;
 		try {
 			stmt = con.createStatement();
 			rs = stmt.executeQuery(sql);

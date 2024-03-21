@@ -81,11 +81,11 @@ public class TodoController extends HttpServlet{
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String id = (String) req.getSession().getAttribute("UserId");
-		String todo_date = req.getParameter("selDate");
+		String todo_date = req.getParameter("date");
 		String content = req.getParameter("content");
 		String mode = req.getParameter("mode");
 		int result = 0;
-		
+
 		if(todo_date == null) {
 			todo_date = LocalDate.now().toString();
 		}

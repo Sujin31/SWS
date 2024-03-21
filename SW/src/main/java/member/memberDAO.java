@@ -195,21 +195,63 @@ public class memberDAO extends DBConnPool{
 		return member;
 	}
 	
-	public int updateMyInfo(memberDTO dto) {
-		int result = 0;
-		String query = "UPDATE user_info SET password = ?, phone = ?, auth_level_fk = ? WHERE id=?";
+	public boolean passwordCheck(memberDTO dto) {
+		String query = "SELECT count(*) as cnt FROM user_info WHERE id = ? and password = ?";
 		try {
 			psmt = con.prepareStatement(query);
-			psmt.setString(1, dto.getPassword());
-			psmt.setString(2, dto.getPhone());
-			psmt.setString(3, dto.getAuth_level_fk());
-			psmt.setString(4, dto.getId());
-			result = psmt.executeUpdate();
+			psmt.setString(1, dto.getId());
+			psmt.setString(2, dto.getPassword());
+			rs = psmt.executeQuery();
+			if(rs.next()) {
+				if(rs.getInt(1) > 0) {
+					return true;
+				}
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		return false;
+	}
+	
+	public boolean updateMyInfo(memberDTO dto) {
+		String query = "UPDATE user_info SET phone = ?, auth_level_fk = ? WHERE id=?";
+		try {
+			psmt = con.prepareStatement(query);
+			//psmt.setString(1, dto.getPassword());
+			psmt.setString(1, dto.getPhone());
+			psmt.setString(2, dto.getAuth_level_fk());
+			psmt.setString(3, dto.getId());
+			
+			if(psmt.executeUpdate() > 0) {
+				return true;
+			}
 			
 		} catch (Exception e) {
 			System.out.println("내 정보 수정 오류");
 			e.printStackTrace();
 		}
-		return result;
+		return false;
+	}
+	
+	public boolean updateMyInfoAndPW(memberDTO dto,String pw) {
+		String query = "UPDATE user_info SET password = ?, phone = ?, auth_level_fk = ? WHERE id=?";
+		try {
+			psmt = con.prepareStatement(query);
+			psmt.setString(1, pw);
+			psmt.setString(2, dto.getPhone());
+			psmt.setString(3, dto.getAuth_level_fk());
+			psmt.setString(4, dto.getId());
+			int flag = psmt.executeUpdate();
+			
+			if(flag > 0) {
+				return true;
+			}
+			
+		} catch (Exception e) {
+			System.out.println("내 정보 수정 오류");
+			e.printStackTrace();
+		}
+		return false;
 	}
 }

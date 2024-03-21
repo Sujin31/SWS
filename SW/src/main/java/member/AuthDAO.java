@@ -54,7 +54,7 @@ public class AuthDAO extends DBConnPool{
 	
 	public List<AuthLevelDTO> getAuthLevelsAll() {
 		List<AuthLevelDTO> arr = new Vector<AuthLevelDTO>();
-		String query="SELECT * FROM auth_level";
+		String query="SELECT * FROM auth_level order by level";
 		try {
 			stmt = con.createStatement();
 			rs = stmt.executeQuery(query);
@@ -63,6 +63,7 @@ public class AuthDAO extends DBConnPool{
 				dto.setIdx(rs.getString("idx"));
 				dto.setIsmng(rs.getString("ismng"));
 				dto.setName(rs.getString("name"));
+				dto.setLevel(rs.getInt("level"));
 				arr.add(dto);
 			}
 			

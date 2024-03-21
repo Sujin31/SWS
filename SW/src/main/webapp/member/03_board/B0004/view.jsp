@@ -134,7 +134,7 @@ function updatePlayers(){
 				<tr>
 					<td id="title">
 						[${dto.fcate }/${dto.scate }]  ${dto.name }
-						<span style="float: right; font-size: 15px">참여자 : <span id="curPlayer"> ${dto.player } </span>명</span>
+						<span style="float: right; font-size: 15px">참여자 : <span id="curPlayer"> ${dto.participant } </span>명</span>
 					</td>
 				</tr>
             </table>

@@ -15,15 +15,16 @@
 	<form method="post" action="./makeauth" onsubmit="">
 		<table class="writetb">
 			<tr>
-				<th>권한명</th> <th>권한코드</th> <th>관리자</th>
+				<th>권한명</th> <th>권한코드</th> <th>관리자</th> <th>권한레벨</th>
 			</tr>
 			<tr>
 				<td><input type="text" name="name"></td>
 				<td><input type="text" name="idx"></td>
 				<td><input type="text" name="ismng"></td>
+				<td><input type="number" name="level"></td>
 			</tr>
 			<tr>
-				<td colspan="3"><button type="submit">추가</button></td>
+				<td colspan="4"><button type="submit">추가</button></td>
 			</tr>
 		</table>
 	</form>
@@ -35,14 +36,15 @@
 			<col></col>
 			<col></col>
 			<col></col>
+			<col></col>
 		</colgroup>
 		<tr>
-			<th>권한명</th><th>권한코드</th><th>관리자</th><th></th>
+			<th>권한명</th><th>권한코드</th><th>관리자</th><th>권한레벨</th><th></th>
 		</tr>
 		<c:choose>
 			<c:when test="${empty dto }">
 				<tr>
-					<td colspan="8" align="center">등록된 메뉴가 없습니다.</td>
+					<td colspan="5" align="center">등록된 권한이 없습니다.</td>
 				</tr>
 			</c:when>
 			<c:otherwise>
@@ -51,6 +53,7 @@
 						<td>${row.name }</td>
 						<td>${row.idx }</td>
 						<td>${row.ismng}</td>
+						<td>${row.level}</td>
 						<td><button onclick="location.href='./makeauth?del=Y&idx=${row.idx}'">삭제</button></td>
 					</tr>
 				</c:forEach>

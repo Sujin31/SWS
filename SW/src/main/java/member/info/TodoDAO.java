@@ -35,7 +35,7 @@ public class TodoDAO extends DBConnPool{
 	
 	public int insertTodo(TodoDTO dto) {
 		int result = 0;
-		String query = "INSERT INTO TODO VALUES (seq_todo_num.nextval,?,?,?,'N',CURRENT_DATE)";
+		String query = "INSERT INTO TODO (id,todo_date,content) VALUES (?,?,?)";
 		try {
 			psmt = con.prepareStatement(query);
 			psmt.setString(1, dto.getId());
@@ -82,7 +82,7 @@ public class TodoDAO extends DBConnPool{
 	
 	public int deleteTodo(int idx, String id) {
 		int result = 0;
-		String query = "DELETE todo WHERE idx=? AND id=?";
+		String query = "DELETE FROM todo WHERE idx=? AND id=?";
 		try {
 			psmt = con.prepareStatement(query);
 			psmt.setInt(1, idx);

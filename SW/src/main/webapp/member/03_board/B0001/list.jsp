@@ -93,7 +93,7 @@
             <div class="divdtn">${map.pagingImg }</div>
             <div class="divdtn">
 	            <!-- 공지게시판/관리자만 -->
-	            <c:if test="${id eq 'admin'}"><button class="btn btn-dark" type="button" onclick="location.href='./board?cate=${MenuDto.code}&mode=w'">작성</button></c:if>
+	            <c:if test="${authdto.mwrite eq 'Y'}"><button class="btn btn-dark" type="button" onclick="location.href='./board?cate=${MenuDto.code}&mode=w'">작성</button></c:if>
             </div>
         </div>
     </div>

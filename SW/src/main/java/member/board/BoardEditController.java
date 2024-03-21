@@ -66,7 +66,6 @@ public class BoardEditController extends HttpServlet{
 			result = dao.editNotice(dto);
 			dao.close();
 			
-			
 		}else {
 			
 			/*
@@ -98,13 +97,12 @@ public class BoardEditController extends HttpServlet{
 			result = dao.editBoard(dto);
 			dao.close();
 		}
-		
 		if(result == 0) {
 			JSFunction.alertBack(resp, "수정 실패");
 		}
 		
 		String fileName = mr.getFilesystemName("file");
-		if(fileName != null) {
+		if(fileName != null && fileName != "") {
 			String now = new SimpleDateFormat("yyyyMMdd_HmsS").format(new Date());
 			String ext = fileName.substring(fileName.lastIndexOf("."));
 			String newFileName = now+ext;

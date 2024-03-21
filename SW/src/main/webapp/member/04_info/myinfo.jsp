@@ -9,13 +9,13 @@
 <link  rel="stylesheet" href="/css/board.css" type="text/css">
 <script type="text/javascript">
 function validateForm(form){
-	
-	if(!form.pw.value){
+
+	if(form.pw.value == ""){
 		alert("비밀번호를 입력해주세요.");
 		form.pw.focus();
 		return false;
 	}
-	if(!form.phone.value){
+	if(form.phone.value == ""){
 		alert("전화번호를 입력해주세요.");
 		form.phone.focus();
 		return false;
@@ -25,15 +25,29 @@ function validateForm(form){
 		form.phone.focus();
 		return false;
 	}
-	if(!pwCheck()){
-		alert("비밀번호와 비밀번호 확인 다름");
-		return false;
+
+
+	//비밀번호 변경 시
+	if(form.pwcng.value != ""){
+		console.log(form.pwcng.value.length > 3);
+		if(form.pwcng.value.length < 4){
+			alert("변경할 비밀번호는 4자리 이상이어야 합니다.");
+			return false;
+		}
+		if(!pwCheck(form)){
+			alert("변경할 비밀번호와 비밀번호 확인이 다릅니다.");
+			return false;
+		}
 	}
+	
+	return true;
 }
-function pwCheck(){
-	var form = document.frm;
-	if(form.pw.value != form.pwcheck.value){
-		return false;
+
+function pwCheck(form){
+	if(form.pwcheck.value != ""){
+		if(form.pwcng.value != form.pwcheck.value){
+			return false;
+		}
 	}
 	return true;
 }
@@ -103,6 +117,10 @@ function pwCheck(){
 					<tr>
 						<td>비밀번호</td>
 						<td><input type="password" name="pw" class="input"></td>
+					</tr>
+					<tr>
+						<td>변경할 비밀번호</td>
+						<td><input type="password" name="pwcng" class="input"></td>
 					</tr>
 					<tr>
 						<td>비밀번호 확인</td>

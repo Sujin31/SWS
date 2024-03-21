@@ -6,30 +6,30 @@ public class ChatRoomDTO {
 	private String pass;
 	private String fcate;
 	private String scate;
-	private int player;
+	private int participant;
 	private String owner;
 	
 	public ChatRoomDTO() {}
 	
 	//방 번호 없이 생성
-	public ChatRoomDTO(String name, String pass, String fcate, String scate, int player, String owner) {
+	public ChatRoomDTO(String name, String pass, String fcate, String scate, int participant, String owner) {
 		this.name = name;
 		this.pass = pass;
 		this.fcate = fcate;
 		this.scate = scate;
-		this.player = player;
+		this.participant = participant;
 		this.owner = owner;
 	}
 
 	//방 번호 포함 전체 생성
-	public ChatRoomDTO(int id, String name, String pass, String fcate, String scate, int player, String owner) {
+	public ChatRoomDTO(int id, String name, String pass, String fcate, String scate, int participant, String owner) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.pass = pass;
 		this.fcate = fcate;
 		this.scate = scate;
-		this.player = player;
+		this.participant = participant;
 		this.owner = owner;
 	}
 
@@ -73,12 +73,12 @@ public class ChatRoomDTO {
 		this.scate = scate;
 	}
 
-	public int getPlayer() {
-		return player;
+	public int getParticipant() {
+		return participant;
 	}
 
-	public void setPlayer(int player) {
-		this.player = player;
+	public void setParticipant(int participant) {
+		this.participant = participant;
 	}
 
 	public String getOwner() {

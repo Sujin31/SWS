@@ -26,6 +26,7 @@ public class MenuAuthController extends HttpServlet{
 			ArrayList<String> toplist = dao.SelectTopMenu();
 			JSONArray arr = dao.getMenuListforLast(toplist);
 			dao.close();
+			
 			req.setAttribute("dto", arr);
 			req.getRequestDispatcher("/manager/menu/MakeMenuAuth.jsp").forward(req, resp);
 			

@@ -80,24 +80,25 @@ public class BoardDAO extends DBConnPool{
 	
 	public int getBoardCountByHash(Map<String,Object> map) {
 		int totalCount = 0;
-		String query = "SELECT COUNT(*) "
-				+ "	FROM ( "
-				+ "		SELECT b.IDX, LISTAGG(h.TAGNAME,',') within group (order by h.TAGNAME) tag "
-				+ "		FROM BOARD b "
-				+ "		FULL OUTER JOIN HASH_MAPPING hm ON hm.BOARD_IDX_FK = b.IDX "
-				+ "		FULL OUTER JOIN HASHTAG h ON h.IDX = hm.HASH_IDX_FK "
-				+ "		WHERE b.MENU_FK = '"+map.get("code")+"' "
-				+ "		GROUP BY b.IDX "
-				+ "	)tb";
+		String query = "select count(*) as cnt "
+				+ "from (select idx, tagname"
+				+ "	from board b  "
+				+ "	left join (select BOARD_IDX_FK ,HASH_IDX_FK ,TAGNAME "
+				+ "		from hash_mapping hm  "
+				+ "		join hashtag h on hm.HASH_IDX_FK = h.IDX ) t on b.IDX = t.BOARD_IDX_FK "
+				+ "	where b.MENU_FK =? ";
 		
 		if(map.get("searchWord") != null) {
-			query += " WHERE " + map.get("searchField") + " "
+			query += " and " + map.get("searchField") + " "
 					+ " LIKE '%" + map.get("searchWord") + "%'";
 		}
+		query += "group by b.IDX) tt";
+		
 		
 		try {
-			stmt = con.createStatement();
-			rs = stmt.executeQuery(query);
+			psmt = con.prepareStatement(query);
+			psmt.setString(1, map.get("code").toString());
+			rs = psmt.executeQuery();
 			rs.next();
 			totalCount = rs.getInt(1);
 			
@@ -111,30 +112,27 @@ public class BoardDAO extends DBConnPool{
 	
 	public List<BoardDTO> getBoardPageByHash(Map<String, Object> map) {
 		List<BoardDTO> list = new Vector<BoardDTO>();
-		String query = "SELECT * FROM ("
-						+ "	SELECT tb.*, ROWNUM rNum FROM ( "
-						+ "		SELECT b.IDX ,b.ID ,b.TITLE,b.CONTENT ,b.ISFILE ,b.VIEWS ,b.REGIDATE, LISTAGG(h.TAGNAME,',') within group (order by h.TAGNAME) tag "
-						+ "		FROM BOARD b "
-						+ "		FULL OUTER JOIN HASH_MAPPING hm ON hm.BOARD_IDX_FK = b.IDX "
-						+ "		FULL OUTER JOIN HASHTAG h ON h.IDX = hm.HASH_IDX_FK "
-						+ "		WHERE b.MENU_FK = ? "
-						+ "		GROUP BY b.IDX ,b.ID ,b.TITLE ,b.CONTENT ,b.ISFILE ,b.VIEWS ,b.REGIDATE "
-						+ "		ORDER BY b.IDX DESC "
-						+ "	)tb ";
+		String query = "select b.IDX ,b.ID ,b.TITLE,b.CONTENT ,b.ISFILE ,b.VIEWS ,b.REGIDATE,GROUP_CONCAT(t.TAGNAME,',') "
+						+ "from board b "
+						+ "left join (select BOARD_IDX_FK ,HASH_IDX_FK ,TAGNAME "
+						+ "		from hash_mapping hm "
+						+ "		join hashtag h on hm.HASH_IDX_FK = h.IDX ) t on b.IDX = t.BOARD_IDX_FK "
+						+ "where b.MENU_FK =? ";
 				
 		if(map.get("searchWord") != null) {
-			query += " WHERE " + map.get("searchField") + " "
+			query += " and " + map.get("searchField") + " "
 					+ " LIKE '%" + map.get("searchWord") + "%' ";
 		}
 		
-		query += " )WHERE rNum BETWEEN ? and ?";
-		
+		query += " group by b.IDX ,b.ID ,b.TITLE,b.CONTENT ,b.ISFILE ,b.VIEWS ,b.REGIDATE "
+				+ "order by BOARD_IDX_FK desc "
+				+ "limit 10 offset ?";
+
 		try {
 			
 			psmt = con.prepareStatement(query);
 			psmt.setString(1, map.get("code").toString());
-			psmt.setString(2, map.get("start").toString());
-			psmt.setString(3, map.get("end").toString());
+			psmt.setInt(2, (int)map.get("start"));
 			rs = psmt.executeQuery();
 			
 			while(rs.next()) {

@@ -9,7 +9,7 @@ public class FileDAO extends DBConnPool{
 	
 	public int fileUpload(FileDTO dto) {
 		int result = 0;
-		String query = "INSERT INTO file_info (idx,board_fk, oname, sname, fpath, count, isnotice) values(seq_file_num.nextval,?,?,?,?,0,?)";
+		String query = "INSERT INTO file_info (board_fk, oname, sname, fpath, count, isnotice) values(?,?,?,?,0,?)";
 		
 		try {
 			psmt = con.prepareStatement(query);
@@ -88,7 +88,7 @@ public class FileDAO extends DBConnPool{
 			psmt.setInt(3, dto.getBoard_fk());
 			psmt.setString(4, dto.getIsnotice());
 			result = psmt.executeUpdate();
-			
+			System.out.println(result);
 		} catch (Exception e) {
 			System.out.println("파일 수정 오류");
 			e.printStackTrace();

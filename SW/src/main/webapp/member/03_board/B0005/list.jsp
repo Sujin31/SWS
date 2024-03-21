@@ -34,7 +34,7 @@
                     	<select name="searchField">
                     		<option value="title" <c:if test="${ param.searchField eq 'title'}">selected</c:if> >제목</option> 
                     		<option value="content" <c:if test="${ param.searchField eq 'content'}">selected</c:if> >내용</option>
-                    		<option value="tag" <c:if test="${ param.searchField eq 'tag'}">selected</c:if> >해시태그</option>
+                    		<option value="tagname" <c:if test="${ param.searchField eq 'tagname'}">selected</c:if> >해시태그</option>
                     	</select>
                         <input id="search" type="text" name="searchWord" value="${param.searchWord }" placeholder="검색어를 입력해주세요." >
                         <button type="submit" class="btn btn-dark">검색</button>

@@ -1,5 +1,6 @@
 package member.data;
 
+import java.sql.PreparedStatement;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
@@ -20,8 +21,9 @@ public class HashTagDAO extends DBConnPool{
 		String query = "SELECT tagname "
 				+ "FROM HASHTAG h "
 				+ "JOIN HASH_MAPPING hm ON hm.HASH_IDX_FK = h.IDX "
-				+ "WHERE hm.BOARD_IDX_FK = " + board_idx
+				+ "WHERE hm.BOARD_IDX_FK = " + board_idx + " "
 				+ "ORDER BY h.IDX ";
+		
 		try {
 			stmt = con.createStatement();
 			rs = stmt.executeQuery(query);
@@ -80,19 +82,16 @@ public class HashTagDAO extends DBConnPool{
 	
 	public void insertHashTag(int board_idx,List<String> tags, List<String> dupTags) {
 		int tag_idx = 0;
-		String query = "INSERT INTO hashtag VALUES(seq_hash_num.nextval,?,0)";
+		String query = "INSERT INTO hashtag(tagname) VALUES(?)";
 		try {
 			//hashtag 테이블에 입력
 			for(String tag : tags) {
 				if(!dupTags.contains(tag)) { //중복아닌것만
 					//hashtag 테이블에 넣기
-					psmt = con.prepareStatement(query);
+					psmt = con.prepareStatement(query,PreparedStatement.RETURN_GENERATED_KEYS);
 					psmt.setString(1, tag);
-					tag_idx = psmt.executeUpdate();
-					
-					//hash_idx 찾기
-					stmt = con.createStatement();
-					rs = stmt.executeQuery("SELECT seq_hash_num.CURRVAL FROM DUAL");
+					psmt.executeUpdate();
+					rs = psmt.getGeneratedKeys();
 					if(rs.next()) {
 						tag_idx = rs.getInt(1);
 					}
@@ -102,7 +101,7 @@ public class HashTagDAO extends DBConnPool{
 				
 				//hashtag 매핑
 				stmt = con.createStatement();
-				rs = stmt.executeQuery("INSERT INTO hash_mapping VALUES(seq_hashmapping_num.nextval,"+board_idx+","+tag_idx+")");
+				stmt.executeUpdate("INSERT INTO hash_mapping(board_idx_fk,hash_idx_fk) VALUES("+board_idx+","+tag_idx+")");
 				
 			}
 			
@@ -118,7 +117,7 @@ public class HashTagDAO extends DBConnPool{
 		String query = "DELETE FROM HASH_MAPPING WHERE BOARD_IDX_FK = " + board_idx;
 		try {
 			stmt = con.createStatement();
-			rs = stmt.executeQuery(query);
+			stmt.executeUpdate(query);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

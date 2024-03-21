@@ -13,7 +13,8 @@ public class MenuAuthDAO extends DBConnPool{
 		List<MenuAuthDTO> list = new Vector<MenuAuthDTO>();
 		String query = "SELECT al.idx, al.NAME , al.ISMNG , ma.MREAD ,ma.MWRITE ,ma.MCOMMENT ,ma.ANSWER"
 						+ " FROM AUTH_LEVEL al"
-						+ " LEFT JOIN MENU_AUTH ma ON ma.AUTH_LEVEL_FK = al.IDX AND ma.MENU_FK = ?";
+						+ " LEFT JOIN MENU_AUTH ma ON ma.AUTH_LEVEL_FK = al.IDX AND ma.MENU_FK = ? "
+						+ " order by al.level";
 		try {
 			psmt = con.prepareStatement(query);
 			psmt.setString(1, menu_fk);

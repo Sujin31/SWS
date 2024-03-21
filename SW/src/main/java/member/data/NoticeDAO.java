@@ -1,5 +1,6 @@
 package member.data;
 
+import java.sql.PreparedStatement;
 import java.util.List;
 import java.util.Map;
 import java.util.Vector;
@@ -123,10 +124,10 @@ public class NoticeDAO extends DBConnPool{
 	
 	public int writeNotice(NoticeDTO dto) {
 		int result = 0;
-		String query = "INSERT INTO notice(idx,menu_fk,id,title,content,isfile,must) VALUES (seq_notice_num.nextval,?,?,?,?,?,?)";
+		String query = "INSERT INTO notice(menu_fk,id,title,content,isfile,must) VALUES (?,?,?,?,?,?)";
 		
 		try {
-			psmt = con.prepareStatement(query);
+			psmt = con.prepareStatement(query,PreparedStatement.RETURN_GENERATED_KEYS);
 			psmt.setString(1, dto.getMenu_fk());
 			psmt.setString(2, dto.getId());
 			psmt.setString(3, dto.getTitle());
@@ -134,8 +135,8 @@ public class NoticeDAO extends DBConnPool{
 			psmt.setString(5, dto.getIsfile());
 			psmt.setString(6, dto.getMust());
 			
-			result = psmt.executeUpdate(); //insert한 칼럼 idx가지고 오기
-			rs = psmt.executeQuery("SELECT seq_notice_num.CURRVAL FROM DUAL");
+			psmt.executeUpdate(); //insert한 칼럼 idx가지고 오기
+			rs = psmt.getGeneratedKeys();
 			if(rs.next()) {
 				result = rs.getInt(1);
 			}

@@ -21,7 +21,7 @@ public class RandomCard {
 	
 	public static JSONObject command(String cmd, int totalNum) {
 		JSONObject json = new JSONObject();
-		System.out.println(cmd);
+		//System.out.println(cmd);
 		//시작
 		if(cmd.equals("/시작")) {
 			System.out.println("/시작입니다");

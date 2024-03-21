@@ -54,6 +54,7 @@ public class BoardTmpController extends HttpServlet{
 		MenuDAO MenuDao = new MenuDAO();
 		MenuDTO MenuDto = MenuDao.getMenuInfo(code);
 		List<String> top = MenuDao.SelectTopMenu(code);
+		req.setAttribute("id", id);
 		req.setAttribute("MenuDto", MenuDto);
 		req.setAttribute("top", top);
 		MenuDao.close();
@@ -124,10 +125,14 @@ public class BoardTmpController extends HttpServlet{
 				//검색어 설정
 				String searchStudent = req.getParameter("searchStudent");
 				String searchSubject = req.getParameter("searchSubject");
+				String title = req.getParameter("title");
 				
 				if(searchStudent!="" && searchSubject!="") {
 					map.put("fcate",searchStudent);
 					map.put("scate",searchSubject);
+				}
+				if(title != "") {
+					map.put("title",title);
 				}
 				
 				ChatRoomDAO dao = new ChatRoomDAO();

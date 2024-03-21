@@ -44,6 +44,7 @@ public class InfoController extends HttpServlet{
 		String level = req.getParameter("level");
 		String phone = req.getParameter("phone");
 		String pass = req.getParameter("pw");
+		String passChange = req.getParameter("pwcng");
 		
 		memberDTO dto = new memberDTO();
 		dto.setId(id);
@@ -51,15 +52,31 @@ public class InfoController extends HttpServlet{
 		dto.setPhone(phone);
 		dto.setPassword(pass);
 		
+		//1. 비밀번호 확인
 		memberDAO dao = new memberDAO();
-		int result = dao.updateMyInfo(dto);
-		dao.close();
-		
-		if(result == 1) {
-			JSFunction.alertLocation(resp, "수정완료" , "/member/myinfo");
+		if(!dao.passwordCheck(dto)) {
+			dao.close();
+			JSFunction.alertLocation(resp, "비밀번호가 틀렸습니다." , "/member/myinfo");
 		}else {
-			JSFunction.alertLocation(resp, "수정실패" , "/member/myinfo");
+		
+			//2. 정보 변경
+			if(passChange == null) { //비밀번호 수정 안함
+				
+				if(!dao.updateMyInfo(dto)) {
+					dao.close();
+					JSFunction.alertLocation(resp, "수정실패" , "/member/myinfo");
+				}
+				
+			}else { //비밀번호도 수정 함
+				if(!dao.updateMyInfoAndPW(dto,passChange)) {
+					dao.close();
+					JSFunction.alertLocation(resp, "비밀번호 수정 실패" , "/member/myinfo");
+				}
+			}
 		}
+		dao.close();
+		JSFunction.alertLocation(resp, "수정완료" , "/member/myinfo");
+		
 		
 	}
 }

@@ -7,7 +7,18 @@
 <head>
 <script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
 <script>
-	function OverplayerCheck(idx,link,curNum,pass){
+
+
+	function searchCheck(form){
+		
+		if(form.searchStudent.value == '' || form.searchSubject.value == ''){
+			alert("카테고리를 모두 입력해주세요.");
+			return false;
+		}
+		
+	}
+	
+	function OverParticipantCheck(idx,link,curNum,pass){
 		if(pass > 0){
 			var passck = CheckPass(idx);
 			if(passck == "false"){
@@ -62,7 +73,7 @@
     <div id="board-search">
         <div class="container">
             <div class="search-window">
-                <form method="get">
+                <form method="get" onsubmit="return searchCheck(this);">
                 	<input type="hidden" name="cate" value="${MenuDto.code}">
                 	<input type="hidden" name="mode" value="l">
                     <div class="search-wrap" style=" max-width: 630px;">
@@ -82,7 +93,7 @@
                     		<option value="사회" <c:if test="${param.searchSubject eq '사회'}">selected</c:if>>사회</option>
                     		<option value="기타" <c:if test="${param.searchSubject eq '기타'}">selected</c:if>>기타</option>
                     	</select>
-                        <input id="search" type="text" name="title" placeholder="방이름을 입력해주세요." style="width: 48%;">
+                        <input id="search" type="text" name="title" placeholder="방이름을 입력해주세요." style="width: 48%;" value="${param.title }">
                         <button type="submit" class="btn btn-dark">검색</button>
                     </div>
                 </form>
@@ -117,10 +128,10 @@
 				                    <td>${row.id }</td>
 				                    <td>${row.fcate }>${row.scate }</td>
 				                    <th style="text-align: center">
-				                    	<a href='javascript:void(0);' onclick="OverplayerCheck(${row.id },'./board?cate=${MenuDto.code}&mode=v&idx=${row.id }',${row.player },${fn:length(row.pass)})">${row.name }</a>
+				                    	<a href='javascript:void(0);' onclick="OverParticipantCheck(${row.id },'./board?cate=${MenuDto.code}&mode=v&idx=${row.id }',${row.participant },${fn:length(row.pass)})">${row.name }</a>
 				                      	<c:if test="${!empty row.pass}"> 열쇠</c:if>
 				                    </th>
-				                    <td>${row.player } / 2</td>
+				                    <td>${row.participant } / 2</td>
 				                    <td>${row.owner }</td>
 								</tr>
 			            	</c:forEach>

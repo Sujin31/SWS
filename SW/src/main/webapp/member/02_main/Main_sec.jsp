@@ -19,7 +19,7 @@
 					<th colspan="2">공지</th>
 				</tr>
 				<c:choose>
-					<c:when test="${empty mNoticeList and noticeList}">
+					<c:when test="${empty mNoticeList and empty noticeList}">
 						<tr>
 							<td colspan="2">공지가 없습니다.</td>
 						</tr>
