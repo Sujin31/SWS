@@ -101,9 +101,37 @@ public class AnswerDAO extends DBConnPool{
 				
 	}
 	
+	/* board 삭제 시 같이 삭제
+	 * 답변 지울 때 댓글도 같이 지워짐
+	 */
+		public int deleteAnswerWithBoard(int idx) {
+			int result = 0;
+			//String query = "DELETE FROM answer WHERE idx=?";
+			String query = "delete "
+							+ "from a,c "
+							+ "using answer a "
+							+ "left join comments c on a.IDX = c.BOARD_FK  "
+							+ "where a.board_fk = ?"	;
+			try {
+				psmt = con.prepareStatement(query);
+				psmt.setInt(1, idx);
+				result = psmt.executeUpdate();
+			} catch (Exception e) {
+				System.out.println("답변 게시물 delete 오류");
+				e.printStackTrace();
+			}
+			return result;
+		}
+	
+	//답변 지울 때 댓글도 같이 지워짐
 	public int deleteAnswer(int idx) {
 		int result = 0;
-		String query = "DELETE FROM answer WHERE idx=?";
+		//String query = "DELETE FROM answer WHERE idx=?";
+		String query = "delete "
+						+ "from a,c "
+						+ "using answer a "
+						+ "left join comments c on a.IDX = c.BOARD_FK  "
+						+ "where a.IDX = ?"	;
 		try {
 			psmt = con.prepareStatement(query);
 			psmt.setInt(1, idx);

@@ -156,9 +156,10 @@ public class CommentDAO extends DBConnPool{
 		return list;
 	}
 	
-	public int deleteComment(int idx) {
+	//댓글만 삭제할 때
+	public int deleteCommentByidx(int idx) {
 		int result = 0;
-		String query = "DELETE FROM comments WHERE idx=? or ISCOMMENT = ?";
+		String query = "DELETE FROM comments WHERE idx=?";
 		
 		try {
 			psmt = con.prepareStatement(query);

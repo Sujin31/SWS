@@ -30,7 +30,7 @@ public class AnswerController extends HttpServlet{
 			result = dao.deleteAnswer(idx);
 			dao.close();
 			
-			if(result == 1) {
+			if(result >= 1) {
 				JSFunction.alertLocation(resp, "삭제 완료", "./board?cate="+code+"&mode=v&idx="+board_idx);
 			}else {
 				JSFunction.alertLocation(resp, "삭제 오류", "./board?cate="+code+"&mode=v&idx="+board_idx);

@@ -44,7 +44,7 @@
 				</tr>
 				<tr>
 					<td id="info">
-						${dto.id} | ${dto.regidate } (수정 : ${dto.editdate })
+						${dto.id} | ${dto.regidate } <c:if test="${row.editdate ne null}">(수정 : ${dto.editdate })</c:if>
                     </td>
                     <td style="text-align: right;"></td>
 				</tr>
@@ -58,7 +58,9 @@
  	<!-- 답변 게시 -->
  	<c:choose>
 	 	<c:when test="${empty answerList }">
-	 		없어용
+	 		<div id="" class="gap200" style="text-align : center;">
+	 			답변이 없습니다.
+	 		</div>
 	 	</c:when>
 	 	<c:otherwise>
 		 	<c:forEach items="${answerList }" var="row" varStatus="loop">
@@ -78,7 +80,7 @@
 							</tr>
 							<tr>
 								<td id="info">
-									${row.id} | ${row.regidate } <c:if test="${row.editdate ne null }">(수정일자 : ${row.editdate })</c:if>
+									${row.id} | ${row.regidate } <c:if test="${row.editdate ne null}">(수정일자 : ${row.editdate })</c:if>${row.editdate}
 			                    </td>
 			                    <td style="text-align: right;"></td>
 							</tr>

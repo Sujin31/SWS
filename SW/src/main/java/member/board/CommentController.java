@@ -24,7 +24,7 @@ public class CommentController extends HttpServlet{
 		int result =0 ;
 		if(mode.equals("delete")) {
 			CommentDAO dao = new CommentDAO();
-			result = dao.deleteComment(idx);
+			result = dao.deleteCommentByidx(idx);
 			if(result == 1) {
 				JSFunction.alertLocation(resp, "삭제 완료", "../member/board?cate="+menu+"&mode=v&idx="+boardIdx);
 			}else {

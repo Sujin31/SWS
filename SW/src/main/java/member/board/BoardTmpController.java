@@ -348,11 +348,11 @@ public class BoardTmpController extends HttpServlet{
 				dao.close();
 				
 				AnswerDAO adao = new AnswerDAO();
-				adao.deleteAnswer(idx);
+				adao.deleteAnswerWithBoard(idx);
 				adao.close();
-				
-				CommentDAO cdao = new CommentDAO();
-				cdao.deleteComment(idx);
+//				
+//				CommentDAO cdao = new CommentDAO();
+//				cdao.deleteComment(idx);
 			}
 			
 			if(result == 1) {

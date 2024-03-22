@@ -29,7 +29,7 @@
   </context-param>
   -->
   
-  <!-- 24.02.21 DB 변경 -->
+  <!-- 24.02.21 DB 변경 
    <context-param>
   	<param-name>MysqlDriver</param-name>
   	<param-value>com.mysql.jdbc.Driver</param-value>
@@ -46,7 +46,7 @@
   	<param-name>MysqlPw</param-name>
   	<param-value>970301</param-value>
   </context-param>
-
+-->
   
   <!-- 한글깨짐 방지 -->
   <filter>
