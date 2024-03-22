@@ -88,7 +88,6 @@ public class FileDAO extends DBConnPool{
 			psmt.setInt(3, dto.getBoard_fk());
 			psmt.setString(4, dto.getIsnotice());
 			result = psmt.executeUpdate();
-			System.out.println(result);
 		} catch (Exception e) {
 			System.out.println("파일 수정 오류");
 			e.printStackTrace();

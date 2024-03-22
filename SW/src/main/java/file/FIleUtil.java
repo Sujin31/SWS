@@ -14,7 +14,7 @@ import com.oreilly.servlet.MultipartRequest;
 public class FIleUtil{
 	public static MultipartRequest uploadFile(HttpServletRequest req, String saveDir, int maxPostSize) {
 		try {
-			return new MultipartRequest(req, saveDir,maxPostSize,"UTF-8");
+			return new MultipartRequest(req, saveDir,maxPostSize,"UTF-8"); //파일 업로드
 		}catch (Exception e) {
 			e.printStackTrace();
 			return null;

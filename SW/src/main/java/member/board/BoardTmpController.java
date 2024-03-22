@@ -329,13 +329,14 @@ public class BoardTmpController extends HttpServlet{
 		}else if(mode.equals("d")) {
 			int result = 0;
 			int idx = Integer.parseInt(req.getParameter("idx"));
-			if(code.equals("menu001")) { 
+			if(code.equals("menu001")) {  //공지게시판
 				isnotice = "Y";
 				NoticeDAO dao = new NoticeDAO();
 				result = dao.deleteNotice(id, idx);
 				dao.close();
 			}else {
 				
+				//스터디 게시판은 해시태그(매핑)도 함께 지워야함
 				if(MenuDto.getBoard_tmp().equals("B0005")) {
 					HashTagDAO hdao = new HashTagDAO();
 					hdao.deleteHashTag(idx);
@@ -345,12 +346,19 @@ public class BoardTmpController extends HttpServlet{
 				BoardDAO dao = new BoardDAO();
 				result = dao.deleteBoard(id, idx);
 				dao.close();
+				
+				AnswerDAO adao = new AnswerDAO();
+				adao.deleteAnswer(idx);
+				adao.close();
+				
+				CommentDAO cdao = new CommentDAO();
+				cdao.deleteComment(idx);
 			}
 			
 			if(result == 1) {
 				FileDAO fdao = new FileDAO();
 				FileDTO fdto = fdao.getFileInfo(idx, isnotice);
-				FIleUtil.deleteFile(req,"/member/Updates",fdto.getSname());
+				FIleUtil.deleteFile(req,"/member/Uploads",fdto.getSname());
 				fdao.deleteFile(idx, isnotice);
 				fdao.close();
 				

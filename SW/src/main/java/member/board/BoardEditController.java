@@ -120,8 +120,19 @@ public class BoardEditController extends HttpServlet{
 			dto.setIsnotice(isnotice);
 			
 			FileDAO dao = new FileDAO();
-			int fres = dao.editFile(dto);
+			FileDTO fdto = dao.getFileInfo(idx, isnotice);
+			//원본 파일 삭제 후
+			if(fdto != null) {
+				FIleUtil.deleteFile(req,"/member/Uploads",fdto.getSname());
+				dao.deleteFile(idx, isnotice);
+			}
+			
+			//수정 파일 넣기
+			int fres = dao.fileUpload(dto);
 			dao.close();
+			
+			
+			
 			
 			if(fres == 0) {
 				JSFunction.alertBack(resp, "수정 실패");

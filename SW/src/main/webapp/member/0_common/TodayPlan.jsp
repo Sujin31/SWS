@@ -18,10 +18,14 @@
 	padding-top: 50px;
 }
 
-.today_tb{
+.today_tb{ 
 	/*margin-left: 50px;*/
 	margin : 0 auto;
-	width : 80%;
+	/*width : 90%;*/
+}
+
+.today_tb tr{
+	height : 40px;
 }
 
 .today_p{
@@ -35,9 +39,9 @@
 		<p class="today_p">TODAY PLAN</p>
 		<table class="today_tb">
 			<colgroup>
-				<col width="10%;">
+				<col width="15%;">
 				<col width="*">
-				<col width="10%;">
+				<col width="15%;">
 			</colgroup>
 			<c:choose>
 				<c:when test="${empty todoList }">
@@ -54,7 +58,7 @@
 								<c:if test="${row.isdone eq 'N' }">${row.content }</c:if>
 							</td>
 							<td>
-								<c:if test="${row.isdone eq 'Y' }"><img src="/resources/done.png" width="20" style="margin-left: 10px;"></c:if>
+								<c:if test="${row.isdone eq 'Y' }"><img src="/resources/done.png" width="20" ></c:if>
 							</td>
 						</tr>
 					</c:forEach>

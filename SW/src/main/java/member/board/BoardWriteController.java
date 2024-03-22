@@ -118,7 +118,7 @@ public class BoardWriteController extends HttpServlet{
 
 		
 		String fileName = mr.getFilesystemName("file");
-		if(fileName != null) {
+		if(fileName != null && fileName != "") {
 			//저장할 파일명
 			String now = new SimpleDateFormat("yyyyMMdd_HmsS").format(new Date());
 			String ext = fileName.substring(fileName.lastIndexOf("."));

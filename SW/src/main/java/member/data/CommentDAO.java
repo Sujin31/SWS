@@ -108,6 +108,8 @@ public class CommentDAO extends DBConnPool{
 		return result;
 	}
 	
+	
+	//답변게시글에 달린 댓글 들고오기
 	public List<CommentDTO> selectCommentOfAnswer(ArrayList<Integer> idx){
 		List<CommentDTO> list = new Vector<CommentDTO>();
 		String query = "SELECT c.idx ,c.board_fk ,c.id ,c.comments ,c.regidate ,c.editdate ,c.likes ,c.blur ,"
@@ -146,7 +148,7 @@ public class CommentDAO extends DBConnPool{
 				list.add(dto);
 			}
 		}catch (SQLSyntaxErrorException e) {
-			System.out.println("답변없음");
+			//System.out.println("답변없음");
 		}catch (Exception e) {
 			System.out.println("댓글 불러오기 오류");
 			e.printStackTrace();
