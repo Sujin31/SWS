@@ -157,7 +157,7 @@ public class CommentDAO extends DBConnPool{
 	}
 	
 	//댓글만 삭제할 때
-	public int deleteCommentByidx(int idx) {
+	public int deleteComment(int idx) {
 		int result = 0;
 		String query = "DELETE FROM comments WHERE idx=?";
 		
@@ -166,10 +166,45 @@ public class CommentDAO extends DBConnPool{
 			psmt.setInt(1, idx);
 			result = psmt.executeUpdate();
 		} catch (Exception e) {
-			System.out.println("댓글 삭제 오류");
+			//System.out.println("댓글 삭제 오류");
 			e.printStackTrace();
 		}
 		
 		return result;
 	}
+	
+	
+	/* no */
+	//답변게시글 삭제할 때
+	public int deleteCommentByAnswer(int b_idx) {
+		int result = 0;
+		String query = "DELETE FROM comments WHERE board_fk = ? and isanswer = 'Y'";
+		
+		try {
+			psmt = con.prepareStatement(query);
+			psmt.setInt(1, b_idx);
+			result = psmt.executeUpdate();
+			
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	//board 게시글 삭제할 때
+	public int deleteCommentByBoard(int b_idx) {
+		int result = 0;
+		String query = "DELETE FROM comments WHERE board_fk = ? and isanswer != 'Y'";
+		
+		try {
+			psmt = con.prepareStatement(query);
+			psmt.setInt(1, b_idx);
+			result = psmt.executeUpdate();
+			
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
 }

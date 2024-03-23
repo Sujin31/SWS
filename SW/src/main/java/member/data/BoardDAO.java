@@ -281,22 +281,6 @@ public class BoardDAO extends DBConnPool{
 		return result;
 	}
 	
-	public int deleteBoard(String id, int idx) {
-		int result = 0;
-		String query="DELETE FROM board WHERE idx=? and id=?";
-		try {
-			psmt = con.prepareStatement(query);
-			psmt.setInt(1, idx);
-			psmt.setString(2, id);
-			result = psmt.executeUpdate();
-			
-		} catch (Exception e) {
-			System.out.println("게시판게시글 삭제 오류");
-			e.printStackTrace();
-		}
-		
-		return result;
-	}
 	
 	public void viewCountPlus(int idx) {
 		String query = "UPDATE board SET views = views+1 WHERE idx=?";
@@ -381,5 +365,45 @@ public class BoardDAO extends DBConnPool{
 		return list;
 	}
 	
+	//게시글만 지움
+	public int deleteBoard(String id, int idx) {
+		int result = 0;
+		String query="DELETE FROM board WHERE idx=? and id=?";
+		try {
+			psmt = con.prepareStatement(query);
+			psmt.setInt(1, idx);
+			psmt.setString(2, id);
+			result = psmt.executeUpdate();
+			
+		} catch (Exception e) {
+			System.out.println("게시판게시글 삭제 오류");
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+		
+	//게시글이랑 댓글 같이 지워짐
+	public int deleteBoardAndComment(String id, int idx) {
+		int result = 0;
+		String query = "delete "
+						+ "from b,c "
+						+ "using board b "
+						+ "left join comments c on b.IDX = c.BOARD_FK and c.isanswer is null "
+						+ "where b.idx = ? and b.id = ?";
+		try {
+			
+			psmt = con.prepareStatement(query);
+			psmt.setInt(1, idx);
+			psmt.setString(2, id);
+			result = psmt.executeUpdate();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+		
+	}
 	
 }

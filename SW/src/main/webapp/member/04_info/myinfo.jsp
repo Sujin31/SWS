@@ -29,7 +29,10 @@ function validateForm(form){
 
 	//비밀번호 변경 시
 	if(form.pwcng.value != ""){
-		console.log(form.pwcng.value.length > 3);
+		if(form.pwcheck.value == ""){
+			alert("비밀번호 확인을 입력해주세요.");
+			return false;
+		}
 		if(form.pwcng.value.length < 4){
 			alert("변경할 비밀번호는 4자리 이상이어야 합니다.");
 			return false;
@@ -39,6 +42,8 @@ function validateForm(form){
 			return false;
 		}
 	}
+	
+	if(form.pwcng.value == "" && form.pwcheck.value != "")
 	
 	return true;
 }

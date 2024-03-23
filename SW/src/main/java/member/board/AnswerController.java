@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import common.JSFunction;
 import manage.MenuDAO;
@@ -19,6 +20,9 @@ import member.data.AnswerDTO;
 public class AnswerController extends HttpServlet{
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		
+		HttpSession session = req.getSession();
+		String id = (String) session.getAttribute("UserId");
 		String code = req.getParameter("cate");
 		String mode = req.getParameter("mode");
 		int board_idx = Integer.parseInt(req.getParameter("boardidx"));
@@ -27,7 +31,7 @@ public class AnswerController extends HttpServlet{
 		
 		if(mode.equals("delete")) {
 			AnswerDAO dao = new AnswerDAO();
-			result = dao.deleteAnswer(idx);
+			result = dao.deleteAnswerAndComment(id,idx);
 			dao.close();
 			
 			if(result >= 1) {

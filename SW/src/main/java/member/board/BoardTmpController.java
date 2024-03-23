@@ -61,7 +61,7 @@ public class BoardTmpController extends HttpServlet{
 		
 		
 		//mode l:list v:view w:write e:edit d:delete
-		if(mode.equals("l")) {
+		if(mode.equals("l")) { /* 게시물 목록 불러오기 */
 			
 			//검색어 
 			String searchField = req.getParameter("searchField");
@@ -151,6 +151,10 @@ public class BoardTmpController extends HttpServlet{
 				
 				
 			}else if(MenuDto.getBoard_tmp().equals("B0005")){
+				
+				/*
+				 * 해시태그
+				 * */
 				
 				map.put("code", code);
 				
@@ -326,14 +330,18 @@ public class BoardTmpController extends HttpServlet{
 			
 			req.getRequestDispatcher("/member/03_board/"+MenuDto.getBoard_tmp()+"/edit.jsp").forward(req, resp);
 			
-		}else if(mode.equals("d")) {
+		}else if(mode.equals("d")) { /* 삭제 */
 			int result = 0;
 			int idx = Integer.parseInt(req.getParameter("idx"));
+			
+			
 			if(code.equals("menu001")) {  //공지게시판
+				
 				isnotice = "Y";
 				NoticeDAO dao = new NoticeDAO();
 				result = dao.deleteNotice(id, idx);
 				dao.close();
+				
 			}else {
 				
 				//스터디 게시판은 해시태그(매핑)도 함께 지워야함
@@ -344,18 +352,17 @@ public class BoardTmpController extends HttpServlet{
 				}
 				
 				BoardDAO dao = new BoardDAO();
-				result = dao.deleteBoard(id, idx);
+				result = dao.deleteBoardAndComment(id, idx);
 				dao.close();
 				
 				AnswerDAO adao = new AnswerDAO();
-				adao.deleteAnswerWithBoard(idx);
+				adao.deleteAnswerAndCommentByBoard(idx);
 				adao.close();
-//				
-//				CommentDAO cdao = new CommentDAO();
-//				cdao.deleteComment(idx);
+				
 			}
 			
-			if(result == 1) {
+			if(result >= 1) {
+				
 				FileDAO fdao = new FileDAO();
 				FileDTO fdto = fdao.getFileInfo(idx, isnotice);
 				FIleUtil.deleteFile(req,"/member/Uploads",fdto.getSname());

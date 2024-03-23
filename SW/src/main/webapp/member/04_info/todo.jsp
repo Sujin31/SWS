@@ -15,7 +15,7 @@ function selectDate(){
 }
 
 function editerMode(i){
-	console.log(i-1);
+	//console.log(i-1);
 	$('.editer').eq(i-1).css("display","block");
 	$('.viewer').eq(i-1).css("display","none");
 }
