@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -84,6 +85,9 @@ function pwCheck(form){
 		    </div>
 			<form action="/member/myinfo" method="post" onsubmit="return validateForm(this);">
 			<input type="hidden" name="id" value="${member.id }">
+			<c:if test="${fn:contains(member.auth_level_fk, 'MG')}">
+				<input type="hidden" name="level" value="${member.auth_level_fk }">
+			</c:if>
 				<table class="board-table table900">
 					<tr>
 						<td>아이디</td>
@@ -93,17 +97,19 @@ function pwCheck(form){
 						<td>이름</td>
 						<td>${member.name }</td>
 					</tr>
-					<tr>
-						<td>등급</td>
-						<td>
-							<select name="level">
-								<option value="M_el" <c:if test="${member.auth_level_fk eq 'M_el' }"> selected</c:if> >초등부</option>
-								<option value="M_md" <c:if test="${member.auth_level_fk eq 'M_md' }"> selected</c:if> >중등부</option>
-								<option value="M_hg" <c:if test="${member.auth_level_fk eq 'M_hg' }"> selected</c:if> >고등부</option>
-								<option value="M_ad" <c:if test="${member.auth_level_fk eq 'M_ad' }"> selected</c:if> >성인부</option>
-							</select>
-						</td>
-					</tr>
+					<c:if test="${not fn:contains(member.auth_level_fk, 'MG')}"> 
+						<tr>
+							<td>등급</td>
+							<td>
+								<select name="level">
+									<option value="M_el" <c:if test="${member.auth_level_fk eq 'M_el' }"> selected</c:if> >초등부</option>
+									<option value="M_md" <c:if test="${member.auth_level_fk eq 'M_md' }"> selected</c:if> >중등부</option>
+									<option value="M_hg" <c:if test="${member.auth_level_fk eq 'M_hg' }"> selected</c:if> >고등부</option>
+									<option value="M_ad" <c:if test="${member.auth_level_fk eq 'M_ad' }"> selected</c:if> >성인부</option>
+								</select>
+							</td>
+						</tr>
+					</c:if>
 					<tr>
 						<td>전화번호</td>
 						<td><input type="text" name="phone" class="input" placeholder="000-0000-0000" value="${member.phone }"></td>
