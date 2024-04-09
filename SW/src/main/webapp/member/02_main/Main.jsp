@@ -11,7 +11,7 @@
 
 	<div id="page">
 	
-	<header><jsp:include page="../0_common/Header.jsp"/></header>
+	<header>  <jsp:include page="../0_common/Header.jsp"/>	</header>
 	<div id="logout">
 		${UserId } 님 <button onclick="location.href='./logout'">로그아웃</button>
 	</div>

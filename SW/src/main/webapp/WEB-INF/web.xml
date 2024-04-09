@@ -9,45 +9,7 @@
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
-  
-  <!-- DB 
-  <context-param>
-  	<param-name>OracleDriver</param-name>
-  	<param-value>oracle.jdbc.OracleDriver</param-value>
-  </context-param>
-  <context-param>
-  	<param-name>OracleUrl</param-name>
-  	<param-value>jdbc:oracle:thin:@localhost:1521:xe</param-value>
-  </context-param>
-  <context-param>
-  	<param-name>OracleId</param-name>
-  	<param-value>C##admin</param-value>
-  </context-param>
-  <context-param>
-  	<param-name>OraclePw</param-name>
-  	<param-value>1234</param-value>
-  </context-param>
-  -->
-  
-  <!-- 24.02.21 DB 변경 
-   <context-param>
-  	<param-name>MysqlDriver</param-name>
-  	<param-value>com.mysql.jdbc.Driver</param-value>
-  </context-param>
-  <context-param>
-  	<param-name>MysqlUrl</param-name>
-  	<param-value>jdbc:mysql://localhost:3306/sws</param-value>
-  </context-param>
-  <context-param>
-  	<param-name>MysqlId</param-name>
-  	<param-value>root</param-value>
-  </context-param>
-  <context-param>
-  	<param-name>MysqlPw</param-name>
-  	<param-value>970301</param-value>
-  </context-param>
--->
-  
+
   <!-- 한글깨짐 방지 -->
   <filter>
     <filter-name>SetCharEncoding</filter-name>
@@ -86,6 +48,7 @@
 	<!-- websocket -->
 	<context-param>
 		<param-name>CHAT_ADDR</param-name>
-		<param-value>ws://localhost:8081</param-value>
+		<!--<param-value>ws://34.16.181.231:8080</param-value>-->
+		<param-value>ws://localhost:8081</param-value> 
 	</context-param>
 </web-app>

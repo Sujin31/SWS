@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import common.AuthCheck;
 import common.JSFunction;
+import common.LoggingDB;
 
 @WebServlet("/member/todo")
 public class TodoController extends HttpServlet{
@@ -29,6 +30,10 @@ public class TodoController extends HttpServlet{
 				selDate = LocalDate.now().toString();
 			}
 			
+			//log
+			LoggingDB logDB = new LoggingDB();
+			String methodName = "";
+			
 			
 			/*get - 완료 or 삭제*/
 			if(mode != null ) {
@@ -38,10 +43,14 @@ public class TodoController extends HttpServlet{
 					TodoDAO dao = new TodoDAO();
 					int result = dao.updateDoneTodo(idx, done);
 					dao.close();
+					
+					methodName = "updateDoneTodo";
 	
 					if(result == 1) {
+						logDB.log(req.getSession(), methodName, "success_"+idx);
 						JSFunction.Location(resp, "/member/todo?selDate="+selDate);
 					}else {
+						logDB.log(req.getSession(), methodName, "fail_"+idx);
 						JSFunction.alertLocation(resp, "요청 실패", "/member/todo?selDate="+selDate);
 					}
 					
@@ -50,9 +59,14 @@ public class TodoController extends HttpServlet{
 					TodoDAO dao = new TodoDAO();
 					int result = dao.deleteTodo(idx, id);
 					dao.close();
+					
+					methodName = "deleteTodo";
+					
 					if(result == 1) {
+						logDB.log(req.getSession(), methodName, "success_"+idx);
 						JSFunction.Location(resp, "/member/todo?selDate="+selDate);
 					}else {
+						logDB.log(req.getSession(), methodName, "fail_"+idx);
 						JSFunction.alertLocation(resp, "요청 실패", "/member/todo?selDate="+selDate);
 					}
 				}
@@ -90,6 +104,10 @@ public class TodoController extends HttpServlet{
 			todo_date = LocalDate.now().toString();
 		}
 		
+		//log
+		LoggingDB logDB = new LoggingDB();
+		String methodName = "";
+		
 		if(mode.equals("save")) {
 			TodoDTO dto = new TodoDTO();
 			dto.setId(id);
@@ -100,16 +118,22 @@ public class TodoController extends HttpServlet{
 			result = dao.insertTodo(dto);
 			dao.close();
 			
+			methodName = "insertTodo";
+			
 		}else {
 			int idx = Integer.parseInt(req.getParameter("idx"));
 			TodoDAO dao = new TodoDAO();
 			result = dao.updateContentTodo(idx, content);
 			dao.close();
+			
+			methodName = "updateContentTodo";
 		}
 		
 		if(result == 1 ) {
+			logDB.log(req.getSession(), methodName, "success");
 			JSFunction.Location(resp,"/member/todo?selDate="+todo_date);
 		}else {
+			logDB.log(req.getSession(), methodName, "fail");
 			JSFunction.alertLocation(resp, "요청 실패", "/member/todo?selDate="+todo_date);
 		}
 	}

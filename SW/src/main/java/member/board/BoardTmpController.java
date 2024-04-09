@@ -22,6 +22,7 @@ import javax.servlet.http.HttpSession;
 import com.oreilly.servlet.MultipartRequest;
 
 import common.JSFunction;
+import common.LoggingDB;
 import file.FIleUtil;
 import file.FileDAO;
 import file.FileDTO;
@@ -223,7 +224,7 @@ public class BoardTmpController extends HttpServlet{
 				dao.close();
 				
 				//공지글 엔터처리
-				dto.setContent(dto.getContent().replaceAll("\r\n", "<br/>"));
+				//dto.setContent(dto.getContent().replaceAll("\r\n", "<br/>"));
 				req.setAttribute("dto", dto);
 				
 				//댓글 불러오기
@@ -232,7 +233,7 @@ public class BoardTmpController extends HttpServlet{
 				cdao.close();
 				req.setAttribute("comments", list);
 				
-			}else if(code.equals("menu027")){
+			}else if(code.equals("menu027")){	//채팅
 				//채팅방 입장
 				String roomIdx = req.getParameter("idx");
 				req.getSession().setAttribute("roomIdx", roomIdx);
@@ -242,13 +243,15 @@ public class BoardTmpController extends HttpServlet{
 				
 				req.setAttribute("dto", dto);
 				
-			}else {
+			}else {	//일반
 				BoardDAO dao = new BoardDAO();
 				BoardDTO dto = dao.selectBoard(idx,code);
 				dao.viewCountPlus(idx);
 				dao.close();
 				
-				dto.setContent(dto.getContent().replaceAll("\r\n", "<br/>"));
+				//dto.setContent(dto.getContent().replaceAll("\r\n", "<br/>"));
+//				dto.setContent(CleanXss.decoding(dto.getContent()));
+//				dto.setTitle(CleanXss.decoding(dto.getTitle()));
 				req.setAttribute("dto", dto);
 				
 				if(MenuDto.getBoard_tmp().equals("B0003")) {	
@@ -333,7 +336,9 @@ public class BoardTmpController extends HttpServlet{
 		}else if(mode.equals("d")) { /* 삭제 */
 			int result = 0;
 			int idx = Integer.parseInt(req.getParameter("idx"));
-			
+			//log
+			LoggingDB logDB = new LoggingDB();
+			String methodName = "";
 			
 			if(code.equals("menu001")) {  //공지게시판
 				
@@ -341,6 +346,8 @@ public class BoardTmpController extends HttpServlet{
 				NoticeDAO dao = new NoticeDAO();
 				result = dao.deleteNotice(id, idx);
 				dao.close();
+				
+				methodName = "deleteNotice";
 				
 			}else {
 				
@@ -359,6 +366,7 @@ public class BoardTmpController extends HttpServlet{
 				adao.deleteAnswerAndCommentByBoard(idx);
 				adao.close();
 				
+				methodName = "deleteBoard";
 			}
 			
 			if(result >= 1) {
@@ -369,8 +377,10 @@ public class BoardTmpController extends HttpServlet{
 				fdao.deleteFile(idx, isnotice);
 				fdao.close();
 				
+				logDB.log(req.getSession(), methodName, "success_"+idx);
 				JSFunction.alertLocation(resp, "삭제완료", "./board?cate="+code+"&mode=l");
 			}else {
+				logDB.log(req.getSession(), methodName, "fail_"+idx);
 				JSFunction.alertLocation(resp, "삭제오류", "./board?cate="+code+"&mode=l");
 			}
 		}else if(mode.equals("answer")) {

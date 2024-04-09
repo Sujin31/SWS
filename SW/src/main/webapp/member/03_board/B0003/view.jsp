@@ -1,6 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%> 
+<% pageContext.setAttribute("CRLF", "\r\n"); %>
+<% pageContext.setAttribute("LF", "\n"); %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -29,7 +33,7 @@
         <div class="container">
             <table class="board-table">
 				<tr>
-					<td colspan="2" id="title"><span style="font-size: 40px; margin-right:20px; ">Q.</span>${dto.title }
+					<td colspan="2" id="title"><span style="font-size: 40px; margin-right:20px; ">Q.</span>${fn:replace(fn:replace(fn:escapeXml(dto.title), CRLF, '<br/>'), LF, '<br/>')}
 						<div class="rightBtn">
 							<button type="button" class="btn btn-dark" onclick="location.href='./board?cate=${MenuDto.code}&mode=l'">목록</button>
 				            <c:if test="${UserId eq dto.id}">
@@ -49,7 +53,7 @@
                     <td style="text-align: right;"></td>
 				</tr>
 				<tr>
-					<td colspan="2" id="content" style="text-align: left;">${dto.content }</td>
+					<td colspan="2" id="content" style="text-align: left;">${fn:replace(fn:replace(fn:escapeXml(dto.content), CRLF, '<br/>'), LF, '<br/>')}</td>
 				</tr>
             </table>
         </div>
@@ -85,7 +89,7 @@
 			                    <td style="text-align: right;"></td>
 							</tr>
 							<tr>
-								<td colspan="2" id="content" style="text-align: left;">${row.answer }</td>
+								<td colspan="2" id="content" style="text-align: left;">${fn:replace(fn:replace(fn:escapeXml(row.answer), CRLF, '<br/>'), LF, '<br/>')}</td>
 							</tr>
 			            </table>
 			        </div>

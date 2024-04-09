@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%> 
+<% pageContext.setAttribute("CRLF", "\r\n"); %>
+<% pageContext.setAttribute("LF", "\n"); %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -133,7 +136,7 @@ function updatePlayers(){
             <table class="board-table">
 				<tr>
 					<td id="title">
-						[${dto.fcate }/${dto.scate }]  ${dto.name }
+						[${dto.fcate }/${dto.scate }]  ${fn:replace(fn:replace(fn:escapeXml(dto.name), CRLF, '<br/>'), LF, '<br/>')}
 						<span style="float: right; font-size: 15px">참여자 : <span id="curPlayer"> ${dto.participant } </span>명</span>
 					</td>
 				</tr>

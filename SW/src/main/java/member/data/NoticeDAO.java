@@ -247,7 +247,6 @@ public class NoticeDAO extends DBConnPool{
 			System.out.println("메인 공지 게시글 불러오기 오류");
 			e.printStackTrace();
 		}
-		
 		return list;
 	}
 	

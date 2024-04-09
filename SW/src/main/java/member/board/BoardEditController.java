@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.oreilly.servlet.MultipartRequest;
 
 import common.JSFunction;
+import common.LoggingDB;
 import file.FIleUtil;
 import file.FileDAO;
 import file.FileDTO;
@@ -49,6 +50,11 @@ public class BoardEditController extends HttpServlet{
 		String content = mr.getParameter("content");
 		String isfile = mr.getParameter("isfile");
 		String isnotice = "N";
+		
+		//log
+		LoggingDB logDB = new LoggingDB();
+		String methodName = "";
+		
 		int result = 0;
 		if(boardTmp.equals("B0001")) {
 			/*   공지   */
@@ -65,6 +71,8 @@ public class BoardEditController extends HttpServlet{
 			
 			result = dao.editNotice(dto);
 			dao.close();
+			
+			methodName = "editNotice";
 			
 		}else {
 			
@@ -96,8 +104,11 @@ public class BoardEditController extends HttpServlet{
 			
 			result = dao.editBoard(dto);
 			dao.close();
+			
+			methodName = "editBoard";
 		}
 		if(result == 0) {
+			logDB.log(req.getSession(), methodName, "fail_"+idx);
 			JSFunction.alertBack(resp, "수정 실패");
 		}
 		
@@ -131,14 +142,13 @@ public class BoardEditController extends HttpServlet{
 			int fres = dao.fileUpload(dto);
 			dao.close();
 			
-			
-			
-			
 			if(fres == 0) {
+				methodName = "fileUpload";
+				logDB.log(req.getSession(), methodName, "fail_"+idx);
 				JSFunction.alertBack(resp, "수정 실패");
 			}
 		}
-			
+		logDB.log(req.getSession(), methodName, "success_"+idx);
 		JSFunction.alertLocation(resp, "수정완료.", "./board?cate="+code+"&mode=v&idx="+idx);
 		
 	}

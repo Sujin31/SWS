@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import common.JSFunction;
+import common.LoggingDB;
 import manage.MenuDAO;
 import manage.MenuDTO;
 import member.data.AnswerDAO;
@@ -34,9 +35,15 @@ public class AnswerController extends HttpServlet{
 			result = dao.deleteAnswerAndComment(id,idx);
 			dao.close();
 			
+			//log
+			LoggingDB logDB = new LoggingDB();
+			String methodName = "deleteAnswerAndComment";
+			
 			if(result >= 1) {
+				logDB.log(session, methodName, "success_"+idx);
 				JSFunction.alertLocation(resp, "삭제 완료", "./board?cate="+code+"&mode=v&idx="+board_idx);
 			}else {
+				logDB.log(session, methodName, "fail_"+idx);
 				JSFunction.alertLocation(resp, "삭제 오류", "./board?cate="+code+"&mode=v&idx="+board_idx);
 			}
 		}
@@ -51,6 +58,10 @@ public class AnswerController extends HttpServlet{
 		int board_idx = Integer.parseInt(req.getParameter("boardidx"));
 		String answer = req.getParameter("answer");
 		int result = 0;
+		
+		//log
+		LoggingDB logDB = new LoggingDB();
+		String methodName = "";
 				
 		if(mode.equals("write")) {
 			AnswerDTO dto = new AnswerDTO();
@@ -62,9 +73,13 @@ public class AnswerController extends HttpServlet{
 			result = dao.insertAnswer(dto);
 			dao.close();
 			
+			methodName = "insertAnswer";
+			
 			if(result == 1) {
+				logDB.log(req.getSession(), methodName, "seccess");
 				JSFunction.alertLocation(resp, "작성 완료", "./board?cate="+code+"&mode=v&idx="+board_idx);
 			}else {
+				logDB.log(req.getSession(), methodName, "fail");
 				JSFunction.alertLocation(resp, "작성 오류", "./board?cate="+code+"&mode=v&idx="+board_idx);
 			}
 		}else if(mode.equals("edit")) {
@@ -79,9 +94,13 @@ public class AnswerController extends HttpServlet{
 			result = dao.editAnswer(dto);
 			dao.close();
 			
+			methodName = "editAnswer";
+			
 			if(result == 1) {
+				logDB.log(req.getSession(), methodName, "seccess_"+idx);
 				JSFunction.alertLocation(resp, "수정 완료", "./board?cate="+code+"&mode=v&idx="+board_idx);
 			}else {
+				logDB.log(req.getSession(), methodName, "fail_"+idx);
 				JSFunction.alertLocation(resp, "수정 오류", "./board?cate="+code+"&mode=v&idx="+board_idx);
 			}
 		}

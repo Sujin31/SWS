@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%> 
+<% pageContext.setAttribute("CRLF", "\r\n"); %>
+<% pageContext.setAttribute("LF", "\n"); %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -33,7 +36,9 @@ function validateForm(form){
 
 	<div id="page">
 	
-	<header><jsp:include page="../0_common/Header.jsp"/></header>
+	<header>
+		<jsp:include page="../0_common/Header.jsp"/>
+	</header>
 	<div id="logout">
 		${UserId } 님 <button onclick="location.href='./logout'">로그아웃</button>
 	</div>
@@ -72,14 +77,14 @@ function validateForm(form){
 				    			<td>${loop.count }</td>
 				    			<td>
 				    				<div class="viewer">
-					    				<c:if test="${row.isdone eq 'Y' }"><del>${row.content } </del></c:if>
-					    				<c:if test="${row.isdone eq 'N' }">${row.content } </c:if>
+					    				<c:if test="${row.isdone eq 'Y' }"><del>${fn:replace(fn:replace(fn:escapeXml(row.content), CRLF, '<br/>'), LF, '<br/>')} </del></c:if>
+					    				<c:if test="${row.isdone eq 'N' }">${fn:replace(fn:replace(fn:escapeXml(row.content), CRLF, '<br/>'), LF, '<br/>')} </c:if>
 				    				</div>
 				    				<div class="editer">
 				    					<form name="editform" action="/member/todo" method="post" onsubmit="return validateForm(this);">
 				    						<input type="hidden" name="mode" value="edit">
 				    						<input type="hidden" name="idx" value="${row.idx }">
-				    						<input type="text" class="input" name="content" value="${row.content }">
+				    						<input type="text" class="input" name="content" value="${fn:replace(fn:replace(fn:escapeXml(row.content), CRLF, '<br/>'), LF, '<br/>')}">
 				    						<button class="btn btn-puple" type="submit">저장</button>
 				    					</form>
 				    				</div>

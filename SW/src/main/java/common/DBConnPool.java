@@ -31,6 +31,7 @@ public class DBConnPool {
 	
 	public void close() {
 		try {
+			
 			if(rs != null) rs.close();
 			if(stmt != null) stmt.close();
 			if(psmt != null) psmt.close();

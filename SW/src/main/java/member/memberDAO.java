@@ -1,8 +1,12 @@
 package member;
 
 import common.DBConnPool;
+import common.LoggingDB;
 
 public class memberDAO extends DBConnPool{
+	
+	private LoggingDB logging;
+	
 	//로그인
 	public memberDAO() {
 		super();

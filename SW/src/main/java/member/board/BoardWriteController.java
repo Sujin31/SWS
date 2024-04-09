@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.oreilly.servlet.MultipartRequest;
 
 import common.JSFunction;
+import common.LoggingDB;
 import file.FIleUtil;
 import file.FileDAO;
 import file.FileDTO;
@@ -52,6 +53,9 @@ public class BoardWriteController extends HttpServlet{
 		String isfile = mr.getParameter("isfile");
 		String isnotice = "N";
 		
+		//log
+		LoggingDB logDB = new LoggingDB();
+		String methodName = "";
 		
 		int row = 0;
 		if(boardTmp.equals("B0001")) {
@@ -72,6 +76,8 @@ public class BoardWriteController extends HttpServlet{
 			row = dao.writeNotice(dto);
 			dao.close();
 			
+			methodName = "writeNotice";
+			
 		}else {
 			/*일반*/
 			BoardDAO dao = new BoardDAO();
@@ -85,6 +91,8 @@ public class BoardWriteController extends HttpServlet{
 			
 			row = dao.writeBoard(dto);
 			dao.close();
+			
+			methodName = "writeBoard";
 			
 			/*
 			 * hash 추가
@@ -113,6 +121,7 @@ public class BoardWriteController extends HttpServlet{
 		}
 		
 		if(row == 0) {
+			logDB.log(req.getSession(), methodName, "fail");
 			JSFunction.alertLocation(resp, "다시 작성해주세요.", "./board?cate="+code+"&mode=w");
 		}
 
@@ -141,11 +150,13 @@ public class BoardWriteController extends HttpServlet{
 			dao.close();
 			
 			if(result == 0) {
+				methodName = "fileUpload";
+				logDB.log(req.getSession(),methodName , "fail");
 				JSFunction.alertLocation(resp, "다시 작성해주세요.", "./board?cate="+code+"&mode=w");
 			}
 			
 		}
-		
+		logDB.log(req.getSession(), methodName, "success");
 		JSFunction.alertLocation(resp, "작성되었습니다.", "./board?cate="+code+"&mode=l");
 			
 	}

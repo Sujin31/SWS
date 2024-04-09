@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%> 
+<% pageContext.setAttribute("CRLF", "\r\n"); %>
+<% pageContext.setAttribute("LF", "\n"); %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -77,7 +80,7 @@ function delTag(o){
 	                <tbody>
 		                <tr>
 		                    <th scope="col" class="th-num">제목</th>
-							<td><input type="text" class="input" name="title" value="${dto.title }"></td>
+							<td><input type="text" class="input" name="title" value="${fn:replace(fn:replace(fn:escapeXml(dto.title), CRLF, '<br/>'), LF, '<br/>')}"></td>
 		                </tr>
 		                <!-- 공지게시판만(관리자) -->
 		                <c:if test="${MenuDto.code eq 'menu001' }">
@@ -91,7 +94,7 @@ function delTag(o){
 		                </c:if>
 		                <tr>
 		                    <th scope="col" class="th-num">내용</th>
-							<td><textarea class="txtarea" name="content">${dto.content }</textarea></td>
+							<td><textarea class="txtarea" name="content">${fn:replace(fn:replace(fn:escapeXml(dto.content), CRLF, '<br/>'), LF, '<br/>')}</textarea></td>
 		                </tr>
 		                <tr>
 		                    <th scope="col" class="th-write">해시태그</th>

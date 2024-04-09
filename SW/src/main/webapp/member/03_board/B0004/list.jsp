@@ -2,6 +2,8 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%> 
+<% pageContext.setAttribute("CRLF", "\r\n"); %>
+<% pageContext.setAttribute("LF", "\n"); %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -128,7 +130,8 @@
 				                    <td>${row.id }</td>
 				                    <td>${row.fcate }>${row.scate }</td>
 				                    <th style="text-align: center">
-				                    	<a href='javascript:void(0);' onclick="OverParticipantCheck(${row.id },'./board?cate=${MenuDto.code}&mode=v&idx=${row.id }',${row.participant },${fn:length(row.pass)})">${row.name }</a>
+				                    	<a href='javascript:void(0);' onclick="OverParticipantCheck(${row.id },'./board?cate=${MenuDto.code}&mode=v&idx=${row.id }',${row.participant },${fn:length(row.pass)})">
+				                    		${fn:replace(fn:replace(fn:escapeXml(row.name), CRLF, '<br/>'), LF, '<br/>')}</a>
 				                      	<c:if test="${!empty row.pass}"> 열쇠</c:if>
 				                    </th>
 				                    <td>${row.participant } / 2</td>

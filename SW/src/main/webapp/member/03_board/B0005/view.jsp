@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%> 
+<% pageContext.setAttribute("CRLF", "\r\n"); %>
+<% pageContext.setAttribute("LF", "\n"); %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -29,7 +32,7 @@
         <div class="container">
             <table class="board-table">
 				<tr>
-					<td colspan="2" id="title">${dto.title }</td>
+					<td colspan="2" id="title">${fn:replace(fn:replace(fn:escapeXml(dto.title), CRLF, '<br/>'), LF, '<br/>')}</td>
 				</tr>
 				<tr>
 					<td id="info">
@@ -42,7 +45,7 @@
                     </td>
 				</tr>
 				<tr>
-					<td colspan="2" id="content" style="text-align: left;">${dto.content }</td>
+					<td colspan="2" id="content" style="text-align: left;">${fn:replace(fn:replace(fn:escapeXml(dto.content), CRLF, '<br/>'), LF, '<br/>')}</td>
 				</tr>
 				<tr>
 					<td colspan="2" id="" style="text-align: left;">

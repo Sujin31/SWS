@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%> 
+<% pageContext.setAttribute("CRLF", "\r\n"); %>
+<% pageContext.setAttribute("LF", "\n"); %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -68,7 +71,7 @@ function authCheck(){
 							        		</c:if>
 							        	</div>
 							        	<div class="content">
-							        		${row.comments }
+							        		${fn:replace(fn:replace(fn:escapeXml(row.comments), CRLF, '<br/>'), LF, '<br/>')}
 							        	</div>
 							        </div>
 							        <div class="edit_comment" id="edit_comment${edcount }">
@@ -80,7 +83,9 @@ function authCheck(){
 							        		<input type="hidden" name="idx" value="${row.idx }">
 							        		
 							        		<div class="eidtDiv">
-							        			<textarea class="in" name="comment" >${row.comments }</textarea>
+							        			<textarea class="in" name="comment" >
+													${fn:replace(fn:replace(fn:escapeXml(row.comments), CRLF, '<br/>'), LF, '<br/>')}
+												</textarea>
 								        		<button class="btn btn-dark cmtbtn ">입력</button>
 							       			</div>
 								        </form>
@@ -119,7 +124,7 @@ function authCheck(){
 							        		</c:if>
 							        	</div>
 							        	<div class="content">
-							        		${row.comments2 }
+							        		${fn:replace(fn:replace(fn:escapeXml(row.comments2), CRLF, '<br/>'), LF, '<br/>')}
 							        	</div>
 						        	</div>
 						        	<div class="edit_comment" id="edit_comment${edcount }">
@@ -131,7 +136,7 @@ function authCheck(){
 							        		<input type="hidden" name="idx" value="${row.idx2 }">
 							        		
 							        		<div class="eidtDiv">
-							        			<textarea class="in" name="comment" >${row.comments2 }</textarea>
+							        			<textarea class="in" name="comment" >${fn:replace(fn:replace(fn:escapeXml(row.comments2), CRLF, '<br/>'), LF, '<br/>')}</textarea>
 								        		<button class="btn btn-dark cmtbtn ">입력</button>
 							       			</div>
 								        </form>

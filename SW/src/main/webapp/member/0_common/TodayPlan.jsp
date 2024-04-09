@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%> 
+<% pageContext.setAttribute("CRLF", "\r\n"); %>
+<% pageContext.setAttribute("LF", "\n"); %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -54,8 +57,8 @@
 						<tr>
 							<td>${loop.count }</td>
 							<td>
-								<c:if test="${row.isdone eq 'Y' }"> <del>${row.content }</del></c:if>
-								<c:if test="${row.isdone eq 'N' }">${row.content }</c:if>
+								<c:if test="${row.isdone eq 'Y' }"> <del>${fn:replace(fn:replace(fn:escapeXml(row.content), CRLF, '<br/>'), LF, '<br/>')}</del></c:if>
+								<c:if test="${row.isdone eq 'N' }">${fn:replace(fn:replace(fn:escapeXml(row.content), CRLF, '<br/>'), LF, '<br/>')}</c:if>
 							</td>
 							<td>
 								<c:if test="${row.isdone eq 'Y' }"><img src="/resources/done.png" width="20" ></c:if>

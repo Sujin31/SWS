@@ -11,6 +11,7 @@ import javax.servlet.http.HttpSession;
 
 import common.AuthCheck;
 import common.JSFunction;
+import common.LoggingDB;
 import member.memberDAO;
 import member.memberDTO;
 
@@ -52,29 +53,36 @@ public class InfoController extends HttpServlet{
 		dto.setPhone(phone);
 		dto.setPassword(pass);
 		
+		//log
+		LoggingDB logDB = new LoggingDB();
+		String methodName = "";
+		
 		//1. 비밀번호 확인
 		memberDAO dao = new memberDAO();
 		if(!dao.passwordCheck(dto)) {
 			dao.close();
 			JSFunction.alertLocation(resp, "비밀번호가 틀렸습니다." , "/member/myinfo");
 		}else {
-		
 			//2. 정보 변경
-			if(passChange == null) { //비밀번호 수정 안함
-				
+			if(passChange == null || passChange == "") { //비밀번호 수정 안함
+				methodName = "updateMyInfo";
 				if(!dao.updateMyInfo(dto)) {
 					dao.close();
+					logDB.log(req.getSession(), methodName, "fail");
 					JSFunction.alertLocation(resp, "수정실패" , "/member/myinfo");
 				}
 				
 			}else { //비밀번호도 수정 함
+				methodName = "updateMyInfoAndPW";
 				if(!dao.updateMyInfoAndPW(dto,passChange)) {
 					dao.close();
+					logDB.log(req.getSession(), methodName, "fail");
 					JSFunction.alertLocation(resp, "비밀번호 수정 실패" , "/member/myinfo");
 				}
 			}
 		}
 		dao.close();
+		logDB.log(req.getSession(), methodName, "success");
 		JSFunction.alertLocation(resp, "수정완료" , "/member/myinfo");
 		
 		

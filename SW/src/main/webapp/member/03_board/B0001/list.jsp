@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%> 
+<% pageContext.setAttribute("CRLF", "\r\n"); %>
+<% pageContext.setAttribute("LF", "\n"); %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -68,7 +71,7 @@
 								<tr class="mustread">
 				                    <td>필독</td>
 				                    <th>
-				                      <a href="./board?cate=${MenuDto.code}&mode=v&idx=${row.idx }">${row.title }</a><c:if test="${row.isfile eq 'Y' }"> file</c:if>
+				                      <a href="./board?cate=${MenuDto.code}&mode=v&idx=${row.idx }">${fn:replace(fn:replace(fn:escapeXml(row.title), CRLF, '<br/>'), LF, '<br/>')}</a><c:if test="${row.isfile eq 'Y' }"> file</c:if>
 				                    </th>
 				                    <td>관리자</td>
 				                    <td>${row.regidate }</td>
@@ -79,7 +82,7 @@
 								<tr>
 				                    <td>${map.totalCount - (((map.pageNum - 1) * map.pageSize) + loop.index)}</td>
 				                    <th>
-				                      <a href="./board?cate=${MenuDto.code}&mode=v&idx=${row.idx }">${row.title }</a> <c:if test="${row.isfile eq 'Y' }"> file</c:if>
+				                      <a href="./board?cate=${MenuDto.code}&mode=v&idx=${row.idx }">${fn:replace(fn:replace(fn:escapeXml(row.title), CRLF, '<br/>'), LF, '<br/>')}</a> <c:if test="${row.isfile eq 'Y' }"> file</c:if>
 				                    </th>
 				                    <td>관리자</td>
 				                    <td>${row.regidate }</td>

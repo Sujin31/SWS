@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%> 
+<% pageContext.setAttribute("CRLF", "\r\n"); %>
+<% pageContext.setAttribute("LF", "\n"); %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -50,21 +53,13 @@ function validateForm(form){
 	                <tbody>
 		                <tr>
 		                    <th scope="col" class="th-num">제목</th>
-							<td><input type="text" class="input" name="title" value="${dto.title }"></td>
+							<td><input type="text" class="input" name="title" value="${fn:replace(fn:replace(fn:escapeXml(dto.title), CRLF, '<br/>'), LF, '<br/>')}
+							"></td>
 		                </tr>
-		                <!-- 공지게시판만(관리자) -->
-		                <c:if test="${MenuDto.code eq 'menu001' }">
-			                <tr>
-			                    <th scope="col" class="th-num">필독 여부</th>
-								<td>
-									<input type="radio" name="notice" value="Y" <c:if test="${dto.must eq 'Y' }">checked</c:if> >&nbsp;Y&nbsp;&nbsp;&nbsp;
-									<input type="radio" name="notice" value="N" <c:if test="${dto.must eq 'N' }">checked</c:if>>&nbsp; N 
-								</td>
-			                </tr>
-		                </c:if>
+		               
 		                <tr>
 		                    <th scope="col" class="th-num">내용</th>
-							<td><textarea class="txtarea" name="content">${dto.content }</textarea></td>
+							<td><textarea class="txtarea" name="content">${fn:replace(fn:replace(fn:escapeXml(dto.content), CRLF, '<br/>'), LF, '<br/>')}</textarea></td>
 		                </tr>
 		                <tr style="display:none;">
 		                    <th scope="col" class="th-num">첨부파일</th>

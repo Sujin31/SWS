@@ -7,6 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-<h2 align="center"><a href="./main">헤더</a></h2>
+<h2 align="center"><a href="./main"><img src="/resources/header.png" style="height: 140px;"></a></h2>
 </body>
 </html>

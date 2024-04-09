@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%> 
+<% pageContext.setAttribute("CRLF", "\r\n"); %>
+<% pageContext.setAttribute("LF", "\n"); %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -38,7 +41,7 @@ function validateForm(form){
             <table class="board-table">
 				<tr>
 					<td colspan="2" id="title">
-						<span style="font-size: 40px; margin-right:20px; ">Q.</span>${boardDto.title }
+						<span style="font-size: 40px; margin-right:20px; ">Q.</span>${fn:replace(fn:replace(fn:escapeXml(boardDto.title), CRLF, '<br/>'), LF, '<br/>')}
 					</td>
 				</tr>
 				<tr>
@@ -48,7 +51,7 @@ function validateForm(form){
                     <td style="text-align: right;"></td>
 				</tr>
 				<tr>
-					<td colspan="2" id="content" style="text-align: left;">${boardDto.content }</td>
+					<td colspan="2" id="content" style="text-align: left;">${fn:replace(fn:replace(fn:escapeXml(boardDto.content), CRLF, '<br/>'), LF, '<br/>')}</td>
 				</tr>
             </table>
         </div>
@@ -71,7 +74,7 @@ function validateForm(form){
 	               		</tr>
 		                <tr>
 		                    <th scope="col" class="th-write">답변</th>
-							<td><textarea class="txtarea" name="answer" style="height: 400px">${dto.answer }</textarea></td>
+							<td><textarea class="txtarea" name="answer" style="height: 400px">${fn:replace(fn:replace(fn:escapeXml(dto.answer), CRLF, '<br/>'), LF, '<br/>')}</textarea></td>
 		                </tr>
 	               </tbody>
 	           </table>
