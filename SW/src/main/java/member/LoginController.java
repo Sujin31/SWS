@@ -22,7 +22,7 @@ public class LoginController extends HttpServlet{
 		HttpSession session = req.getSession();
 		session.setAttribute("ip", Inet4Address.getLocalHost().getHostAddress());
 		
-		session.setAttribute("UserId", "손");
+		session.setAttribute("UserId", "Guest");
 		session.setAttribute("Auth","viewer" );
 		
 		req.getRequestDispatcher("/member/01_login/Login.jsp").forward(req, resp);

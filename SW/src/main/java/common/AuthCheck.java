@@ -20,12 +20,12 @@ public class AuthCheck {
 			result = true;
 		}
 		
+		//get 파라미터로 이동 방지
 		if(auth != null) {
-			if(mode.equals("r")  && auth.getMread().equals("N")) result = false;
+			if(mode.equals("r") && auth.getMread().equals("N")) result = false;
 			if(mode.equals("w") && auth.getMwrite().equals("N")) result = false;
 			if(mode.equals("e") && auth.getMwrite().equals("N")) result = false;
 			if(mode.equals("d") && auth.getMwrite().equals("N")) result = false;
-			
 		}
 		
 		

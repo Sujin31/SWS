@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,7 +14,9 @@
 	
 	<header>  <jsp:include page="../0_common/Header.jsp"/>	</header>
 	<div id="logout">
-		${UserId } 님 <button onclick="location.href='./logout'">로그아웃</button>
+		${UserId } 님 
+		<c:if test="${Auth ne 'viewer' }"><button onclick="location.href='./logout'">로그아웃</button></c:if>
+		<c:if test="${Auth eq 'viewer' }"><button onclick="location.href='./login'">로그인</button></c:if>
 	</div>
 	<nav class="clearfix"><jsp:include page="../0_common/Nav.jsp"/></nav>
 	

@@ -64,12 +64,22 @@
 				<li><a href="./board?cate=menu032&mode=l">오류</a></li>
 			</ul>
 		</li>
-		<li><a href="./myinfo">내정보</a>
-			<ul class="dept2">
-				<li><a href="./myinfo">내정보</a></li>
-				<li><a href="./todo">오늘의 목표</a></li>
-			</ul>
-		</li>
+		<c:if test="${Auth ne 'viewer' }">
+			<li><a href="./myinfo">내정보</a>
+				<ul class="dept2">
+					<li><a href="./myinfo">내정보</a></li>
+					<li><a href="./todo">오늘의 목표</a></li>
+				</ul>
+			</li>
+		</c:if>
+		<c:if test="${Auth eq 'viewer' }">
+			<li><a href="#">로그인</a>
+				<ul class="dept2">
+					<li><a href="./login">로그인</a></li>
+					<li><a href="./signUp">회원가입</a></li>
+				</ul>
+			</li>
+		</c:if>
 	</ul>
 </div>
 </body>

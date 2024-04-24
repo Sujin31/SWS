@@ -52,7 +52,7 @@ function validateForm(form){
             margin-bottom: 10px;
 	}
 
-	#btn {
+	.btn {
             background-color: #808080;
             color: white;
 	}
@@ -76,9 +76,10 @@ function validateForm(form){
 	    <form method="post" action="../member/login" onsubmit="return validateForm(this);">
 	        <input type="text" placeholder="아이디" class="in" name="id">
 	        <input type="password" placeholder="비밀번호" class="in" name="pw">
-	        <input type="submit" id="btn" value="로그인" ><br>
+	        <input type="submit" class="btn" value="로그인" ><br>
 	        <p id="errorMsg">${ errorMsg }</p>
 	    </form>
+	    <a href="./main" style="margin-right: 20px;">손님으로 입장</a>
 	    <a href="./signUp" style="margin-right: 20px;">회원가입</a>
 	    <a href="./findInfo?mode=id">ID/PW 찾기</a>
 	</div>
