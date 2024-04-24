@@ -21,6 +21,7 @@ import javax.servlet.http.HttpSession;
 
 import com.oreilly.servlet.MultipartRequest;
 
+import common.AuthCheck;
 import common.JSFunction;
 import common.LoggingDB;
 import file.FIleUtil;
@@ -44,6 +45,10 @@ import member.studychat.data.ChatRoomDTO;
 public class BoardTmpController extends HttpServlet{
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		
+		if(!AuthCheck.checkMember(req)) {
+			resp.sendRedirect("../member/login");
+		}
 		
 		HttpSession session = req.getSession();
 		

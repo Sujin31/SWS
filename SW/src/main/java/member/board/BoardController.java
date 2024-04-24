@@ -21,7 +21,7 @@ public class BoardController extends HttpServlet{
 		if(!AuthCheck.checkMember(req)) {
 			resp.sendRedirect("../member/login");
 		}else {
-			MenuAuthDTO dto = AuthCheck.checkAuthMember(req);
+			MenuAuthDTO dto = AuthCheck.loadAuthMember(req);
 			req.setAttribute("authdto", dto);
 			
 			//To-do List

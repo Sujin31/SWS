@@ -12,10 +12,24 @@ public class AuthCheck {
 		
 		HttpSession session = req.getSession();
 		String sessionId = (String) session.getAttribute("UserId");
-
+		MenuAuthDTO auth = (MenuAuthDTO) req.getAttribute("authdto");
+		String mode = req.getParameter("mode");
+		
+		
 		if(sessionId != null) {
 			result = true;
 		}
+		
+		if(auth != null) {
+			if(mode.equals("r")  && auth.getMread().equals("N")) result = false;
+			if(mode.equals("w") && auth.getMwrite().equals("N")) result = false;
+			if(mode.equals("e") && auth.getMwrite().equals("N")) result = false;
+			if(mode.equals("d") && auth.getMwrite().equals("N")) result = false;
+			
+		}
+		
+		
+		
 		return result;
 	}
 	
@@ -31,7 +45,8 @@ public class AuthCheck {
 		return result;
 	}
 	
-	public static MenuAuthDTO checkAuthMember(HttpServletRequest req) {
+	//메뉴 권한 가져오기
+	public static MenuAuthDTO loadAuthMember(HttpServletRequest req) {
 		HttpSession session = req.getSession();
 		String auth = (String)session.getAttribute("Auth");
 		String menu = req.getParameter("cate");
@@ -41,5 +56,16 @@ public class AuthCheck {
 		dao.close();
 		
 		return dto;
+	}
+	
+	//메뉴 권한과 모드 검사
+	public static boolean checkAuthMode(HttpServletRequest req) {
+		boolean result = true;
+		
+		HttpSession session = req.getSession();
+		
+		
+		System.out.println(req.getAttribute("authdto"));
+		return result;
 	}
 }
