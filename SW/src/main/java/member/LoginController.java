@@ -16,14 +16,13 @@ import common.LoggingDB;
 
 @WebServlet("/member/login")
 public class LoginController extends HttpServlet{
+	
+	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
 		HttpSession session = req.getSession();
 		session.setAttribute("ip", Inet4Address.getLocalHost().getHostAddress());
-		
-		session.setAttribute("UserId", "Guest");
-		session.setAttribute("Auth","viewer" );
 		
 		req.getRequestDispatcher("/member/01_login/Login.jsp").forward(req, resp);
 	}
@@ -42,6 +41,12 @@ public class LoginController extends HttpServlet{
 		LoggingDB logDB = new LoggingDB();
 		
 		if( dto.getId() != null) {
+			
+			if(session.getAttribute("UserId") != null) {
+				//손님 & 관리자 로그인 중복 방지
+				session.removeAttribute("UserId");
+				session.removeAttribute("Auth");
+			}
 			
 			session.setAttribute("UserId", id);
 			session.setAttribute("Auth", dto.getAuth_level_fk());

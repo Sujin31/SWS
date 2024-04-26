@@ -79,7 +79,7 @@ function validateForm(form){
 	        <input type="submit" class="btn" value="로그인" ><br>
 	        <p id="errorMsg">${ errorMsg }</p>
 	    </form>
-	    <a href="./main" style="margin-right: 20px;">손님으로 입장</a>
+	    <a href="./main" style="margin-right: 20px;color: blue">손님으로 입장</a>
 	    <a href="./signUp" style="margin-right: 20px;">회원가입</a>
 	    <a href="./findInfo?mode=id">ID/PW 찾기</a>
 	</div>

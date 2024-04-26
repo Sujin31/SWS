@@ -177,20 +177,25 @@ public class ChatRoomDAO extends DBConnPool{
 	}
 	
 	//채팅방 비밀번호 가져오기
-	public String getPass(int idx) {
-		String pass = "";
-		String sql = "SELECT pass FROM chatroom WHERE id="+idx;
+	public boolean getPass(int idx, String pw) {
+		boolean result = false;
+		String sql = "SELECT count(*) as n FROM chatroom WHERE id = ? and pass = ?";
 		try {
-			stmt = con.createStatement();
-			rs = stmt.executeQuery(sql);
+			psmt = con.prepareStatement(sql);
+			psmt.setInt(1, idx);
+			psmt.setString(2, pw);
+			rs = psmt.executeQuery();
+			
 			if(rs.next()) {
-				pass = rs.getString(1);
+				if(rs.getInt(1) > 0 ) {
+					result = true;
+				}
 			}
 		} catch (Exception e) {
-			System.out.println("비밀번호 가져오기 오류");
+			System.out.println("비밀번호 매칭 오류");
 			e.printStackTrace();
 		}
-		return pass;
+		return result;
 	}
 	
 	//채팅방 인원 수 가져오기

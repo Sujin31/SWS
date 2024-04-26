@@ -48,35 +48,38 @@ public class ChatController extends HttpServlet{
 			ChatRoomManager mng = new ChatRoomManager();
 			ChatRoomDTO dto = mng.OpenRoom(id, name, pass, fcate, scate);
 			req.setAttribute("roomInfo", dto);
-			
 			req.setAttribute("boardTmp",boardTmp);
 		
 			JSFunction.alertLocation(resp, "개설 완료", "./board?cate="+code+"&mode=v&idx="+dto.getId());
 			
 		}else if(mode.equals("checkPw")){
+			//방 비밀번호 입력 매칭
+			boolean result = checkPwAjax(Integer.parseInt((String)req.getParameter("idx")),req.getParameter("pass"));
+			resp.getWriter().write(String.valueOf(result));
 			
-			String inputPass = req.getParameter("pass");
-			int idx = Integer.parseInt((String)req.getParameter("idx"));
-			ChatRoomDAO dao = new ChatRoomDAO();
-			pass = dao.getPass(idx);
-			dao.close();
-			
-			if(inputPass.equals(pass)) {
-				resp.getWriter().write("true");
-			}else {
-				resp.getWriter().write("false");
-			}
-			
-		}else if(mode.equals("updatePlayers")) {
-			
-			int idx = Integer.parseInt((String)req.getParameter("idx"));
-			ChatRoomDAO dao = new ChatRoomDAO();
-			int total = dao.getPlayers(idx);
-			dao.close();
-			
-			resp.getWriter().write(total+"");
+		}else if(mode.equals("curPlayers")) {
+			//view에서 참여자 수
+			int result = curPlayers( Integer.parseInt((String)req.getParameter("idx")));
+			resp.getWriter().write(result+"");
 			
 		}
 		
+	}
+	
+	
+	private boolean checkPwAjax(int idx, String input) {
+		ChatRoomDAO dao = new ChatRoomDAO();
+		boolean result = dao.getPass(idx,input);
+		dao.close();
+		
+		return result;
+	}
+	
+	private int curPlayers(int idx) {
+		ChatRoomDAO dao = new ChatRoomDAO();
+		int result = dao.getPlayers(idx);
+		dao.close();
+		
+		return result;
 	}
 }

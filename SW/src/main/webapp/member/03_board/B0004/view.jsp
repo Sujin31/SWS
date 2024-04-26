@@ -85,14 +85,14 @@ webSocket.onmessage = function(event) {
    	chatWindow.scrollTop = chatWindow.scrollHeight; 
 };
 
-function updatePlayers(){
+function curPlayers(){
 	var idx = ${param.idx};
 	var total = "";
 	$.ajax({
 		url : "./chat",
 		type : "post",
 		async: false, 
-		data : {"mode" : "updatePlayers", "idx" : idx },
+		data : {"mode" : "curPlayers", "idx" : idx },
 		dataType : "text",
 		success : function(result){
 			

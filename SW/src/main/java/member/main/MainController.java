@@ -19,6 +19,21 @@ import member.info.TodoDTO;
 
 @WebServlet("/member/main")
 public class MainController extends HttpServlet{
+	
+	@Override
+	protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		//System.out.println("it's service : " + req.getMethod());
+		
+		//게스트 입장
+		HttpSession session = req.getSession();
+		if(session.getAttribute("UserId") == null) {
+			session.setAttribute("UserId", "Guest");
+			session.setAttribute("Auth","viewer" );
+		}
+		
+		super.service(req, resp);
+	}
+	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		if(!AuthCheck.checkMember(req)) {

@@ -52,6 +52,7 @@
 		});
 		return rs;
 	}
+	
 </script>
 </head>
 <body>
@@ -144,7 +145,7 @@
             </table>
             <div class="divdtn">${map.pagingImg }</div>
             <div class="divdtn">
-	            <c:if test="${!empty UserId}"><button class="btn btn-dark" type="button" onclick="location.href='./board?cate=${MenuDto.code}&mode=w'">작성</button></c:if>
+	            <c:if test="${authdto.mwrite eq 'Y' }"><button class="btn btn-dark" type="button" onclick="location.href='./board?cate=${MenuDto.code}&mode=w'">작성</button></c:if>
             </div>
         </div>
     </div>
